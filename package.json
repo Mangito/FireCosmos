@@ -1,0 +1,12 @@
+{
+  "name": "FireCosmos",
+  "version": "1.0.0",
+  "description": "FireCosmos",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Mangito",
+  "license": "MIT"
+}
