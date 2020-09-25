@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="./src/CSS/reset.css">
+	<link rel="stylesheet" href="./src/CSS/game.css">
+	<title>Fire Cosmos</title>
+</head>
+
+<body>
+	<div class="Demo">Demo</div>
+	<canvas id="Canvas" width="800px" height="600px"></canvas>
+
+	<script>
+		const canvas = document.getElementById("Canvas");
+		canvas.width = window.innerWidth - 20;
+		canvas.height = window.innerHeight - 20;
+		const canvasWidth = canvas.width;
+		const canvasHeight = canvas.height;
+		const ctx = canvas.getContext("2d");
+	</script>
+
+	<script src="./src/JS/player.js"></script>
+	<script src="./src/index.js"></script>
+</body>
+
+</html>
