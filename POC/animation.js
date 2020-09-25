@@ -65,10 +65,10 @@ function desenhar() {
 	ctx.textAlign = "center";
 	ctx.font = "20px monospace";
 	ctx.fillStyle = "rgb(255, 255, 0, 0.5)";
-	ctx.fillText(`Pontos: ${jogadorA.pontos}`, canvasWidth / 2, 20);
+	ctx.fillText(`Pontos: ${jogadorA.pontos}`, canvasWidth / 2, 50);
 
 	ctx.fillStyle = "rgb(0, 255, 255, 0.5)";
-	ctx.fillText(`Pontos: ${jogadorB.pontos}`, canvasWidth / 2, canvasHeight - 10);
+	ctx.fillText(`Pontos: ${jogadorB.pontos}`, canvasWidth / 2, canvasHeight - 50);
 
 	// Mover Jogador
 	if (jogadorA.posicao.irDireita &&
