@@ -1,0 +1,20 @@
+div.Demo {
+  margin: 1px;
+  padding: 2px 4px;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 2px;
+}
+
+canvas {
+  border: 1px solid green;
+  box-shadow: 0 0 20px green;
+  background: url("../Assets/Aquarium.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  overflow: hidden;
+}
