@@ -18,7 +18,7 @@ class Player {
 	}
 
 	changeDirection(keyCode) {
-		console.log(keyCode);
+		// console.log(keyCode);
 		if (this.Number === 1) {
 			if (keyCode === 37) this.Direction = "Left";
 			if (keyCode === 39) this.Direction = "Right";
