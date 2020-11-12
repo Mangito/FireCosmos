@@ -3,5 +3,3 @@
 FireCosmos
 
 Jogo SpaceShooter
-
-teste
