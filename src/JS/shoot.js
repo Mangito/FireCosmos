@@ -1,5 +1,4 @@
-
-class Shoot {
+export default class Shoot {
 	constructor(x, y, direction, PlayerID, Team) {
 		this.Width = 10;
 		this.Height = 10;
@@ -27,7 +26,7 @@ class Shoot {
 }
 
 // Move Shoot
-setInterval(moveShoot, 1000 / 24);
-function moveShoot() {
-	for (let i = 0; i < shoots.length; i++) shoots[i].move(i);
-}
+// setInterval(moveShoot, 1000 / 24);
+// function moveShoot() {
+// 	for (let i = 0; i < shoots.length; i++) shoots[i].move(i);
+// }

@@ -1,10 +1,4 @@
-document.addEventListener("keydown", (e) => changePlayersDirection(e));
-function changePlayersDirection(e) {
-	const keyCode = e.keyCode;
-	for (let i = 0; i < players.length; i++)  players[i].changeDirection(keyCode);
-}
-
-class Player {
+export default class Player {
 	constructor(n) {
 		this.PlayerID = n;
 		this.Width = 40;
@@ -55,7 +49,7 @@ class Player {
 }
 
 // Move Player
-setInterval(movePlayer, 1000 / 24);
-function movePlayer() {
-	for (let i = 0; i < players.length; i++) players[i].move();
-}
+// setInterval(movePlayer, 1000 / 24);
+// function movePlayer() {
+// 	for (let i = 0; i < players.length; i++) players[i].move();
+// }

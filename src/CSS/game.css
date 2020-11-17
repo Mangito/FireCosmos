@@ -1,13 +1,24 @@
-div.Demo {
+div.Demo,
+p {
+  z-index: 1;
   margin: 1px;
   padding: 2px 4px;
   position: fixed;
-  z-index: 1;
-  left: 0;
   top: 0;
   color: white;
   background-color: rgba(0, 0, 0, 0.5);
   border-radius: 2px;
+}
+
+div.Demo {
+  left: 0;
+}
+
+p {
+  right: 0;
+}
+p span#FPS {
+  color: white;
 }
 
 canvas {
