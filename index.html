@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Space Invaders</title>
+	<title>Fire Cosmos</title>
 </head>
 
 <body>
@@ -25,12 +25,25 @@
 			background-color: black;
 		}
 
-		#Canvas {
+		div.Demo {
+			z-index: 1;
+			margin: 1px;
+			padding: 2px 4px;
+			position: fixed;
+			top: 0;
+			left: 0;
+			color: white;
+			background-color: rgba(0, 0, 0, 0.5);
+			border-radius: 2px;
+		}
+
+		canvas#Canvas {
 			cursor: auto;
 			border: 1px solid red;
 			box-shadow: 0 0 20px red;
 		}
 	</style>
+	<div class="Demo">Alpha</div>
 	<canvas id="Canvas" width="800px" height="600px"></canvas>
 	<script src="./animation.js"></script>
 </body>
