@@ -4,15 +4,35 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="./src/CSS/reset.css">
-	<link rel="stylesheet" href="./src/CSS/style.css">
-	<title>Fire Cosmos</title>
+	<title>Space Invaders</title>
 </head>
 
 <body>
-	<a href="./dist/index.html">Jogar (LTS)</a>
-	<a href="./game.html">Jogar (Dev)</a>
-	<a href="./POC/poc.html">Protótipo</a>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			color: black;
+		}
+
+		body {
+			width: 100vw;
+			height: 100vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background-color: black;
+		}
+
+		#Canvas {
+			cursor: auto;
+			border: 1px solid red;
+			box-shadow: 0 0 20px red;
+		}
+	</style>
+	<canvas id="Canvas" width="800px" height="600px"></canvas>
+	<script src="./animation.js"></script>
 </body>
 
 </html>
