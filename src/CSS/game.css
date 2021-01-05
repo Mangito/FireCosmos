@@ -14,10 +14,8 @@ div.Demo {
   left: 0;
 }
 
-p {
+span#FPSs {
   right: 0;
-}
-p span#FPS {
   color: white;
 }
 
