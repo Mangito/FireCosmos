@@ -1,16 +1,22 @@
 {
-  "name": "FireCosmos",
-  "version": "0.1.0",
+  "name": "firecosmos",
+  "version": "1.0.0",
   "description": "FireCosmos",
+  "homepage": "https://mangito.github.io/FireCosmos/",
+  "private": false,
+  "author": {
+    "name": "Mangito",
+    "email": "flavioandre.2001.9.7@gmail.com",
+    "url": "https://mangito.github.io/Manguito/"
+  },
   "main": "src/index.js",
-  "keywords": [],
-  "author": "Mangito",
-  "license": "MIT",
   "scripts": {
     "build": "webpack --config webpack/prod.js ",
     "start": "webpack-dev-server --config webpack/base.js --open"
   },
-  "homepage": "https://github.com/photonstorm/phaser3-project-template#readme",
+  "dependencies": {
+    "phaser": "^3.*"
+  },
   "devDependencies": {
     "@babel/core": "^7.7.2",
     "@babel/preset-env": "^7.7.1",
@@ -25,11 +31,13 @@
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^4.2.2"
   },
-  "dependencies": {
-    "phaser": "^3.*"
-  },
+  "keywords": [],
+  "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/photonstorm/phaser3-project-template.git"
+    "url": "git+https://github.com/Mangito/FireCosmos"
+  },
+  "bugs": {
+    "url": "https://github.com/Mangito/FireCosmos/issues"
   }
 }
