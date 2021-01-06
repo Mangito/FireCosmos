@@ -1,5 +1,7 @@
 import Phaser from "Phaser";
 
+import "./CSS/reset.css";
+
 import packageJson from "../package.json";
 import GConfigs from "./Managers/GConfigs";
 
