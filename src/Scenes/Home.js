@@ -17,7 +17,6 @@ export default class Home extends Phaser.Scene {
 		this.playBtn = this.add.text(100, 100, "Jogar", { fill: "#0f0" });
 		this.playBtn.setInteractive({ useHandCursor: true });
 		this.playBtn.on("pointerdown", () => {
-			console.log("pointerdown");
 			this.scene.start("Play");
 		});
 	}

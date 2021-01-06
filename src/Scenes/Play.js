@@ -10,29 +10,52 @@ export default class Play extends Phaser.Scene {
 	preload() {
 		progressBar.bind(this);
 
-		this.load.image("Ship1", Assets.ShipBlue);
-		this.load.image("Ship2", Assets.ShipYellow);
-		this.load.image("Fire", Assets.Fire);
+		this.load.image("Ship1", Assets.player.ShipBlue);
+		this.load.image("Ship2", Assets.player.ShipYellow);
+		this.load.image("Fire", Assets.Shoot.Fire);
 
-		if (GConfigs.debug) {
-			const span = document.createElement("span");
-			this.showFps = span;
-			span.setAttribute("id", "FPSs");
-		}
+		if (GConfigs.debug) this.showFps();
+	}
+
+	showFps() {
+		const span = document.createElement("span");
+		this.showFps = span;
+		span.classList.add("FPSs");
+		document.body.appendChild(span);
 	}
 
 	create() {
+		const style = {
+			fontFamily: "monospace",
+			fontSize: "20px",
+			color: '#fff',
+			stroke: '#0f0',
+			strokeThickness: 2,
+			shadow: {
+				offsetX: 1,
+				offsetY: 1,
+				color: '#0ff',
+				blur: 2,
+				stroke: true
+			}
+		};
 
-		this.playerUp = this.physics.add.sprite(this.scale.width / 2, 30, "Ship2");
+		const middleScreen = this.scale.width / 2;
+
+		this.playerUp = this.physics.add.sprite(middleScreen, 50, "Ship2");
 		this.playerUp.scale = 0.5;
 		this.playerUp.setCollideWorldBounds(true);
 		this.playerUp.flipY = true;
-		this.lastFiredUp = 0;
+		this.lastFiredUp = 5000;
+		this.upPoints = 0;
+		this.upText = this.add.text(middleScreen - 10, 0, this.upPoints, style);
 
-		this.playerDown = this.physics.add.sprite(this.scale.width / 2, this.scale.height - 30, "Ship1");
+		this.playerDown = this.physics.add.sprite(middleScreen, this.scale.height - 50, "Ship1");
 		this.playerDown.scale = 0.5;
 		this.playerDown.setCollideWorldBounds(true);
-		this.lastFiredDown = 0;
+		this.lastFiredDown = 5000;
+		this.downPoints = 0;
+		this.downText = this.add.text(middleScreen - 10, this.scale.height - 20, this.downPoints, style);
 
 		this.shoots = this.physics.add.group({
 			classType: Shoot,
@@ -54,15 +77,15 @@ export default class Play extends Phaser.Scene {
 	}
 
 	colisionUp(p, s) {
-		console.log("Up");
-		// p.destroy();
 		s.destroy();
+		this.upPoints++;
+		this.upText.setText(this.upPoints);
 	}
 
 	colisionDown(p, s) {
-		console.log("Down");
-		// p.destroy();
 		s.destroy();
+		this.downPoints++;
+		this.downText.setText(this.downPoints);
 	}
 
 	update(time) {

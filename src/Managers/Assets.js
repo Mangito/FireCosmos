@@ -3,9 +3,14 @@ import ShipYellow from "../assets/ShipYellow.png";
 import Fire from "../assets/Fire.png";
 
 const assets = {
-	ShipBlue,
-	ShipYellow,
-	Fire
+	player: {
+		ShipBlue,
+		ShipYellow,
+	},
+	Shoot: {
+		Fire
+	},
+	background: {}
 };
 
 export default assets;

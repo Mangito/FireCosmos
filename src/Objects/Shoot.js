@@ -2,7 +2,7 @@ export default class Component extends Phaser.Physics.Arcade.Sprite {
 	constructor(scene, x, y) {
 		super(scene, x, y, "Fire");
 		this.direction = null;
-		this.speed = Phaser.Math.GetSpeed(400, 1);
+		this.speed = Phaser.Math.GetSpeed(1000, 1);
 	}
 
 	fire(x, y, direction) {
