@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Courier New", Courier, monospace;
   color: black;
 }
 
@@ -13,7 +14,6 @@ body {
   align-items: center;
   justify-content: center;
   background: black;
-  overflow: hidden;
 }
 
 div.Demo,
@@ -42,5 +42,4 @@ span.FPSs {
 canvas {
   border: 1px solid green;
   box-shadow: 0 0 20px green;
-  overflow: hidden;
 }

@@ -1,16 +1,20 @@
-import ShipBlue from "../assets/ShipBlue.png";
-import ShipYellow from "../assets/ShipYellow.png";
-import Fire from "../assets/Fire.png";
+import ShipBlue from "../Assets/ShipBlue.png";
+import ShipYellow from "../Assets/ShipYellow.png";
+import Fire from "../Assets/Fire.png";
+import BolaBranca from "../Assets/BolaBranca.png";
 
 const assets = {
-	player: {
+	Player: {
 		ShipBlue,
 		ShipYellow,
 	},
 	Shoot: {
 		Fire
 	},
-	background: {}
+	Background: {},
+	Asteroids: {
+		BolaBranca
+	}
 };
 
 export default assets;

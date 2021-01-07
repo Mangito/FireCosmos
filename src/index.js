@@ -1,10 +1,13 @@
 import Phaser from "Phaser";
 
-import "./CSS/reset.css";
+import "./CSS/Reset.css";
 
+// Configs/Infos
 import packageJson from "../package.json";
 import GConfigs from "./Managers/GConfigs";
+import { Banner } from "./Managers/Theme";
 
+// Scenes
 import Home from "./Scenes/Home.js";
 import UIScene from "./Scenes/UI.js";
 import Play from "./Scenes/Play.js";
@@ -14,20 +17,15 @@ const config = {
 	url: packageJson.homepage,
 	version: packageJson.version,
 	banner: {
-		text: "#ffffff",
-		background: [
-			"#fff200",
-			"#38f0e8",
-			"#00bff3",
-			"#ec008c"
-		],
+		text: Banner.Text,
+		background: Banner.Background,
 		hidePhaser: false
 	},
-
+	// Game
 	type: Phaser.AUTO,
-	width: 800,
-	height: 800,
-	background: "#fff",
+	width: GConfigs.width,
+	height: GConfigs.height,
+	backgroundColor: "#000",
 	transparent: false,
 	antialias: true,
 	pixelArt: false,
