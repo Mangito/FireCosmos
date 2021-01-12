@@ -1,5 +1,6 @@
 import Assets from "../Managers/Assets";
-import GConfigs from "../Managers/GConfigs";
+import GConfigs from "../Managers/GConfigs"
+import { randomNumber } from "../Utils/Utils";;
 import { Text } from "../Managers/Theme";
 
 import progressBar from "../Components/ProgressBar";
@@ -19,6 +20,7 @@ export default class Play extends Phaser.Scene {
 		this.load.image("Ship2", Assets.Player.ShipYellow);
 		this.load.image("Fire", Assets.Shoot.Fire);
 		this.load.image("Asteroid", Assets.Asteroids.BolaBranca);
+		this.load.image("Ball", Assets.Balls.Green);
 
 		if (GConfigs.debug) this.showFps();
 	}
@@ -41,13 +43,15 @@ export default class Play extends Phaser.Scene {
 			runChildUpdate: true
 		});
 
-		this.lastAsteroids = 10000;
+		this.lastAsteroids = 20000;
 		this.asteroids = this.physics.add.group({
 			classType: Asteroid,
-			maxSize: 5,
+			maxSize: 20,
 			runChildUpdate: true
 		});
 
+
+		this.createBall();
 		this.createCollisions();
 		this.keyboardInputs();
 	}
@@ -58,6 +62,8 @@ export default class Play extends Phaser.Scene {
 		this.playerUp = this.physics.add.sprite(middleScreen, 50, "Ship2");
 		this.playerUp.scale = 0.5;
 		this.playerUp.setCollideWorldBounds(true);
+		this.playerUp.setImmovable(true);
+
 		this.playerUp.flipY = true;
 		this.lastFiredUp = 5000;
 		this.upPoints = 0;
@@ -70,9 +76,24 @@ export default class Play extends Phaser.Scene {
 		this.playerDown = this.physics.add.sprite(middleScreen, this.scale.height - 50, "Ship1");
 		this.playerDown.scale = 0.5;
 		this.playerDown.setCollideWorldBounds(true);
+		this.playerDown.setImmovable(true);
+
 		this.lastFiredDown = 5000;
 		this.downPoints = 0;
 		this.downText = this.add.text(middleScreen - 10, this.scale.height - 20, this.downPoints, Text);
+	}
+
+	createBall() {
+		const middleScreenX = this.scale.width / 2;
+		const middleScreenY = this.scale.height / 2;
+		this.ball = this.physics.add.sprite(middleScreenX, middleScreenY, "Ball");
+
+		const speedX = Math.random() > 0.5 ? 150 : -150;
+		const speedY = Math.random() > 0.5 ? 150 : -150;
+		this.ball.setVelocity(speedX, speedY);
+
+		this.ball.setCollideWorldBounds(true);
+		this.ball.setBounce(1);
 	}
 
 	createCollisions() {
@@ -86,6 +107,15 @@ export default class Play extends Phaser.Scene {
 
 		// Shoots -> Asteroids
 		this.physics.add.overlap(this.asteroids, this.shoots, this.colisionShootAsteroid, null, this);
+
+		// Asteroids -> Asteroids
+		this.physics.add.collider(this.asteroids);
+
+		// Ball
+		this.physics.add.collider(this.playerUp, this.ball);
+		this.physics.add.collider(this.playerDown, this.ball);
+		this.physics.add.collider(this.shoots, this.ball);
+		this.physics.add.collider(this.asteroids, this.ball);
 	}
 
 	colisionUp(p, s) {
@@ -101,6 +131,11 @@ export default class Play extends Phaser.Scene {
 	}
 
 	colisionShootAsteroid(a, s) {
+		const newSize = a.size / 1.5;
+		const newAsteroids = 3;
+		if (a.size > 20) {
+			for (let i = 0; i < newAsteroids; i++) this.generateAsteroids(newSize);
+		}
 		a.destroy();
 		s.destroy();
 	}
@@ -120,7 +155,10 @@ export default class Play extends Phaser.Scene {
 		this.movePlayerUp(time);
 		this.movePlayerDown(time);
 
-		if (this.lastAsteroids < time) this.generateAsteroids(time);
+		if (this.lastAsteroids < time) {
+			this.lastAsteroids = time + 20000;
+			this.generateAsteroids(64);
+		}
 	}
 
 	movePlayerUp(time) {
@@ -147,11 +185,8 @@ export default class Play extends Phaser.Scene {
 		}
 	}
 
-	generateAsteroids(time) {
+	generateAsteroids(newSize) {
 		const asteroid = this.asteroids.get();
-		if (asteroid) {
-			asteroid.generate();
-			this.lastAsteroids = time + 5000;
-		}
+		if (asteroid) asteroid.generate(newSize);
 	}
 }
