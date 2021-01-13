@@ -1,4 +1,5 @@
 import progressBar from "../Components/ProgressBar";
+import Assets from "../Managers/Assets";
 export default class Home extends Phaser.Scene {
 	constructor() {
 		super({ key: "Home" });
@@ -9,7 +10,8 @@ export default class Home extends Phaser.Scene {
 	}
 
 	preload() {
-		progressBar.bind(this);
+		const _this = this;
+		progressBar(_this);
 
 	}
 

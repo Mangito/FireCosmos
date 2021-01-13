@@ -1,23 +1,58 @@
-export default function progressBar() {
+import GConfigs from "../Managers/GConfigs";
 
-	console.log("progressBar");
+export default function progressBar(_this) {
+	const size = {
+		width: 350,
+		height: 50,
+		padding: {
+			x: 10,
+			y: 5
+		},
+		border: 4,
+	};
 
-	const progressBar = this.add.graphics();
-	const progressBox = this.add.graphics();
+	const position = {
+		x: (GConfigs.width - size.width) / 2,
+		y: (GConfigs.height - size.height) / 2
+	};
 
-	progressBox.fillStyle(0xffffff, 0.5);
-	progressBox.fillRoundedRect(240, 270, 320, 50, 4);
+	const style = {
+		font: '18px monospace',
+		fill: '#ffffff'
+	};
 
-	this.load.on("progress", value => {
-		console.log(value);
-		progressBar.clear();
-		progressBar.fillStyle(0xff0000, 1);
-		progressBar.fillRoundedRect(250, 280, 300 * value, 30, 4);
+	const progressBar = _this.add.graphics();
+	const progressBox = _this.add.graphics();
+
+	const percentText = _this.add.text(GConfigs.width / 2, GConfigs.height / 2, "0%", style);
+	percentText.setOrigin(0.5, 0.5);
+
+	progressBox.fillStyle(0xffffff, 0.2);
+	progressBox.fillRoundedRect(
+		position.x, position.y,
+		size.width, size.height,
+		size.border);
+
+	let file = null;
+	_this.load.on("fileprogress", f => {
+		file = f;
 	});
 
-	this.load.on("complete", () => {
-		console.log("Complete");
+	_this.load.on("progress", value => {
+		progressBar.clear();
+		progressBar.fillStyle(0x00ff00, 1);
+		progressBar.stroke()
+		progressBar.fillRoundedRect(
+			position.x + size.padding.x, position.y + size.padding.y,
+			(size.width * value) - (size.padding.x * 2), size.height - (size.padding.y * 2),
+			size.border);
+
+		percentText.setText("Load: " + Math.round(value * 100) + "% - " + file?.key);
+	});
+
+	_this.load.on("complete", () => {
 		progressBar.destroy();
 		progressBox.destroy();
+		percentText.destroy();
 	});
 }

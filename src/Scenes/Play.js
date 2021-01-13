@@ -1,6 +1,6 @@
 import Assets from "../Managers/Assets";
 import GConfigs from "../Managers/GConfigs"
-import { randomNumber } from "../Utils/Utils";;
+import { randomNumber } from "../Utils/Utils";
 import { Text } from "../Managers/Theme";
 
 import progressBar from "../Components/ProgressBar";
@@ -14,7 +14,8 @@ export default class Play extends Phaser.Scene {
 
 	// Preload
 	preload() {
-		progressBar.bind(this);
+		const _this = this;
+		progressBar(_this);
 
 		this.load.image("Ship1", Assets.Player.ShipBlue);
 		this.load.image("Ship2", Assets.Player.ShipYellow);
@@ -124,7 +125,6 @@ export default class Play extends Phaser.Scene {
 		this.KeyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
 		this.KeyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 	}
-
 
 	// Update
 	update(time) {
