@@ -2,18 +2,18 @@ import GConfigs from "../Managers/GConfigs";
 
 import { randomNumber } from "../Utils/Utils";
 
-export default class Component extends Phaser.Physics.Arcade.Sprite {
+export default class Asteroid extends Phaser.Physics.Arcade.Sprite {
 	constructor(scene, x, y) {
 		super(scene, x, y, "Asteroid");
 		this.size = 64;
 		// this.setBounce(1);
 	}
 
-	generate(size = 64) {
+	generate(size = 32) {
 		this.size = size;
 
-		const x = randomNumber(0, GConfigs.width);
-		const y = randomNumber(100, GConfigs.height - 100);
+		const x = randomNumber(0, GConfigs.screen.width);
+		const y = randomNumber(100, GConfigs.screen.height - 100);
 		this.setPosition(x, y);
 
 		const speedX = randomNumber(-75, 75);
@@ -25,8 +25,8 @@ export default class Component extends Phaser.Physics.Arcade.Sprite {
 	}
 
 	update() {
-		if (this.x < 0 || this.x > GConfigs.width ||
-			this.y < 0 || this.y > GConfigs.height) {
+		if (this.x - this.size * 2 < 0 || this.x + this.size * 2 > GConfigs.screen.width ||
+			this.y < 0 || this.y > GConfigs.screen.height) {
 			this.destroy();
 		}
 	}

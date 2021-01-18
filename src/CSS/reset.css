@@ -32,13 +32,6 @@ div.Demo {
   left: 0;
 }
 
-span.FPSs {
-  position: fixed;
-  top: 0;
-  right: 0;
-  color: white;
-}
-
 canvas {
   border: 1px solid green;
   box-shadow: 0 0 20px green;

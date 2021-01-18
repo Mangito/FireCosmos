@@ -1,25 +1,43 @@
-import progressBar from "../Components/ProgressBar";
+import GConfigs from "../Managers/GConfigs";
 import Assets from "../Managers/Assets";
+import progressBar from "../Components/ProgressBar";
+
 export default class Home extends Phaser.Scene {
 	constructor() {
 		super({ key: "Home" });
 	}
 
-	init() {
-		this.playBtn = null;
-	}
-
 	preload() {
 		const _this = this;
 		progressBar(_this);
-
+		this.load.image("Definicoes", Assets.UI.Buttons.Definicoes);
+		this.load.image("JogoCustomizado", Assets.UI.Buttons.JogoCustomizado);
+		this.load.image("JogoSimples", Assets.UI.Buttons.JogoSimples);
 	}
 
 	create() {
-		this.playBtn = this.add.text(100, 100, "Jogar", { fill: "#0f0" });
-		this.playBtn.setInteractive({ useHandCursor: true });
-		this.playBtn.on("pointerdown", () => {
+		this.simpreGame();
+		// this.customized();
+		// this.settings();
+	}
+
+	simpreGame() {
+		const playBtn = this.add.image(GConfigs.screen.middleWidth, 100, "JogoSimples");
+		playBtn.setInteractive({ useHandCursor: true });
+		playBtn.on("pointerdown", () => {
 			this.scene.start("Play");
 		});
+	}
+
+	customized() {
+		const customizedBtn = this.add.image(GConfigs.screen.middleWidth, 200, "JogoCustomizado");
+		customizedBtn.setInteractive({ useHandCursor: true });
+		customizedBtn.on("pointerdown", () => { });
+	}
+
+	settings() {
+		const settingsBtn = this.add.image(GConfigs.screen.middleWidth, 300, "Definicoes");
+		settingsBtn.setInteractive({ useHandCursor: true });
+		settingsBtn.on("pointerdown", () => { });
 	}
 }
