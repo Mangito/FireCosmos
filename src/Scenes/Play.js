@@ -1,94 +1,111 @@
 import Assets from "../Managers/Assets";
-import GConfigs from "../Managers/GConfigs"
-import { randomNumber } from "../Utils/Utils";
+import GConfigs from "../Managers/GConfigs";
 import { Text } from "../Managers/Theme";
 
 import progressBar from "../Components/ProgressBar";
 
-import Shoot from "../Objects/Shoot";
+import Player from "../Objects/Player";
 import Asteroid from "../Objects/Asteroid";
+
 export default class Play extends Phaser.Scene {
 	constructor() {
 		super({ key: "Play" });
+
+		this.lastAsteroids = 20000; // Time until next asteroid be lauched
+
+		this.players = [];
+
+		this.upPoints = 0;
+		this.downPoints = 0;
+
+		this.playersConfig = [
+			{
+				name: "P1",
+				ship: "ShipYellow",
+				team: "Down",
+				points: 0,
+				lastShoot: 2000,
+				controllers: {
+					letf: "LEFT",
+					right: "RIGHT",
+					fire: "UP",
+					missile: "DOWN",
+				},
+			},
+			{
+				name: "P2",
+				ship: "ShipBlue",
+				team: "Up",
+				points: 0,
+				lastShoot: 2000,
+				controllers: {
+					letf: "A",
+					right: "D",
+					fire: "W",
+					missile: "S",
+				},
+			},
+		];
 	}
 
-	// Preload
 	preload() {
 		const _this = this;
 		progressBar(_this);
 
-		this.load.image("Ship1", Assets.Player.ShipBlue);
-		this.load.image("Ship2", Assets.Player.ShipYellow);
+		for (let i = 0; i < this.playersConfig.length; i++) {
+			const player = this.playersConfig[i];
+			this.load.image(player.ship, Assets.Player[player.ship]);
+		}
+
 		this.load.image("Fire", Assets.Shoot.Fire);
 		this.load.image("Asteroid", Assets.Asteroids.BolaBranca);
-
-		if (GConfigs.debug) this.showFps();
 	}
 
-	showFps() {
-		const span = document.createElement("span");
-		this.showFps = span;
-		span.classList.add("FPSs");
-		document.body.appendChild(span);
-	}
-
-	// Create
 	create() {
-		this.createPlayerUp();
-		this.createPlayerDown();
+		if (GConfigs.debug) this.showFPSs = this.add.text(GConfigs.screen.width - 55, 0, 0, Text);
 
-		this.shoots = this.physics.add.group({
-			classType: Shoot,
-			maxSize: 20,
+		this.upPointsLabel = this.add.text(GConfigs.screen.width / 2, 0, 0, Text);
+		this.upPointsLabel.x = GConfigs.screen.middleWidth - this.upPointsLabel.width / 2;
+
+		this.downPointsLabel = this.add.text(GConfigs.screen.width / 2, GConfigs.screen.height - 20, 0, Text);
+		this.downPointsLabel.x = GConfigs.screen.middleWidth - this.downPointsLabel.width / 2;
+
+		this.createGroups();
+
+		this.createPlayers();
+
+		this.createCollisions();
+	}
+
+	createGroups() {
+		this.playersPhysics = this.physics.add.group({
+			classType: Player,
 			runChildUpdate: true
 		});
 
-		this.lastAsteroids = 20000;
 		this.asteroids = this.physics.add.group({
 			classType: Asteroid,
 			maxSize: 20,
 			runChildUpdate: true
 		});
-
-		this.createCollisions();
-		this.keyboardInputs();
 	}
 
-	createPlayerUp() {
-		const middleScreen = this.scale.width / 2;
-
-		this.playerUp = this.physics.add.sprite(middleScreen, 50, "Ship2");
-		this.playerUp.scale = 0.5;
-		this.playerUp.setCollideWorldBounds(true);
-		this.playerUp.setImmovable(true);
-
-		this.playerUp.flipY = true;
-		this.lastFiredUp = 5000;
-		this.upPoints = 0;
-		this.upText = this.add.text(middleScreen - 10, 0, this.upPoints, Text);
-	}
-
-	createPlayerDown() {
-		const middleScreen = this.scale.width / 2;
-
-		this.playerDown = this.physics.add.sprite(middleScreen, this.scale.height - 50, "Ship1");
-		this.playerDown.scale = 0.5;
-		this.playerDown.setCollideWorldBounds(true);
-		this.playerDown.setImmovable(true);
-
-		this.lastFiredDown = 5000;
-		this.downPoints = 0;
-		this.downText = this.add.text(middleScreen - 10, this.scale.height - 20, this.downPoints, Text);
+	createPlayers() {
+		for (let i = 0; i < this.playersConfig.length; i++) {
+			const config = this.playersConfig[i];
+			const sprite = this.playersPhysics.get(0, 0, config);
+			this.players.push(sprite);
+			if (sprite) sprite.generate();
+		}
 	}
 
 	createCollisions() {
-		// Players -> Shoots
-		this.physics.add.overlap(this.playerUp, this.shoots, this.colisionDown, null, this);
-		this.physics.add.overlap(this.playerDown, this.shoots, this.colisionUp, null, this);
+		for (let i = 0; i < this.players.length; i++) {
+			const player = this.players[i];
+			this.physics.add.overlap(this.playersPhysics, player.shoots, this.colisionPlayerShot, null, this); // Players -> Shoots
+		}
 
-		// Players -> Asteroids
-		this.physics.add.overlap(this.playerUp, this.asteroids, this.colisionDown, null, this);
-		this.physics.add.overlap(this.playerDown, this.asteroids, this.colisionUp, null, this);
+		this.physics.add.overlap(this.playersPhysics, this.asteroids, this.colisionPlayerShot, null, this); // Players -> Asteroids
 
 		// Shoots -> Asteroids
 		this.physics.add.overlap(this.asteroids, this.shoots, this.colisionShootAsteroid, null, this);
@@ -97,69 +114,41 @@ export default class Play extends Phaser.Scene {
 		this.physics.add.collider(this.asteroids);
 	}
 
-	colisionUp(p, s) {
-		s.destroy();
-		this.upPoints++;
-		this.upText.setText(this.upPoints);
+	colisionPlayerShot(player, shoot) {
+		shoot.addPoints();
+		if (shoot.team === "Up") this.updatePointsUp();
+		else this.updatePointsDown();
+		shoot.destroy();
 	}
 
-	colisionDown(p, s) {
-		s.destroy();
-		this.downPoints++;
-		this.downText.setText(this.downPoints);
-	}
-
-	colisionShootAsteroid(a, s) {
-		const newSize = a.size / 1.5;
+	colisionShootAsteroid(asteroid, shoot) {
+		const newSize = asteroid.size / 1.5;
 		const newAsteroids = 3;
-		if (a.size > 20) {
+		if (asteroid.size > 20) {
 			for (let i = 0; i < newAsteroids; i++) this.generateAsteroids(newSize);
 		}
-		a.destroy();
-		s.destroy();
+		asteroid.destroy();
+		shoot.destroy();
 	}
 
-	keyboardInputs() {
-		this.cursors = this.input.keyboard.createCursorKeys();
-		this.KeyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-		this.KeyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-		this.KeyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+	updatePointsUp() {
+		this.upPoints++;
+		this.upPointsLabel.setText(this.upPoints);
+		this.upPointsLabel.x = GConfigs.screen.middleWidth - this.upPointsLabel.width / 2;
 	}
 
-	// Update
+	updatePointsDown() {
+		this.downPoints++;
+		this.downPointsLabel.setText(this.downPoints);
+		this.downPointsLabel.x = GConfigs.screen.middleWidth - this.downPointsLabel.width / 2;
+	}
+
 	update(time) {
-		if (GConfigs.debug) this.showFps.innerHTML = Number(this.game.loop.actualFps).toFixed(1);
-
-		this.movePlayerUp(time);
-		this.movePlayerDown(time);
+		if (GConfigs.debug) this.showFPSs.setText(Number(this.game.loop.actualFps).toFixed(1));
 
 		if (this.lastAsteroids < time) {
 			this.lastAsteroids = time + 20000;
-			this.generateAsteroids(64);
-		}
-	}
-
-	movePlayerUp(time) {
-		if (this.KeyD.isDown) this.playerUp.setVelocityX(100);
-		else if (this.KeyA.isDown) this.playerUp.setVelocityX(-100);
-		if (this.KeyW.isDown && this.lastFiredUp < time) {
-			const shoot = this.shoots.get();
-			if (shoot) {
-				shoot.fire(this.playerUp.x, this.playerUp.y + 30, "Up");
-				this.lastFiredUp = time + 200;
-			}
-		}
-	}
-
-	movePlayerDown(time) {
-		if (this.cursors.right.isDown) this.playerDown.setVelocityX(100);
-		else if (this.cursors.left.isDown) this.playerDown.setVelocityX(-100);
-		if (this.cursors.up.isDown && this.lastFiredDown < time) {
-			const shoot = this.shoots.get();
-			if (shoot) {
-				shoot.fire(this.playerDown.x, this.playerDown.y - 30, "Down");
-				this.lastFiredDown = time + 200;
-			}
+			this.generateAsteroids(32);
 		}
 	}
 

@@ -1,31 +1,69 @@
 import GConfigs from "../Managers/GConfigs";
 
-import { randomNumber } from "../Utils/Utils";
+import Shoot from "../Objects/Shoot";
 
-export default class Component extends Phaser.Physics.Arcade.Sprite {
-	constructor(scene, x, y) {
-		super(scene, x, y, "Asteroid");
+export default class Player extends Phaser.Physics.Arcade.Sprite {
+	constructor(scene, x, y, config) {
+		super(scene, x, y, config.ship);
+		this.config = config;
+		this.isAlive = true;
+
+		// this.lastFire = 5000;
+		this.lastFire = 2000;
+		this.points = config.points;
+
+		const { letf, right, fire, missile } = config.controllers;
+		this.keys = this.scene.input.keyboard.addKeys({
+			left: letf,
+			right: right,
+			fire: fire,
+			missile: missile,
+		});
+
+		this.shoots = this.scene.physics.add.group({
+			classType: Shoot,
+			maxSize: 10,
+			runChildUpdate: true
+		});
 	}
 
-	generate(size = 64) {
-		this.size = size;
+	generate() {
+		const middleScreen = GConfigs.screen.width / 2;
+		const yMargin = 50;
 
-		const x = randomNumber(0, GConfigs.width);
-		const y = randomNumber(100, GConfigs.height - 100);
-		this.setPosition(x, y);
+		this.setScale(0.5);
+		this.size = this.height / 4;
 
-		const speedX = randomNumber(-75, 75);
-		const speedY = randomNumber(-75, 75);
-		this.setVelocity(speedX, speedY);
+		if (this.config.team === "Up") {
+			this.flipY = true;
+			this.setPosition(middleScreen, yMargin);
+		} else {
+			this.setPosition(middleScreen, GConfigs.screen.height - yMargin);
+		}
 
-		const scale = size / 32;
-		this.setScale(scale, scale);
+		this.setCollideWorldBounds(true);
+		this.setImmovable(true);
 	}
 
-	update() {
-		if (this.x < 0 || this.x > GConfigs.width ||
-			this.y < 0 || this.y > GConfigs.height) {
-			this.destroy();
+	addPoints() {
+		this.points++;
+	}
+
+	update(time) {
+		const keys = this.keys;
+
+		if (keys.left.isDown) this.setVelocityX(-200);
+		if (keys.right.isDown) this.setVelocityX(200);
+
+		if (keys.fire.isDown && this.lastFire < time) {
+			const shoot = this.shoots.get();
+			if (shoot) {
+				const startY = this.config.team === "Up" ? this.y + this.size : this.y - this.size;
+
+				const _this = this;
+				shoot.fire(this.x, startY, this.config, () => this.addPoints());
+				this.lastFire = time + 200;
+			}
 		}
 	}
 }
