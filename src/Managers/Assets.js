@@ -1,8 +1,12 @@
-import ShipBlue from "../Assets/ShipBlue.png";
-import ShipYellow from "../Assets/ShipYellow.png";
-import Fire from "../Assets/Fire.png";
-import BolaBranca from "../Assets/BolaBranca.png";
-import BolaVerde from "../Assets/BolaVerde.png";
+import ShipBlue from "../Assets/Sprites/ShipBlue.png";
+import ShipYellow from "../Assets/Sprites/ShipYellow.png";
+import Fire from "../Assets/Sprites/Fire.png";
+import BolaBranca from "../Assets/Sprites/BolaBranca.png";
+import BolaVerde from "../Assets/Sprites/BolaVerde.png";
+
+import Definicoes from "../Assets/UI/Definicoes.png";
+import JogoCustomizado from "../Assets/UI/JogoCustomizado.png";
+import JogoSimples from "../Assets/UI/JogoSimples.png";
 
 const assets = {
 	Player: {
@@ -18,6 +22,13 @@ const assets = {
 	},
 	Balls: {
 		Green: BolaVerde
+	},
+	UI: {
+		Buttons: {
+			Definicoes,
+			JogoCustomizado,
+			JogoSimples,
+		}
 	}
 };
 
