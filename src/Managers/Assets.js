@@ -13,15 +13,21 @@ const assets = {
 		ShipBlue,
 		ShipYellow,
 	},
+	Balls: {
+		Green: BolaVerde
+	},
+	ships: {
+
+	},
+	invaders: {
+
+	},
 	Shoot: {
 		Fire
 	},
 	Background: {},
 	Asteroids: {
 		BolaBranca
-	},
-	Balls: {
-		Green: BolaVerde
 	},
 	UI: {
 		Buttons: {

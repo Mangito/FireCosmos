@@ -1,6 +1,7 @@
 import GlobalConfigs from "../Config/GlobalConfigs";
 
 import Shoot from "../Objects/Shoot";
+import GameConfigs from "../Config/GameConfigs";
 
 export default class Player extends Phaser.Physics.Arcade.Sprite {
 	constructor(scene, x, y, config) {
@@ -9,7 +10,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		this.isAlive = true;
 
 		// this.lastFire = 5000;
-		this.lastFire = 2000;
+		this.gameConfigs = new GameConfigs();
+		this.lastFire = this.gameConfigs.fire.first;
 		this.points = config.points;
 		this.team = config.team;
 
@@ -62,7 +64,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 				const startY = this.team === "Up" ? this.y + this.size : this.y - this.size;
 
 				shoot.fire(this.x, startY, this.config, () => this.addPoints());
-				this.lastFire = time + 200;
+				this.lastFire = time + this.gameConfigs.fire.next;
 			}
 		}
 	}

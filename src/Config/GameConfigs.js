@@ -3,22 +3,38 @@ export default class GameConfigs {
 		if (GameConfigs.instance instanceof GameConfigs)
 			return GameConfigs.instance;
 
-		this.numPlayers = 2;
-		this.fistShoot = 2000; // Time to start shooting
-		this.lastShoot = 200; // Time util next shoot
-		this.players = [];
+		this.game = {
+			mode: "Points",
+			endPoint: 10,
+		}
+
+		this.players = {
+			number: 2,
+			players: [],
+		}
+
+		this.fire = {
+			first: 5000,
+			next: 200,
+		}
+
+		this.asteroids = {
+			on: true,
+			next: 5000,
+			first: 10000,
+		}
 
 		GameConfigs.instance = this;
 	}
 
 	addPlayer(player) {
-		this.players.push(player);
-		this.numPlayers++;
+		this.players.players.push(player);
+		this.players.number++;
 	}
 
 	removePlayer(index) {
-		this.players.splice(index, 1);
-		this.numPlayers--;
+		this.players.players.splice(index, 1);
+		this.players.number--;
 	}
 
 	reset() {

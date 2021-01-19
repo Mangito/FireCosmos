@@ -11,16 +11,16 @@ import Asteroid from "../Objects/Asteroid";
 export default class Play extends Phaser.Scene {
 	constructor() {
 		super({ key: "Play" });
+		this.gameConfigs = new GameConfigs();
+		this.playersConfig = this.gameConfigs.testGame();
 
-		this.lastAsteroids = 20000; // Time until next asteroid be launched
+		if (this.gameConfigs.asteroids.on)
+			this.lastAsteroids = this.gameConfigs.asteroids.first;
 
 		this.players = [];
 
 		this.upPoints = 0;
 		this.downPoints = 0;
-
-		const gameConfig = new GameConfigs();
-		this.playersConfig = gameConfig.testGame();
 	}
 
 	preload() {
@@ -33,7 +33,9 @@ export default class Play extends Phaser.Scene {
 		}
 
 		this.load.image("Fire", Assets.Shoot.Fire);
-		this.load.image("Asteroid", Assets.Asteroids.BolaBranca);
+
+		if (this.gameConfigs.asteroids.on)
+			this.load.image("Asteroid", Assets.Asteroids.BolaBranca);
 	}
 
 	create() {
@@ -58,11 +60,13 @@ export default class Play extends Phaser.Scene {
 			runChildUpdate: true
 		});
 
-		this.asteroids = this.physics.add.group({
-			classType: Asteroid,
-			maxSize: 20,
-			runChildUpdate: true
-		});
+		if (this.gameConfigs.asteroids.on) {
+			this.asteroids = this.physics.add.group({
+				classType: Asteroid,
+				maxSize: 20,
+				runChildUpdate: true
+			});
+		}
 	}
 
 	createPlayers() {
@@ -78,16 +82,20 @@ export default class Play extends Phaser.Scene {
 		for (let i = 0; i < this.players.length; i++) {
 			const player = this.players[i];
 			this.physics.add.overlap(this.playersPhysics, player.shoots, this.collisionPlayerShot, null, this); // Players -> Shoots
+
+			if (this.gameConfigs.asteroids.on) {
+				// Shoots -> Asteroids
+				this.physics.add.overlap(this.asteroids, player.shoots, this.collisionShootAsteroid, null, this);
+			}
 		}
 
-		// Players -> Asteroids
-		this.physics.add.overlap(this.playersPhysics, this.asteroids, this.collisionPlayerAsteroid, null, this);
+		if (this.gameConfigs.asteroids.on) {
+			// Players -> Asteroids
+			this.physics.add.overlap(this.playersPhysics, this.asteroids, this.collisionPlayerAsteroid, null, this);
 
-		// Shoots -> Asteroids
-		this.physics.add.overlap(this.asteroids, this.shoots, this.collisionShootAsteroid, null, this);
-
-		// Asteroids -> Asteroids
-		this.physics.add.collider(this.asteroids);
+			// Asteroids -> Asteroids
+			this.physics.add.collider(this.asteroids);
+		}
 	}
 
 	collisionPlayerShot(player, shoot) {
@@ -98,18 +106,13 @@ export default class Play extends Phaser.Scene {
 	}
 
 	collisionPlayerAsteroid(player, asteroid) {
-		player.addPoints();
+		player.visible = false;
 		if (player.team !== "Up") this.updatePointsUp();
 		else this.updatePointsDown();
 		asteroid.destroy();
 	}
 
 	collisionShootAsteroid(asteroid, shoot) {
-		const newSize = asteroid.size / 1.5;
-		const newAsteroids = 3;
-		if (asteroid.size > 20) {
-			for (let i = 0; i < newAsteroids; i++) this.generateAsteroids(newSize);
-		}
 		asteroid.destroy();
 		shoot.destroy();
 	}
@@ -129,14 +132,14 @@ export default class Play extends Phaser.Scene {
 	update(time) {
 		if (GlobalConfigs.debug) this.showFPSs.setText(Number(this.game.loop.actualFps).toFixed(1));
 
-		if (this.lastAsteroids < time) {
-			this.lastAsteroids = time + 20000;
-			this.generateAsteroids(32);
+		if (this.gameConfigs.asteroids.on && this.lastAsteroids < time) {
+			this.lastAsteroids = time + this.gameConfigs.asteroids.next;
+			this.generateAsteroids();
 		}
 	}
 
-	generateAsteroids(newSize) {
+	generateAsteroids() {
 		const asteroid = this.asteroids.get();
-		if (asteroid) asteroid.generate(newSize);
+		if (asteroid) asteroid.generate();
 	}
 }
