@@ -43,8 +43,8 @@ const config = {
 		}
 	},
 	scene: [
-		// Home,
-		// Customize,
+		Home,
+		Customize,
 		Play,
 	]
 }
