@@ -4,15 +4,13 @@ import "./CSS/Reset.css";
 
 // Configs/Infos
 import packageJson from "../package.json";
-import GConfigs from "./Managers/GConfigs";
+import GlobalConfigs from "./Managers/GlobalConfigs";
 import { Banner } from "./Managers/Theme";
 
 // Scenes
 import Customize from "./Scenes/Customize";
 import Home from "./Scenes/Home";
 import Play from "./Scenes/Play";
-
-const gameContainer = document.getElementById("GameContainer");
 
 const config = {
 	title: "Fire Cosmos",
@@ -26,8 +24,8 @@ const config = {
 	// Game
 	parent: "GameContainer",
 	type: Phaser.AUTO,
-	width: GConfigs.screen.width,
-	height: GConfigs.screen.height,
+	width: GlobalConfigs.screen.width,
+	height: GlobalConfigs.screen.height,
 	backgroundColor: "#000",
 	scale: {
 		mode: Phaser.Scale.FIT,
@@ -40,7 +38,7 @@ const config = {
 	physics: {
 		default: "arcade",
 		arcade: {
-			debug: GConfigs.debug,
+			debug: GlobalConfigs.debug,
 			gravity: { x: 0, y: 0 }
 		}
 	},

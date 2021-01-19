@@ -1,4 +1,4 @@
-import GConfigs from "../Managers/GConfigs";
+import GlobalConfigs from "../Managers/GlobalConfigs";
 
 export default function progressBar(_this) {
 	const size = {
@@ -12,8 +12,8 @@ export default function progressBar(_this) {
 	};
 
 	const position = {
-		x: (GConfigs.screen.width - size.width) / 2,
-		y: (GConfigs.screen.height - size.height) / 2
+		x: (GlobalConfigs.screen.width - size.width) / 2,
+		y: (GlobalConfigs.screen.height - size.height) / 2
 	};
 
 	const style = {
@@ -24,7 +24,7 @@ export default function progressBar(_this) {
 	const progressBar = _this.add.graphics();
 	const progressBox = _this.add.graphics();
 
-	const percentText = _this.add.text(GConfigs.screen.middleWidth, GConfigs.screen.middleHeight, "0%", style);
+	const percentText = _this.add.text(GlobalConfigs.screen.middleWidth, GlobalConfigs.screen.middleHeight, "0%", style);
 	percentText.setOrigin(0.5, 0.5);
 
 	progressBox.fillStyle(0xffffff, 0.2);

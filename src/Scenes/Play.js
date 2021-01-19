@@ -1,5 +1,5 @@
 import Assets from "../Managers/Assets";
-import GConfigs from "../Managers/GConfigs";
+import GlobalConfigs from "../Managers/GlobalConfigs";
 import { Text } from "../Managers/Theme";
 
 import progressBar from "../Components/ProgressBar";
@@ -11,7 +11,7 @@ export default class Play extends Phaser.Scene {
 	constructor() {
 		super({ key: "Play" });
 
-		this.lastAsteroids = 20000; // Time until next asteroid be lauched
+		this.lastAsteroids = 20000; // Time until next asteroid be launched
 
 		this.players = [];
 
@@ -26,7 +26,7 @@ export default class Play extends Phaser.Scene {
 				points: 0,
 				lastShoot: 2000,
 				controllers: {
-					letf: "LEFT",
+					left: "LEFT",
 					right: "RIGHT",
 					fire: "UP",
 					missile: "DOWN",
@@ -39,7 +39,7 @@ export default class Play extends Phaser.Scene {
 				points: 0,
 				lastShoot: 2000,
 				controllers: {
-					letf: "A",
+					left: "A",
 					right: "D",
 					fire: "W",
 					missile: "S",
@@ -62,13 +62,13 @@ export default class Play extends Phaser.Scene {
 	}
 
 	create() {
-		if (GConfigs.debug) this.showFPSs = this.add.text(GConfigs.screen.width - 55, 0, 0, Text);
+		if (GlobalConfigs.debug) this.showFPSs = this.add.text(GlobalConfigs.screen.width - 55, 0, 0, Text);
 
-		this.upPointsLabel = this.add.text(GConfigs.screen.width / 2, 0, 0, Text);
-		this.upPointsLabel.x = GConfigs.screen.middleWidth - this.upPointsLabel.width / 2;
+		this.upPointsLabel = this.add.text(GlobalConfigs.screen.width / 2, 0, 0, Text);
+		this.upPointsLabel.x = GlobalConfigs.screen.middleWidth - this.upPointsLabel.width / 2;
 
-		this.downPointsLabel = this.add.text(GConfigs.screen.width / 2, GConfigs.screen.height - 20, 0, Text);
-		this.downPointsLabel.x = GConfigs.screen.middleWidth - this.downPointsLabel.width / 2;
+		this.downPointsLabel = this.add.text(GlobalConfigs.screen.width / 2, GlobalConfigs.screen.height - 20, 0, Text);
+		this.downPointsLabel.x = GlobalConfigs.screen.middleWidth - this.downPointsLabel.width / 2;
 
 		this.createGroups();
 
@@ -102,26 +102,26 @@ export default class Play extends Phaser.Scene {
 	createCollisions() {
 		for (let i = 0; i < this.players.length; i++) {
 			const player = this.players[i];
-			this.physics.add.overlap(this.playersPhysics, player.shoots, this.colisionPlayerShot, null, this); // Players -> Shoots
+			this.physics.add.overlap(this.playersPhysics, player.shoots, this.collisionPlayerShot, null, this); // Players -> Shoots
 		}
 
-		this.physics.add.overlap(this.playersPhysics, this.asteroids, this.colisionPlayerShot, null, this); // Players -> Asteroids
+		this.physics.add.overlap(this.playersPhysics, this.asteroids, this.collisionPlayerShot, null, this); // Players -> Asteroids
 
 		// Shoots -> Asteroids
-		this.physics.add.overlap(this.asteroids, this.shoots, this.colisionShootAsteroid, null, this);
+		this.physics.add.overlap(this.asteroids, this.shoots, this.collisionShootAsteroid, null, this);
 
 		// Asteroids -> Asteroids
 		this.physics.add.collider(this.asteroids);
 	}
 
-	colisionPlayerShot(player, shoot) {
+	collisionPlayerShot(player, shoot) {
 		shoot.addPoints();
 		if (shoot.team === "Up") this.updatePointsUp();
 		else this.updatePointsDown();
 		shoot.destroy();
 	}
 
-	colisionShootAsteroid(asteroid, shoot) {
+	collisionShootAsteroid(asteroid, shoot) {
 		const newSize = asteroid.size / 1.5;
 		const newAsteroids = 3;
 		if (asteroid.size > 20) {
@@ -134,17 +134,17 @@ export default class Play extends Phaser.Scene {
 	updatePointsUp() {
 		this.upPoints++;
 		this.upPointsLabel.setText(this.upPoints);
-		this.upPointsLabel.x = GConfigs.screen.middleWidth - this.upPointsLabel.width / 2;
+		this.upPointsLabel.x = GlobalConfigs.screen.middleWidth - this.upPointsLabel.width / 2;
 	}
 
 	updatePointsDown() {
 		this.downPoints++;
 		this.downPointsLabel.setText(this.downPoints);
-		this.downPointsLabel.x = GConfigs.screen.middleWidth - this.downPointsLabel.width / 2;
+		this.downPointsLabel.x = GlobalConfigs.screen.middleWidth - this.downPointsLabel.width / 2;
 	}
 
 	update(time) {
-		if (GConfigs.debug) this.showFPSs.setText(Number(this.game.loop.actualFps).toFixed(1));
+		if (GlobalConfigs.debug) this.showFPSs.setText(Number(this.game.loop.actualFps).toFixed(1));
 
 		if (this.lastAsteroids < time) {
 			this.lastAsteroids = time + 20000;

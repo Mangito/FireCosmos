@@ -1,4 +1,4 @@
-import GConfigs from "../Managers/GConfigs";
+import GlobalConfigs from "../Managers/GlobalConfigs";
 
 export default class Shoot extends Phaser.Physics.Arcade.Sprite {
 	constructor(scene, x, y) {
@@ -25,7 +25,7 @@ export default class Shoot extends Phaser.Physics.Arcade.Sprite {
 
 	shootPUp(delta) {
 		this.y += this.speed * delta;
-		if (this.y > GConfigs.screen.height) this.remove();
+		if (this.y > GlobalConfigs.screen.height) this.remove();
 	}
 
 	shootPDown(delta) {

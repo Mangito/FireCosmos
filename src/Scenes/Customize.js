@@ -1,4 +1,4 @@
-import GConfigs from "../Managers/GConfigs";
+import GlobalConfigs from "../Managers/GlobalConfigs";
 import Assets from "../Managers/Assets";
 import progressBar from "../Components/ProgressBar";
 

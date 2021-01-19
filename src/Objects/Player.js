@@ -1,4 +1,4 @@
-import GConfigs from "../Managers/GConfigs";
+import GlobalConfigs from "../Managers/GlobalConfigs";
 
 import Shoot from "../Objects/Shoot";
 
@@ -12,9 +12,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		this.lastFire = 2000;
 		this.points = config.points;
 
-		const { letf, right, fire, missile } = config.controllers;
+		const { left, right, fire, missile } = config.controllers;
 		this.keys = this.scene.input.keyboard.addKeys({
-			left: letf,
+			left: left,
 			right: right,
 			fire: fire,
 			missile: missile,
@@ -28,7 +28,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 	}
 
 	generate() {
-		const middleScreen = GConfigs.screen.width / 2;
+		const middleScreen = GlobalConfigs.screen.width / 2;
 		const yMargin = 50;
 
 		this.setScale(0.5);
@@ -38,7 +38,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 			this.flipY = true;
 			this.setPosition(middleScreen, yMargin);
 		} else {
-			this.setPosition(middleScreen, GConfigs.screen.height - yMargin);
+			this.setPosition(middleScreen, GlobalConfigs.screen.height - yMargin);
 		}
 
 		this.setCollideWorldBounds(true);
