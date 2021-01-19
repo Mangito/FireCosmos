@@ -1,5 +1,6 @@
 import Assets from "../Managers/Assets";
-import GlobalConfigs from "../Managers/GlobalConfigs";
+import GlobalConfigs from "../Config/GlobalConfigs";
+import GameConfigs from "../Config/GameConfigs";
 import { Text } from "../Managers/Theme";
 
 import progressBar from "../Components/ProgressBar";
@@ -18,34 +19,8 @@ export default class Play extends Phaser.Scene {
 		this.upPoints = 0;
 		this.downPoints = 0;
 
-		this.playersConfig = [
-			{
-				name: "P1",
-				ship: "ShipYellow",
-				team: "Down",
-				points: 0,
-				lastShoot: 2000,
-				controllers: {
-					left: "LEFT",
-					right: "RIGHT",
-					fire: "UP",
-					missile: "DOWN",
-				},
-			},
-			{
-				name: "P2",
-				ship: "ShipBlue",
-				team: "Up",
-				points: 0,
-				lastShoot: 2000,
-				controllers: {
-					left: "A",
-					right: "D",
-					fire: "W",
-					missile: "S",
-				},
-			},
-		];
+		const gameConfig = new GameConfigs();
+		this.playersConfig = gameConfig.testGame();
 	}
 
 	preload() {
@@ -105,7 +80,8 @@ export default class Play extends Phaser.Scene {
 			this.physics.add.overlap(this.playersPhysics, player.shoots, this.collisionPlayerShot, null, this); // Players -> Shoots
 		}
 
-		this.physics.add.overlap(this.playersPhysics, this.asteroids, this.collisionPlayerShot, null, this); // Players -> Asteroids
+		// Players -> Asteroids
+		this.physics.add.overlap(this.playersPhysics, this.asteroids, this.collisionPlayerAsteroid, null, this);
 
 		// Shoots -> Asteroids
 		this.physics.add.overlap(this.asteroids, this.shoots, this.collisionShootAsteroid, null, this);
@@ -119,6 +95,13 @@ export default class Play extends Phaser.Scene {
 		if (shoot.team === "Up") this.updatePointsUp();
 		else this.updatePointsDown();
 		shoot.destroy();
+	}
+
+	collisionPlayerAsteroid(player, asteroid) {
+		player.addPoints();
+		if (player.team !== "Up") this.updatePointsUp();
+		else this.updatePointsDown();
+		asteroid.destroy();
 	}
 
 	collisionShootAsteroid(asteroid, shoot) {

@@ -1,4 +1,4 @@
-import GlobalConfigs from "../Managers/GlobalConfigs";
+import GlobalConfigs from "../Config/GlobalConfigs";
 
 export default function progressBar(_this) {
 	const size = {

@@ -1,4 +1,4 @@
-import GlobalConfigs from "../Managers/GlobalConfigs";
+import GlobalConfigs from "../Config/GlobalConfigs";
 
 import { randomNumber } from "../Utils/Utils";
 

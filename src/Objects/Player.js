@@ -1,4 +1,4 @@
-import GlobalConfigs from "../Managers/GlobalConfigs";
+import GlobalConfigs from "../Config/GlobalConfigs";
 
 import Shoot from "../Objects/Shoot";
 
@@ -11,6 +11,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		// this.lastFire = 5000;
 		this.lastFire = 2000;
 		this.points = config.points;
+		this.team = config.team;
 
 		const { left, right, fire, missile } = config.controllers;
 		this.keys = this.scene.input.keyboard.addKeys({
@@ -34,7 +35,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		this.setScale(0.5);
 		this.size = this.height / 4;
 
-		if (this.config.team === "Up") {
+		if (this.team === "Up") {
 			this.flipY = true;
 			this.setPosition(middleScreen, yMargin);
 		} else {
@@ -58,9 +59,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		if (keys.fire.isDown && this.lastFire < time) {
 			const shoot = this.shoots.get();
 			if (shoot) {
-				const startY = this.config.team === "Up" ? this.y + this.size : this.y - this.size;
+				const startY = this.team === "Up" ? this.y + this.size : this.y - this.size;
 
-				const _this = this;
 				shoot.fire(this.x, startY, this.config, () => this.addPoints());
 				this.lastFire = time + 200;
 			}

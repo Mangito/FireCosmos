@@ -4,7 +4,7 @@ import "./CSS/Reset.css";
 
 // Configs/Infos
 import packageJson from "../package.json";
-import GlobalConfigs from "./Managers/GlobalConfigs";
+import GlobalConfigs from "./Config/GlobalConfigs";
 import { Banner } from "./Managers/Theme";
 
 // Scenes
@@ -43,8 +43,8 @@ const config = {
 		}
 	},
 	scene: [
-		Home,
-		Customize,
+		// Home,
+		// Customize,
 		Play,
 	]
 }
