@@ -8,21 +8,22 @@ export default class Asteroid extends Phaser.Physics.Arcade.Sprite {
 	}
 
 	generate() {
+		const size = randomNumber(8, 64) / 32;
+		this.setScale(size, size);
+
 		const x = randomNumber(0, 2);
 		const y = randomNumber(150, GlobalConfigs.screen.height - 150);
 		this.setPosition(x * GlobalConfigs.screen.width, y);
 
-		const minX = x ? -100 : 50;
-		const maxX = x ? -50 : 100;
+		const multiplier = size < 32 ? 2 : 1;
+		const minX = (x ? -50 : 25) * multiplier;
+		const maxX = (x ? -25 : 50) * multiplier;
 		const speedX = randomNumber(minX, maxX);
 
 		const minY = -50;
 		const maxY = 50;
 		const speedY = randomNumber(minY, maxY);
 		this.setVelocity(speedX, speedY);
-
-		const scale = randomNumber(8, 64) / 32;
-		this.setScale(scale, scale);
 
 		this.setBounce(1);
 	}

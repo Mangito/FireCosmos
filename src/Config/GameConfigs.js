@@ -46,7 +46,7 @@ export default class GameConfigs {
 			{
 				index: 0,
 				name: "P1",
-				ship: "ShipYellow",
+				ship: "ShipRed",
 				team: "Down",
 				points: 0,
 				lastShoot: 2000,

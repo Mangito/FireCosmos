@@ -8,6 +8,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		super(scene, x, y, config.ship);
 		this.config = config;
 		this.isAlive = true;
+		this.reviveTime = 0;
+		this.thisTime = 0;
+		this.size = this.height / 4;
 
 		// this.lastFire = 5000;
 		this.gameConfigs = new GameConfigs();
@@ -34,9 +37,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		const middleScreen = GlobalConfigs.screen.width / 2;
 		const yMargin = 50;
 
-		this.setScale(0.5);
-		this.size = this.height / 4;
-
 		if (this.team === "Up") {
 			this.flipY = true;
 			this.setPosition(middleScreen, yMargin);
@@ -52,13 +52,27 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		this.points++;
 	}
 
-	update(time) {
-		const keys = this.keys;
+	hited() {
+		this.visible = false;
+		this.reviveTime += 3000;
+		this.isAlive = false;
+	}
 
+	update(time) {
+
+		if (!this.isAlive && this.reviveTime < time) {
+			this.isAlive = true;
+			this.visible = true;
+		}
+
+		const keys = this.keys;
 		if (keys.left.isDown) this.setVelocityX(-200);
 		if (keys.right.isDown) this.setVelocityX(200);
 
-		if (keys.fire.isDown && this.lastFire < time) {
+		if (!this.isAlive) return;
+		this.reviveTime = time;
+
+		if (keys.fire.isDown && this.lastFire < time && this.isAlive) {
 			const shoot = this.shoots.get();
 			if (shoot) {
 				const startY = this.team === "Up" ? this.y + this.size : this.y - this.size;
@@ -67,5 +81,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 				this.lastFire = time + this.gameConfigs.fire.next;
 			}
 		}
+
 	}
 }

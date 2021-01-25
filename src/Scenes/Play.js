@@ -57,7 +57,7 @@ export default class Play extends Phaser.Scene {
 	createGroups() {
 		this.playersPhysics = this.physics.add.group({
 			classType: Player,
-			runChildUpdate: true
+			runChildUpdate: true,
 		});
 
 		if (this.gameConfigs.asteroids.on) {
@@ -96,20 +96,26 @@ export default class Play extends Phaser.Scene {
 			// Asteroids -> Asteroids
 			this.physics.add.collider(this.asteroids);
 		}
+
 	}
 
 	collisionPlayerShot(player, shoot) {
-		shoot.addPoints();
-		if (shoot.team === "Up") this.updatePointsUp();
-		else this.updatePointsDown();
-		shoot.destroy();
+		if (player.isAlive) {
+			player.hited();
+			shoot.addPoints();
+			if (shoot.team === "Up") this.updatePointsUp();
+			else this.updatePointsDown();
+			shoot.destroy();
+		}
 	}
 
 	collisionPlayerAsteroid(player, asteroid) {
-		player.visible = false;
-		if (player.team !== "Up") this.updatePointsUp();
-		else this.updatePointsDown();
-		asteroid.destroy();
+		if (player.isAlive) {
+			player.hited();
+			if (player.team !== "Up") this.updatePointsUp();
+			else this.updatePointsDown();
+			asteroid.destroy();
+		}
 	}
 
 	collisionShootAsteroid(asteroid, shoot) {
@@ -136,6 +142,7 @@ export default class Play extends Phaser.Scene {
 			this.lastAsteroids = time + this.gameConfigs.asteroids.next;
 			this.generateAsteroids();
 		}
+
 	}
 
 	generateAsteroids() {
