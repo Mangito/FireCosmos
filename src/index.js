@@ -10,7 +10,7 @@ import { Banner } from "./Managers/Theme";
 // Scenes
 import Customize from "./Scenes/Customize";
 import Home from "./Scenes/Home";
-import Play from "./Scenes/Play";
+import Play from "./Scenes/Play/Play";
 
 const config = {
 	title: "Fire Cosmos",
