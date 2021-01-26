@@ -8,8 +8,9 @@ import GlobalConfigs from "./Config/GlobalConfigs";
 import { Banner } from "./Managers/Theme";
 
 // Scenes
-import Customize from "./Scenes/Customize";
+import Preload from "./Scenes/Preload";
 import Home from "./Scenes/Home";
+import Customize from "./Scenes/Customize";
 import Play from "./Scenes/Play/Play";
 
 const config = {
@@ -43,6 +44,7 @@ const config = {
 		}
 	},
 	scene: [
+		Preload,
 		Home,
 		Customize,
 		Play,

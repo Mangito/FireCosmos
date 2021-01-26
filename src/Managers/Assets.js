@@ -16,23 +16,25 @@ import JogoSimples from "../Assets/UI/JogoSimples.png";
 
 
 const assets = {
-	Ships: {
-		ShipBlue,
-		ShipRed,
-	},
-	Invaders: {},
-	Shoot: {
-		Fire
-	},
-	Missil: {
-		Green: BolaVerde
-	},
-	Block: {
-		Block
-	},
-	Background: {},
-	Asteroids: {
-		BolaBranca
+	Sprite: {
+		Ships: {
+			ShipBlue,
+			ShipRed,
+		},
+		Invaders: {},
+		Shoot: {
+			Fire
+		},
+		Missil: {
+			Green: BolaVerde
+		},
+		Block: {
+			Block
+		},
+		Background: {},
+		Asteroids: {
+			BolaBranca
+		},
 	},
 	UI: {
 		Buttons: {
@@ -40,7 +42,8 @@ const assets = {
 			JogoCustomizado,
 			JogoSimples,
 		}
-	}
+	},
+	Sound: {}
 };
 
 export default assets;

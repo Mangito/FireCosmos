@@ -1,19 +1,11 @@
 import GlobalConfigs from "../Config/GlobalConfigs";
-import Assets from "../Managers/Assets";
-import progressBar from "../Components/ProgressBar";
 
 export default class Home extends Phaser.Scene {
 	constructor() {
 		super({ key: "Home" });
 	}
 
-	preload() {
-		const _this = this;
-		progressBar(_this);
-		this.load.image("Definicoes", Assets.UI.Buttons.Definicoes);
-		this.load.image("JogoCustomizado", Assets.UI.Buttons.JogoCustomizado);
-		this.load.image("JogoSimples", Assets.UI.Buttons.JogoSimples);
-	}
+	preload() { }
 
 	create() {
 		this.simpleGame();

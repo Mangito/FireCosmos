@@ -1,11 +1,8 @@
-import Assets from "../../Managers/Assets";
 import GlobalConfigs from "../../Config/GlobalConfigs";
 import GameConfigs from "../../Config/GameConfigs";
 
 import PlayCreate from "./PlayCreate";
 // import Create from "./Create";
-
-import progressBar from "../../Components/ProgressBar";
 
 export default class Play extends Phaser.Scene {
 	constructor() {
@@ -22,22 +19,7 @@ export default class Play extends Phaser.Scene {
 		this.downPoints = 0;
 	}
 
-	preload() {
-		const _this = this;
-		progressBar(_this);
-
-		for (let i = 0; i < this.playersConfig.length; i++) {
-			const player = this.playersConfig[i];
-			this.load.image(player.ship, Assets.Ships[player.ship]);
-		}
-
-		this.load.image("Fire", Assets.Shoot.Fire);
-
-		if (this.gameConfigs.asteroids.on)
-			this.load.image("Asteroid", Assets.Asteroids.BolaBranca);
-
-		this.load.image("Block", Assets.Block.Block);
-	}
+	preload() { }
 
 	create() {
 		const _this = this;
