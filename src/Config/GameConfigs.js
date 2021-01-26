@@ -1,30 +1,46 @@
+let instance = null;
 export default class GameConfigs {
 	constructor() {
-		if (GameConfigs.instance instanceof GameConfigs)
-			return GameConfigs.instance;
+		if (instance) return instance;
 
+		this.game = {};
+		this.players = {};
+		this.fire = {};
+		this.asteroids = {};
+		this.block = {};
+
+		this.reset();
+
+		instance = this;
+	}
+
+	reset() {
 		this.game = {
 			mode: "Points",
 			endPoint: 10,
-		}
+		};
 
 		this.players = {
-			number: 2,
+			number: 0,
+			friction: false,
 			players: [],
-		}
+		};
 
 		this.fire = {
 			first: 5000,
 			next: 200,
-		}
+		};
 
 		this.asteroids = {
 			on: true,
 			next: 5000,
 			first: 10000,
-		}
+		};
 
-		GameConfigs.instance = this;
+		this.block = {
+			min: 0,
+			max: 10,
+		};
 	}
 
 	addPlayer(player) {
@@ -35,10 +51,6 @@ export default class GameConfigs {
 	removePlayer(index) {
 		this.players.players.splice(index, 1);
 		this.players.number--;
-	}
-
-	reset() {
-
 	}
 
 	testGame() {

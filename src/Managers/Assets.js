@@ -7,6 +7,8 @@ import Fire from "../Assets/Sprites/Fire/Fire.png";
 import BolaBranca from "../Assets/Sprites/BolaBranca.png";
 import BolaVerde from "../Assets/Sprites/BolaVerde.png";
 
+import Block from "../Assets/Sprites/Block/Block.png";
+
 // UI
 import Definicoes from "../Assets/UI/Definicoes.png";
 import JogoCustomizado from "../Assets/UI/JogoCustomizado.png";
@@ -14,21 +16,19 @@ import JogoSimples from "../Assets/UI/JogoSimples.png";
 
 
 const assets = {
-	Player: {
+	Ships: {
 		ShipBlue,
 		ShipRed,
 	},
-	Balls: {
-		Green: BolaVerde
-	},
-	ships: {
-
-	},
-	invaders: {
-
-	},
+	Invaders: {},
 	Shoot: {
 		Fire
+	},
+	Missil: {
+		Green: BolaVerde
+	},
+	Block: {
+		Block
 	},
 	Background: {},
 	Asteroids: {

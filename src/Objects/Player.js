@@ -1,7 +1,7 @@
 import GlobalConfigs from "../Config/GlobalConfigs";
+import GameConfigs from "../Config/GameConfigs";
 
 import Shoot from "../Objects/Shoot";
-import GameConfigs from "../Config/GameConfigs";
 
 export default class Player extends Phaser.Physics.Arcade.Sprite {
 	constructor(scene, x, y, config) {
@@ -46,6 +46,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
 		this.setCollideWorldBounds(true);
 		this.setImmovable(true);
+
+		this.setMaxVelocity(250);
 	}
 
 	addPoints() {
@@ -66,8 +68,15 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		}
 
 		const keys = this.keys;
-		if (keys.left.isDown) this.setVelocityX(-200);
-		if (keys.right.isDown) this.setVelocityX(200);
+		const maxVelocity = 200;
+		if (keys.left.isDown) {
+			if (this.gameConfigs.players.friction) this.setAccelerationX(-maxVelocity)
+			else this.setVelocityX(-maxVelocity);
+		};
+		if (keys.right.isDown) {
+			if (this.gameConfigs.players.friction) this.setAccelerationX(maxVelocity)
+			else this.setVelocityX(maxVelocity);
+		};
 
 		if (!this.isAlive) return;
 		this.reviveTime = time;

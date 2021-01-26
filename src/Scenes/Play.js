@@ -2,11 +2,13 @@ import Assets from "../Managers/Assets";
 import GlobalConfigs from "../Config/GlobalConfigs";
 import GameConfigs from "../Config/GameConfigs";
 import { Text } from "../Managers/Theme";
+import { randomNumber } from "../Utils/Utils";
 
 import progressBar from "../Components/ProgressBar";
 
 import Player from "../Objects/Player";
 import Asteroid from "../Objects/Asteroid";
+import Block from "../Objects/Blocks";
 
 export default class Play extends Phaser.Scene {
 	constructor() {
@@ -29,13 +31,15 @@ export default class Play extends Phaser.Scene {
 
 		for (let i = 0; i < this.playersConfig.length; i++) {
 			const player = this.playersConfig[i];
-			this.load.image(player.ship, Assets.Player[player.ship]);
+			this.load.image(player.ship, Assets.Ships[player.ship]);
 		}
 
 		this.load.image("Fire", Assets.Shoot.Fire);
 
 		if (this.gameConfigs.asteroids.on)
 			this.load.image("Asteroid", Assets.Asteroids.BolaBranca);
+
+		this.load.image("Block", Assets.Block.Block);
 	}
 
 	create() {
@@ -50,6 +54,8 @@ export default class Play extends Phaser.Scene {
 		this.createGroups();
 
 		this.createPlayers();
+
+		this.createBlocks();
 
 		this.createCollisions();
 	}
@@ -66,7 +72,12 @@ export default class Play extends Phaser.Scene {
 				maxSize: 20,
 				runChildUpdate: true
 			});
-		}
+		};
+
+		this.blocks = this.physics.add.group({
+			classType: Block,
+			maxSize: 5,
+		});
 	}
 
 	createPlayers() {
@@ -75,6 +86,14 @@ export default class Play extends Phaser.Scene {
 			const sprite = this.playersPhysics.get(0, 0, config);
 			this.players.push(sprite);
 			if (sprite) sprite.generate();
+		}
+	}
+
+	createBlocks() {
+		const num = randomNumber(0, 5);
+		for (let i = 0; i < num; i++) {
+			const block = this.blocks.get(0, 0);
+			if (block) block.generate();
 		}
 	}
 
@@ -87,6 +106,9 @@ export default class Play extends Phaser.Scene {
 				// Shoots -> Asteroids
 				this.physics.add.overlap(this.asteroids, player.shoots, this.collisionShootAsteroid, null, this);
 			}
+
+			// Shoots -> Block
+			this.physics.add.overlap(player.shoots, this.blocks, (s, b) => { s.destroy(); }, null, this);
 		}
 
 		if (this.gameConfigs.asteroids.on) {
@@ -97,6 +119,8 @@ export default class Play extends Phaser.Scene {
 			this.physics.add.collider(this.asteroids);
 		}
 
+		// Asteroids -> Block
+		this.physics.add.collider(this.asteroids, this.blocks);
 	}
 
 	collisionPlayerShot(player, shoot) {
