@@ -125,7 +125,7 @@ export default class Preload extends Phaser.Scene {
 		this.progressBox.destroy();
 		this.percentText.destroy();
 
-		this.scene.start("Home");
+		if (GlobalConfigs.debug) this.scene.start("Play");
+		else this.scene.start("Home");
 	}
 }
-
