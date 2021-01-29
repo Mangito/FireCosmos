@@ -78,7 +78,6 @@ export default class Preload extends Phaser.Scene {
 			border: 4,
 		};
 
-		console.log(GlobalConfigs.screen.width);
 		this.position = {
 			x: GlobalConfigs.screen.middleWidth - this.size.width / 2,
 			y: GlobalConfigs.screen.middleHeight - this.size.height / 2
