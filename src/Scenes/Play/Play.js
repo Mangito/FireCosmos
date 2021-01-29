@@ -1,8 +1,7 @@
 import GlobalConfigs from "../../Config/GlobalConfigs";
 import GameConfigs from "../../Config/GameConfigs";
 
-import PlayCreate from "./PlayCreate";
-// import Create from "./Create";
+import playCreate from "./PlayCreate";
 
 export default class Play extends Phaser.Scene {
 	constructor() {
@@ -22,12 +21,7 @@ export default class Play extends Phaser.Scene {
 	preload() { }
 
 	create() {
-		const _this = this;
-		PlayCreate(_this);
-
-		// this.c = new Create();
-		// this.c.create.bind(this);
-		// console.log(this.c);
+		playCreate.call(this);
 	}
 
 	update(time) {
@@ -37,7 +31,6 @@ export default class Play extends Phaser.Scene {
 			this.lastAsteroids = time + this.gameConfigs.asteroids.next;
 			this.generateAsteroids();
 		}
-
 	}
 
 	generateAsteroids() {

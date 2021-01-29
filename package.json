@@ -18,7 +18,6 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
-    "auto-bind": "^4.0.0",
     "phaser": "^3.*"
   },
   "devDependencies": {
