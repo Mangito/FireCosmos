@@ -10,9 +10,7 @@ import BolaVerde from "../Assets/Sprites/BolaVerde.png";
 import Block from "../Assets/Sprites/Block/Block.png";
 
 // UI
-import Definicoes from "../Assets/UI/Definicoes.png";
-import JogoCustomizado from "../Assets/UI/JogoCustomizado.png";
-import JogoSimples from "../Assets/UI/JogoSimples.png";
+import Button from "../Assets/UI/Button.png";
 
 
 const assets = {
@@ -38,9 +36,7 @@ const assets = {
 	},
 	UI: {
 		Buttons: {
-			Definicoes,
-			JogoCustomizado,
-			JogoSimples,
+			Button,
 		}
 	},
 	Sound: {}

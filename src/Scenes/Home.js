@@ -1,5 +1,7 @@
 import GlobalConfigs from "../Config/GlobalConfigs";
 
+import button from "../Components/Button";
+
 export default class Home extends Phaser.Scene {
 	constructor() {
 		super({ key: "Home" });
@@ -8,28 +10,24 @@ export default class Home extends Phaser.Scene {
 	preload() { }
 
 	create() {
-		this.simpleGame();
-		// this.customized();
-		// this.settings();
-	}
+		{
+			// Team Deathmatch
+			button.call(this, {
+				text: "Play",
+				x: GlobalConfigs.screen.middleWidth,
+				y: 100,
+				action: () => { this.scene.start("Play"); }
+			});
+		}
 
-	simpleGame() {
-		const playBtn = this.add.image(GlobalConfigs.screen.middleWidth, 100, "JogoSimples");
-		playBtn.setInteractive({ useHandCursor: true });
-		playBtn.on("pointerdown", () => {
-			this.scene.start("Play");
-		});
-	}
-
-	customized() {
-		const customizedBtn = this.add.image(GlobalConfigs.screen.middleWidth, 200, "JogoCustomizado");
-		customizedBtn.setInteractive({ useHandCursor: true });
-		customizedBtn.on("pointerdown", () => { });
-	}
-
-	settings() {
-		const settingsBtn = this.add.image(GlobalConfigs.screen.middleWidth, 300, "Definicoes");
-		settingsBtn.setInteractive({ useHandCursor: true });
-		settingsBtn.on("pointerdown", () => { });
+		// {
+		// 	// Ordas
+		// 	button.call(this, {
+		// 		text: "Ordas",
+		// 		x: GlobalConfigs.screen.middleWidth,
+		// 		y: 200,
+		// 		action: () => { this.scene.start("TeamDeathmatch"); }
+		// 	});
+		// }
 	}
 }

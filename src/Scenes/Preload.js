@@ -58,9 +58,7 @@ export default class Preload extends Phaser.Scene {
 		const ui = Assets.UI;
 
 		// Buttons
-		this.load.image("Definicoes", ui.Buttons.Definicoes);
-		this.load.image("JogoCustomizado", ui.Buttons.JogoCustomizado);
-		this.load.image("JogoSimples", ui.Buttons.JogoSimples);
+		this.load.image("Button", ui.Buttons.Button);
 	}
 
 	importSounds() {

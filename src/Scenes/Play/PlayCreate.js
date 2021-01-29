@@ -10,10 +10,10 @@ export default function playCreate() {
 	if (GlobalConfigs.debug) this.showFPSs = this.add.text(GlobalConfigs.screen.width - 55, 0, 0, Text);
 
 	this.upPointsLabel = this.add.text(GlobalConfigs.screen.width / 2, 0, 0, Text);
-	this.upPointsLabel.x = GlobalConfigs.screen.middleWidth - this.upPointsLabel.width / 2;
+	this.upPointsLabel.setOrigin(0.5);
 
 	this.downPointsLabel = this.add.text(GlobalConfigs.screen.width / 2, GlobalConfigs.screen.height - 20, 0, Text);
-	this.downPointsLabel.x = GlobalConfigs.screen.middleWidth - this.downPointsLabel.width / 2;
+	this.downPointsLabel.setOrigin(0.5);
 
 	createGroups.call(this);
 

@@ -12,6 +12,7 @@ import Preload from "./Scenes/Preload";
 import Home from "./Scenes/Home";
 import Customize from "./Scenes/Customize";
 import Play from "./Scenes/Play/Play";
+import TeamDeathmatch from "./Scenes/TeamDeathmatch";
 
 const config = {
 	title: "Fire Cosmos",
@@ -48,6 +49,7 @@ const config = {
 		Home,
 		Customize,
 		Play,
+		TeamDeathmatch,
 	]
 }
 
