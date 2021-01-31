@@ -7,8 +7,7 @@ export default class Shoot extends Phaser.Physics.Arcade.Sprite {
 		this.speed = Phaser.Math.GetSpeed(1000, 1);
 	}
 
-	fire(x, y, config, addPoints) {
-		const { team } = config;
+	fire(x, y, team, addPoints) {
 		this.team = team;
 
 		this.addPoints = addPoints;

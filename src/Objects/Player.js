@@ -5,20 +5,20 @@ import Shoot from "../Objects/Shoot";
 
 export default class Player extends Phaser.Physics.Arcade.Sprite {
 	constructor(scene, x, y, config) {
-		super(scene, x, y, config.ship);
-		this.config = config;
+		const { ship, points, team, controllers } = config;
+		super(scene, x, y, ship);
+
 		this.isAlive = true;
 		this.reviveTime = 0;
 		this.thisTime = 0;
 		this.size = this.height / 4;
 
-		// this.lastFire = 5000;
 		this.gameConfigs = new GameConfigs();
-		this.lastFire = this.gameConfigs.fire.first;
-		this.points = config.points;
-		this.team = config.team;
+		this.lastFire = 3000;
+		this.points = points;
+		this.team = team;
 
-		const { left, right, fire, missile } = config.controllers;
+		const { left, right, fire, missile } = controllers;
 		this.keys = this.scene.input.keyboard.addKeys({
 			left: left,
 			right: right,
@@ -86,8 +86,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 			if (shoot) {
 				const startY = this.team === "Up" ? this.y + this.size : this.y - this.size;
 
-				shoot.fire(this.x, startY, this.config, () => this.addPoints());
-				this.lastFire = time + this.gameConfigs.fire.next;
+				shoot.fire(this.x, startY, this.team, () => this.addPoints());
+				this.lastFire = time + 200;
 			}
 		}
 

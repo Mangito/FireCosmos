@@ -1,16 +1,17 @@
 import GlobalConfigs from "../../Config/GlobalConfigs";
 import GameConfigs from "../../Config/GameConfigs";
 
+import { randomNumber } from "../../Utils/Utils";
+
 import playCreate from "./PlayCreate";
 
 export default class Play extends Phaser.Scene {
 	constructor() {
 		super({ key: "Play" });
 		this.gameConfigs = new GameConfigs();
-		this.playersConfig = this.gameConfigs.testGame();
+		this.playersConfig = this.gameConfigs.players.players;
 
-		if (this.gameConfigs.asteroids.on)
-			this.lastAsteroids = this.gameConfigs.asteroids.first;
+		if (this.gameConfigs.asteroids) this.lastAsteroids = 5000;
 
 		this.players = [];
 
@@ -27,8 +28,8 @@ export default class Play extends Phaser.Scene {
 	update(time) {
 		if (GlobalConfigs.debug) this.showFPSs.setText(Number(this.game.loop.actualFps).toFixed(1));
 
-		if (this.gameConfigs.asteroids.on && this.lastAsteroids < time) {
-			this.lastAsteroids = time + this.gameConfigs.asteroids.next;
+		if (this.gameConfigs.asteroids && this.lastAsteroids < time) {
+			this.lastAsteroids = time + randomNumber(500, 10000);
 			this.generateAsteroids();
 		}
 	}

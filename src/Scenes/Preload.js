@@ -25,12 +25,6 @@ export default class Preload extends Phaser.Scene {
 	importSprites() {
 		const sprites = Assets.Sprite;
 
-		if (GlobalConfigs.debug) {
-			for (let i = 0; i < 500; i++) {
-				this.load.image("Asteroid" + i, sprites.Asteroids.BolaBranca);
-			}
-		}
-
 		//Asteroid
 		this.load.image("Asteroid", sprites.Asteroids.BolaBranca);
 

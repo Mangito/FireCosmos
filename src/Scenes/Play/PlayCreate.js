@@ -9,7 +9,7 @@ import Block from "../../Objects/Blocks";
 export default function playCreate() {
 	if (GlobalConfigs.debug) this.showFPSs = this.add.text(GlobalConfigs.screen.width - 55, 0, 0, Text);
 
-	this.upPointsLabel = this.add.text(GlobalConfigs.screen.width / 2, 0, 0, Text);
+	this.upPointsLabel = this.add.text(GlobalConfigs.screen.width / 2, 20, 0, Text);
 	this.upPointsLabel.setOrigin(0.5);
 
 	this.downPointsLabel = this.add.text(GlobalConfigs.screen.width / 2, GlobalConfigs.screen.height - 20, 0, Text);
@@ -19,7 +19,7 @@ export default function playCreate() {
 
 	createPlayers.call(this);
 
-	createBlocks.call(this);
+	if (this.gameConfigs.blocks) createBlocks.call(this);
 
 	createCollisions.call(this);
 }
@@ -30,7 +30,7 @@ function createGroups() {
 		runChildUpdate: true,
 	});
 
-	if (this.gameConfigs.asteroids.on) {
+	if (this.gameConfigs.asteroids) {
 		this.asteroids = this.physics.add.group({
 			classType: Asteroid,
 			maxSize: 20,
@@ -38,10 +38,12 @@ function createGroups() {
 		});
 	};
 
-	this.blocks = this.physics.add.group({
-		classType: Block,
-		maxSize: 5,
-	});
+	if (this.gameConfigs.blocks) {
+		this.blocks = this.physics.add.group({
+			classType: Block,
+			maxSize: 5,
+		});
+	};
 }
 
 function createPlayers() {
@@ -66,25 +68,27 @@ function createCollisions() {
 		const player = this.players[i];
 		this.physics.add.overlap(this.playersPhysics, player.shoots, (p, s) => { collisionPlayerShot.call(this, p, s); }, null, this); // Players -> Shoots
 
-		if (this.gameConfigs.asteroids.on) {
+		if (this.gameConfigs.asteroids) {
 			// Shoots -> Asteroids
 			this.physics.add.overlap(this.asteroids, player.shoots, (a, s) => { collisionShootAsteroid.call(this, a, s); }, null, this);
 		}
 
 		// Shoots -> Block
-		this.physics.add.overlap(player.shoots, this.blocks, (s, b) => { s.destroy(); }, null, this);
+		if (this.gameConfigs.blocks) this.physics.add.overlap(player.shoots, this.blocks, (s, b) => { s.destroy(); }, null, this);
 	}
 
-	if (this.gameConfigs.asteroids.on) {
+	// Asteroids -> ....
+	if (this.gameConfigs.asteroids) {
 		// Players -> Asteroids
 		this.physics.add.overlap(this.playersPhysics, this.asteroids, (p, a) => { collisionPlayerAsteroid.call(this, p, a); }, null, this);
 
 		// Asteroids -> Asteroids
 		this.physics.add.collider(this.asteroids);
+
+		// Asteroids -> Block
+		if (this.gameConfigs.blocks) this.physics.add.collider(this.asteroids, this.blocks);
 	}
 
-	// Asteroids -> Block
-	this.physics.add.collider(this.asteroids, this.blocks);
 }
 
 function collisionPlayerShot(player, shoot) {
