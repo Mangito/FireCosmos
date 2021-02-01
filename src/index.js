@@ -10,9 +10,9 @@ import { Banner } from "./Managers/Theme";
 // Scenes
 import Preload from "./Scenes/Preload";
 import Home from "./Scenes/Home";
-import Customize from "./Scenes/Customize";
-import Play from "./Scenes/Play/Play";
-import TeamDeathmatch from "./Scenes/TeamDeathmatch";
+import Rounds from "./Scenes/Rounds/Rounds";
+import CustomizeTeamDeathmatch from "./Scenes/TeamDeathmatch/CustomizeTeamDeathmatch";
+import TeamDeathmatch from "./Scenes/TeamDeathmatch/TeamDeathmatch";
 
 const config = {
 	title: "Fire Cosmos",
@@ -47,8 +47,8 @@ const config = {
 	scene: [
 		Preload,
 		Home,
-		Customize,
-		Play,
+		Rounds,
+		CustomizeTeamDeathmatch,
 		TeamDeathmatch,
 	]
 }

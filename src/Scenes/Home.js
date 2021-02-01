@@ -10,24 +10,22 @@ export default class Home extends Phaser.Scene {
 	preload() { }
 
 	create() {
-		{
-			// Team Deathmatch
-			button.call(this, {
-				text: "Play",
-				x: GlobalConfigs.screen.middleWidth,
-				y: 100,
-				action: () => { this.scene.start("Play"); }
-			});
-		}
 
-		// {
-		// 	// Ordas
-		// 	button.call(this, {
-		// 		text: "Ordas",
-		// 		x: GlobalConfigs.screen.middleWidth,
-		// 		y: 200,
-		// 		action: () => { this.scene.start("TeamDeathmatch"); }
-		// 	});
-		// }
+		// Ordas
+		button.call(this, {
+			text: "Rounds",
+			x: GlobalConfigs.screen.middleWidth,
+			y: 100,
+			action: () => { this.scene.start("Rounds"); }
+		});
+
+
+		// Team Deathmatch
+		button.call(this, {
+			text: "TeamDeathmatch",
+			x: GlobalConfigs.screen.middleWidth,
+			y: 200,
+			action: () => { this.scene.start("TeamDeathmatch"); }
+		});
 	}
 }
