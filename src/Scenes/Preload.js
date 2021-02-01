@@ -42,7 +42,9 @@ export default class Preload extends Phaser.Scene {
 
 		// Ship
 		this.load.image("ShipBlue", sprites.Ships.ShipBlue);
+		this.load.image("ShipGreen", sprites.Ships.ShipGreen);
 		this.load.image("ShipRed", sprites.Ships.ShipRed);
+		this.load.image("ShipWhite", sprites.Ships.ShipWhite);
 
 		// Fire
 		this.load.image("Fire", sprites.Shoot.Fire);
@@ -116,7 +118,7 @@ export default class Preload extends Phaser.Scene {
 		this.progressBox.destroy();
 		this.percentText.destroy();
 
-		if (GlobalConfigs.debug) this.scene.start("Play");
+		if (GlobalConfigs.debug) this.scene.start("TeamDeathmatch");
 		else this.scene.start("Home");
 	}
 }
