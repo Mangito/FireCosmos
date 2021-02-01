@@ -1,13 +1,13 @@
 import GlobalConfigs from "../../Config/GlobalConfigs";
-import GameConfigs from "../../Config/GameConfigs";
+import GameConfigs from "./GameConfigs";
 
 import { randomNumber } from "../../Utils/Utils";
 
-import playCreate from "./PlayCreate";
+import teamDeathmatchCreate from "./TeamDeathmatchCreate";
 
-export default class Play extends Phaser.Scene {
+export default class TeamDeathmatch extends Phaser.Scene {
 	constructor() {
-		super({ key: "Play" });
+		super({ key: "TeamDeathmatch" });
 		this.gameConfigs = new GameConfigs();
 		this.playersConfig = this.gameConfigs.players.players;
 
@@ -22,7 +22,7 @@ export default class Play extends Phaser.Scene {
 	preload() { }
 
 	create() {
-		playCreate.call(this);
+		teamDeathmatchCreate.call(this);
 	}
 
 	update(time) {

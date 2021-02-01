@@ -6,7 +6,7 @@ import Player from "../../Objects/Player";
 import Asteroid from "../../Objects/Asteroid";
 import Block from "../../Objects/Blocks";
 
-export default function playCreate() {
+export default function teamDeathmatchCreate() {
 	if (GlobalConfigs.debug) this.showFPSs = this.add.text(GlobalConfigs.screen.width - 55, 0, 0, Text);
 
 	this.upPointsLabel = this.add.text(GlobalConfigs.screen.width / 2, 20, 0, Text);
@@ -94,7 +94,7 @@ function createCollisions() {
 function collisionPlayerShot(player, shoot) {
 	if (player.isAlive) {
 		player.hited();
-		shoot.addPoints();
+		shoot.addKill();
 		if (shoot.team === "Up") updatePointsUp.call(this);
 		else updatePointsDown.call(this);
 		shoot.destroy();
