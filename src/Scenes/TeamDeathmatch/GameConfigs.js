@@ -3,7 +3,6 @@ export default class GameConfigs {
 	constructor() {
 		if (instance) return instance;
 
-
 		this.mode = {
 			mode: "Points", // "Infinite", "Sudden Death", "Time"
 		};
@@ -17,7 +16,7 @@ export default class GameConfigs {
 				{
 					index: 0,
 					name: "P1",
-					ship: "ShipRed",
+					ship: "BlackPearl",
 					team: "Down",
 					teamCount: 1,
 					controllers: {
@@ -30,7 +29,7 @@ export default class GameConfigs {
 				{
 					index: 1,
 					name: "P2",
-					ship: "ShipBlue",
+					ship: "Ceuta",
 					team: "Up",
 					teamCount: 1,
 					controllers: {
@@ -43,7 +42,7 @@ export default class GameConfigs {
 				{
 					index: 2,
 					name: "P3",
-					ship: "ShipGreen",
+					ship: "MilleniumFalcon",
 					team: "Down",
 					teamCount: 2,
 					controllers: {
@@ -56,7 +55,7 @@ export default class GameConfigs {
 				{
 					index: 3,
 					name: "P4",
-					ship: "ShipWhite",
+					ship: "Victoria",
 					team: "Up",
 					teamCount: 2,
 					controllers: {

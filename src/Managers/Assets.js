@@ -1,8 +1,8 @@
 // Ship
-import ShipBlue from "../Assets/Sprites/Ships/Blue.png";
-import ShipGreen from "../Assets/Sprites/Ships/Green.png";
-import ShipRed from "../Assets/Sprites/Ships/Red.png";
-import ShipWhite from "../Assets/Sprites/Ships/White.png";
+import BlackPearl from "../Assets/Sprites/Ships/BlackPearl/BlackPearl.png";
+import Ceuta from "../Assets/Sprites/Ships/Ceuta/Ceuta.png";
+import MilleniumFalcon from "../Assets/Sprites/Ships/MilleniumFalcon/MilleniumFalcon.png";
+import Victoria from "../Assets/Sprites/Ships/Victoria/Victoria.png";
 
 import Fire from "../Assets/Sprites/Fire/Fire.png";
 
@@ -18,10 +18,10 @@ import Button from "../Assets/UI/Button.png";
 const assets = {
 	Sprite: {
 		Ships: {
-			ShipBlue,
-			ShipGreen,
-			ShipRed,
-			ShipWhite,
+			BlackPearl,
+			Ceuta,
+			MilleniumFalcon,
+			Victoria,
 		},
 		Invaders: {},
 		Shoot: {

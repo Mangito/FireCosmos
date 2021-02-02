@@ -41,10 +41,10 @@ export default class Preload extends Phaser.Scene {
 		this.load.image("Missil", sprites.Missil.Green);
 
 		// Ship
-		this.load.image("ShipBlue", sprites.Ships.ShipBlue);
-		this.load.image("ShipGreen", sprites.Ships.ShipGreen);
-		this.load.image("ShipRed", sprites.Ships.ShipRed);
-		this.load.image("ShipWhite", sprites.Ships.ShipWhite);
+		this.load.image("BlackPearl", sprites.Ships.BlackPearl);
+		this.load.image("Ceuta", sprites.Ships.Ceuta);
+		this.load.image("MilleniumFalcon", sprites.Ships.MilleniumFalcon);
+		this.load.image("Victoria", sprites.Ships.Victoria);
 
 		// Fire
 		this.load.image("Fire", sprites.Shoot.Fire);
