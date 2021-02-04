@@ -10,6 +10,9 @@ export default class Home extends Phaser.Scene {
 	preload() { }
 
 	create() {
+		const { middleWidth, middleHeight } = GlobalConfigs.screen;
+		this.add.image(middleWidth, middleHeight, "Background");
+
 
 		// Ordas
 		button.call(this, {

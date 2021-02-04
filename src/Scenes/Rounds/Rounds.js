@@ -12,6 +12,9 @@ export default class TeamDeathmatch extends Phaser.Scene {
 	preload() { }
 
 	create() {
+		const { middleWidth, middleHeight } = GlobalConfigs.screen;
+		this.add.image(middleWidth, middleHeight, "Background");
+
 		roundsCreate.call(this);
 	}
 

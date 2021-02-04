@@ -21,24 +21,20 @@ export default class Preload extends Phaser.Scene {
 		this.load.on('complete', () => this.complete());
 	}
 
-
 	importSprites() {
 		const sprites = Assets.Sprite;
 
 		//Asteroid
 		this.load.image("Asteroid", sprites.Asteroids.BolaBranca);
 
-		// Background
-		// this.load.image("Background", sprites.Background);
-
 		// Block
 		this.load.image("Block", sprites.Block.Block);
 
 		// Invaders
-		// this.load.image("Invaders", sprites.Invaders);
-
-		// Missil
-		this.load.image("Missil", sprites.Missil.Green);
+		this.load.image("Olho", sprites.Aliens.Olho);
+		this.load.image("Ravi", sprites.Aliens.Ravi);
+		this.load.image("Shell", sprites.Aliens.Shell);
+		this.load.image("Tank", sprites.Aliens.Tank);
 
 		// Ship
 		this.load.image("BlackPearl", sprites.Ships.BlackPearl);
@@ -52,6 +48,9 @@ export default class Preload extends Phaser.Scene {
 
 	importUI() {
 		const ui = Assets.UI;
+
+		// Background
+		this.load.image("Background", ui.Background);
 
 		// Buttons
 		this.load.image("Button", ui.Buttons.Button);
