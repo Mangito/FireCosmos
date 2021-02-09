@@ -12,8 +12,9 @@ export default class Home extends Phaser.Scene {
 	preload() { }
 
 	create() {
-		const { middleWidth, middleHeight } = GlobalConfigs.screen;
-		this.add.image(middleWidth, middleHeight, "Background");
+		const { middleWidth, middleHeight, width, height } = GlobalConfigs.screen;
+		this.background = this.add.tileSprite(middleWidth, middleHeight, width * 2, height * 2, "Background");
+		this.iter = 0.1;
 
 		this.createPlayer();
 		this.createButtons();
@@ -78,5 +79,13 @@ export default class Home extends Phaser.Scene {
 
 			this.physics.add.overlap(this.player.shoots, btn, action, null, this);
 		})
+	}
+
+	update() {
+		this.background.tilePositionX = Math.cos(this.iter) * 700;
+		this.background.tilePositionY = Math.sin(this.iter) * 500;
+		this.background.rotation += 0.0005;
+
+		this.iter += 0.0005;
 	}
 }
