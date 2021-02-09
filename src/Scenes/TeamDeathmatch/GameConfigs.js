@@ -17,7 +17,7 @@ export default class GameConfigs {
 					index: 0,
 					name: "P1",
 					ship: "BlackPearl",
-					team: "Down",
+					team: "Ships",
 					teamCount: 1,
 					controllers: {
 						left: "LEFT",
@@ -30,7 +30,7 @@ export default class GameConfigs {
 					index: 1,
 					name: "P2",
 					ship: "Ceuta",
-					team: "Up",
+					team: "Aliens",
 					teamCount: 1,
 					controllers: {
 						left: "A",
@@ -43,7 +43,7 @@ export default class GameConfigs {
 					index: 2,
 					name: "P3",
 					ship: "MilleniumFalcon",
-					team: "Down",
+					team: "Ships",
 					teamCount: 2,
 					controllers: {
 						left: "J",
@@ -56,7 +56,7 @@ export default class GameConfigs {
 					index: 3,
 					name: "P4",
 					ship: "Victoria",
-					team: "Up",
+					team: "Aliens",
 					teamCount: 2,
 					controllers: {
 						left: "F",

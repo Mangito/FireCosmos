@@ -46,7 +46,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		const yMargin = 50;
 		const marginName = 25;
 
-		if (this.team === "Up") {
+		if (this.team === "Aliens") {
 			this.flipY = true;
 			this.setPosition(middleWidth - teamX, yMargin);
 			this.name.y = this.y - marginName;
@@ -95,7 +95,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		if (keys.fire.isDown && this.lastFire < time && this.isAlive) {
 			const shoot = this.shoots.get();
 			if (shoot) {
-				const startY = this.team === "Up" ? this.y + this.size : this.y - this.size;
+				const startY = this.team === "Aliens" ? this.y + this.size : this.y - this.size;
 
 				shoot.fire(this.x, startY, this.team, () => this.addKill());
 				this.lastFire = time + 200;

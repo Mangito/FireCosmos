@@ -18,16 +18,16 @@ export default class Shoot extends Phaser.Physics.Arcade.Sprite {
 	}
 
 	update(time, delta) {
-		if (this.team === "Up") this.shootPUp(delta);
-		if (this.team === "Down") this.shootPDown(delta);
+		if (this.team === "Aliens") this.shootTeamAliens(delta);
+		if (this.team === "Ships") this.shootTeamShips(delta);
 	}
 
-	shootPUp(delta) {
+	shootTeamAliens(delta) {
 		this.y += this.speed * delta;
 		if (this.y > GlobalConfigs.screen.height) this.remove();
 	}
 
-	shootPDown(delta) {
+	shootTeamShips(delta) {
 		this.y -= this.speed * delta;
 		if (this.y < -50) this.remove();
 	}
