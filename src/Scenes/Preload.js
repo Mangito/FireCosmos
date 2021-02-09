@@ -11,9 +11,7 @@ export default class Preload extends Phaser.Scene {
 		this.drawProgress();
 
 		this.importSprites();
-
 		this.importUI();
-
 		this.importSounds();
 
 		this.load.on('progress', (p) => this.updateBar(p));
@@ -53,7 +51,7 @@ export default class Preload extends Phaser.Scene {
 		this.load.image("Background", ui.Background);
 
 		// Buttons
-		this.load.image("Button", ui.Buttons.Button);
+		this.load.spritesheet("Button", ui.Buttons.Button, { frameWidth: 250, frameHeight: 80 });
 	}
 
 	importSounds() {

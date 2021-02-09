@@ -20,7 +20,7 @@ import Block from "../Assets/Sprites/Block/Block.png";
 
 // UI
 import Background from "../Assets/UI/Background/Background.png";
-import Button from "../Assets/UI/Button.png";
+import Button from "../Assets/UI/Button/Button.png";
 
 
 const assets = {
