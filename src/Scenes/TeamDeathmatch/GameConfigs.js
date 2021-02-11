@@ -4,7 +4,7 @@ export default class GameConfigs {
 		if (instance) return instance;
 
 		this.mode = {
-			mode: "Points", // "Infinite", "Sudden Death", "Time"
+			mode: "Free", // "Points", "Sudden Death", "Time"
 		};
 
 		this.asteroids = true;
