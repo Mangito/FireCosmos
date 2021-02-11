@@ -10,7 +10,7 @@ import { Banner } from "./Managers/Theme";
 // Scenes
 import Preload from "./Scenes/Preload";
 import Home from "./Scenes/Home";
-import Rounds from "./Scenes/Rounds/Rounds";
+import Survive from "./Scenes/Survive/Survive";
 import CustomizeTeamDeathmatch from "./Scenes/TeamDeathmatch/CustomizeTeamDeathmatch";
 import TeamDeathmatch from "./Scenes/TeamDeathmatch/TeamDeathmatch";
 
@@ -47,7 +47,7 @@ const config = {
 	scene: [
 		Preload,
 		Home,
-		Rounds,
+		Survive,
 		CustomizeTeamDeathmatch,
 		TeamDeathmatch,
 	]
