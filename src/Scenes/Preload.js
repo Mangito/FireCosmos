@@ -13,6 +13,7 @@ export default class Preload extends Phaser.Scene {
 		this.importSprites();
 		this.importUI();
 		this.importSounds();
+		this.importFonts();
 
 		this.load.on('progress', (p) => this.updateBar(p));
 		this.load.on("fileprogress", (f) => this.fileLoad(f));
@@ -59,6 +60,8 @@ export default class Preload extends Phaser.Scene {
 		const sound = Assets.Sound;
 	}
 
+	importFonts() { }
+
 	drawProgress() {
 		this.size = {
 			width: 350,
@@ -75,7 +78,7 @@ export default class Preload extends Phaser.Scene {
 			y: GlobalConfigs.screen.middleHeight - this.size.height / 2
 		};
 
-		this.file = null;
+		this.lastFileLoad = null;
 
 		const style = {
 			font: '18px monospace',
@@ -104,11 +107,11 @@ export default class Preload extends Phaser.Scene {
 			(this.size.width * percentage) - (this.size.padding.x * 2), this.size.height - (this.size.padding.y * 2),
 			this.size.border);
 
-		this.percentText.setText("Load: " + Math.round(percentage * 100) + "% - " + this?.file?.key);
+		this.percentText.setText("Load: " + Math.round(percentage * 100) + "% - " + this?.lastFileLoad?.key);
 	}
 
 	fileLoad(file) {
-		this.file = file;
+		this.lastFileLoad = file;
 	}
 
 	complete() {

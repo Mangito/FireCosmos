@@ -1,8 +1,12 @@
+@font-face {
+  font-family: "Press Start 2P";
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Courier New", Courier, monospace;
+  font-family: "Press Start 2P", "Courier New", Courier, monospace;
   color: black;
 }
 

@@ -18,6 +18,33 @@ export default class Home extends Phaser.Scene {
 
 		this.isFullScreen = false;
 
+		const fireCosmos = this.add.text(middleWidth, 100, "Fire Cosmos", TextStyle.fireCosmos);
+		fireCosmos.setOrigin(0.5, 0.5);
+		this.tweens.add({
+			targets: fireCosmos,
+			duration: 5000,
+			scale: { from: 0.5, to: 1 },
+			onComplete: () => {
+				this.tweens.add({
+					targets: fireCosmos,
+					duration: 500,
+					scale: { from: 1, to: 2 },
+					yoyo: true,
+				});
+			}
+		});
+		this.tweens.add({
+			targets: fireCosmos,
+			duration: 100,
+			repeat: 20,
+			x: { from: middleWidth - 100, to: middleWidth + 100 },
+			yoyo: true,
+			onComplete: () => {
+				fireCosmos.x = middleWidth;
+			}
+		});
+
+
 		this.createPlayer();
 		this.createButtons();
 	}

@@ -1,7 +1,7 @@
 import GlobalConfigs from "../Config/GlobalConfigs";
 import GameConfigs from "../Scenes/TeamDeathmatch/GameConfigs";
 
-import Theme from "../Managers/Theme";
+import { TextStyle } from "../Managers/Theme";
 
 import Shoot from "../Objects/Shoot";
 
@@ -22,7 +22,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		this.team = team;
 		this.teamCount = teamCount;
 
-		this.name = this.scene.add.text(x, y, name, Text);
+		this.name = this.scene.add.text(x, y, name, TextStyle.base);
 		this.name.setOrigin(0.5);
 
 		const { left, right, fire, missile } = controllers;

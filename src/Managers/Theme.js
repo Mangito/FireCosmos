@@ -9,22 +9,33 @@ export const Banner = {
 };
 
 export const TextStyle = {
-	base: {
-		fontFamily: "monospace",
-		fontSize: "20px",
-		color: '#fff',
-		stroke: '#0f0',
+	fireCosmos: {
+		fontFamily: "'Press Start 2P",
+		fontSize: 50,
+		fill: "#000",
+		stroke: '#fff',
 		strokeThickness: 2,
+		boundsAlignH: "center",
+		boundsAlignV: "middle",
 		shadow: {
-			offsetX: 1,
-			offsetY: 1,
-			color: '#0ff',
+			offsetX: 5,
+			offsetY: 5,
+			color: "#f00",
 			blur: 2,
-			stroke: true
-		}
+			stroke: true,
+			fill: true
+		},
+	},
+	base: {
+		fontFamily: "'Press Start 2P",
+		fontSize: 8,
+		color: '#fff',
+		stroke: '#f00',
+		strokeThickness: 2,
 	},
 	buttons: {
-		font: "bold 25px 'Courier New'",
+		fontFamily: "'Press Start 2P",
+		fontSize: 16,
 		fill: "#000",
 		stroke: '#fff',
 		strokeThickness: 2,
