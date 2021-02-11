@@ -21,6 +21,7 @@ import Block from "../Assets/Sprites/Block/Block.png";
 // UI
 import Background from "../Assets/UI/Background/Background.png";
 import Button from "../Assets/UI/Button/Button.png";
+import FullScreen from "../Assets/UI/Button/FullScreen.png";
 
 
 const assets = {
@@ -51,6 +52,7 @@ const assets = {
 		Background,
 		Buttons: {
 			Button,
+			FullScreen,
 		}
 	},
 	Sound: {}

@@ -52,6 +52,7 @@ export default class Preload extends Phaser.Scene {
 
 		// Buttons
 		this.load.spritesheet("Button", ui.Buttons.Button, { frameWidth: 250, frameHeight: 80 });
+		this.load.spritesheet("FullScreen", ui.Buttons.FullScreen, { frameWidth: 64, frameHeight: 64 });
 	}
 
 	importSounds() {
