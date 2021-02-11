@@ -35,7 +35,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
 		this.shoots = this.scene.physics.add.group({
 			classType: Shoot,
-			maxSize: 10,
+			maxSize: 2,
 			runChildUpdate: true
 		});
 	}
