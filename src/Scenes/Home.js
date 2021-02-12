@@ -1,9 +1,8 @@
 import GlobalConfigs from "../Config/GlobalConfigs";
 import Player from "../Objects/Player";
 
-// import PhysicsButton from "../Components/Button";
 import { TextStyle } from "../Managers/Theme";
-
+import Background from "../Objects/Background";
 export default class Home extends Phaser.Scene {
 	constructor() {
 		super({ key: "Home" });
@@ -12,11 +11,17 @@ export default class Home extends Phaser.Scene {
 	preload() { }
 
 	create() {
-		const { middleWidth, middleHeight, width, height } = GlobalConfigs.screen;
-		this.background = this.add.tileSprite(middleWidth, middleHeight, width * 2, height * 2, "Background");
-		this.bgPosition = 0.1;
+		const background = new Background(this);
 
 		this.isFullScreen = false;
+
+		this.createTitle();
+		this.createPlayer();
+		this.createButtons();
+	}
+
+	createTitle() {
+		const { middleWidth } = GlobalConfigs.screen;
 
 		const fireCosmos = this.add.text(middleWidth, 100, "Fire Cosmos", TextStyle.fireCosmos);
 		fireCosmos.setOrigin(0.5, 0.5);
@@ -37,16 +42,12 @@ export default class Home extends Phaser.Scene {
 			targets: fireCosmos,
 			duration: 100,
 			repeat: 20,
-			x: { from: middleWidth - 100, to: middleWidth + 100 },
+			x: { from: middleWidth - 10, to: middleWidth + 10 },
 			yoyo: true,
 			onComplete: () => {
 				fireCosmos.x = middleWidth;
 			}
 		});
-
-
-		this.createPlayer();
-		this.createButtons();
 	}
 
 	createPlayer() {
@@ -116,10 +117,10 @@ export default class Home extends Phaser.Scene {
 
 			this.physics.add.overlap(this.player.shoots, btn, (s, b) => {
 				b.destroy();
-				btn.setFrame(exploded);
+				btn.setFrame(btn.frame.name === exploded ? normal : exploded);
 				action();
 			}, null, this);
-		})
+		});
 	}
 
 	checkFull() {
@@ -144,10 +145,10 @@ export default class Home extends Phaser.Scene {
 	}
 
 	update() {
-		this.background.tilePositionX = Math.cos(this.bgPosition) * 700;
-		this.background.tilePositionY = Math.sin(this.bgPosition) * 500;
-		this.background.rotation += 0.0005;
+		// this.background.tilePositionX = Math.cos(this.bgPosition) * 700;
+		// this.background.tilePositionY = Math.sin(this.bgPosition) * 500;
+		// this.background.rotation += 0.0001;
 
-		this.bgPosition += 0.0005;
+		// this.bgPosition += 0.0005;
 	}
 }

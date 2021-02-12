@@ -7,6 +7,7 @@ import { randomNumber } from "../../Utils/Utils";
 import Player from "../../Objects/Player";
 import Asteroid from "../../Objects/Asteroid";
 import Block from "../../Objects/Blocks";
+import Background from "../../Objects/Background";
 
 export default class TeamDeathmatch extends Phaser.Scene {
 	constructor() {
@@ -26,16 +27,14 @@ export default class TeamDeathmatch extends Phaser.Scene {
 
 	// -- Create
 	create() {
-		const { middleWidth, middleHeight, width, height } = GlobalConfigs.screen;
-		this.background = this.add.tileSprite(middleWidth, middleHeight, width * 2, height * 2, "Background");
-		this.bgPosition = 0.1;
+		const background = new Background(this);
 
 		if (GlobalConfigs.debug) this.showFPSs = this.add.text(GlobalConfigs.screen.width - 55, 0, 0, TextStyle.base);
 
-		this.aliensPointsLabel = this.add.text(GlobalConfigs.screen.width / 2, 20, 0, TextStyle.base);
+		this.aliensPointsLabel = this.add.text(GlobalConfigs.screen.width / 2, 20, 0, TextStyle.points);
 		this.aliensPointsLabel.setOrigin(0.5);
 
-		this.shipsPointsLabel = this.add.text(GlobalConfigs.screen.width / 2, GlobalConfigs.screen.height - 20, 0, TextStyle.base);
+		this.shipsPointsLabel = this.add.text(GlobalConfigs.screen.width / 2, GlobalConfigs.screen.height - 20, 0, TextStyle.points);
 		this.shipsPointsLabel.setOrigin(0.5);
 
 		this.createGroups();
@@ -111,7 +110,7 @@ export default class TeamDeathmatch extends Phaser.Scene {
 	}
 
 	collisionPlayerShot(player, shoot) {
-		if (player.isAlive) {
+		if (player.isAlive && player.team !== shoot.team) {
 			player.hited();
 			shoot.addKill();
 			if (shoot.team === "Aliens") this.updateAliensPoints();
@@ -149,12 +148,6 @@ export default class TeamDeathmatch extends Phaser.Scene {
 	// -- Update
 	update(time) {
 		if (GlobalConfigs.debug) this.showFPSs.setText(Number(this.game.loop.actualFps).toFixed(1));
-
-		this.background.tilePositionX = Math.cos(this.bgPosition) * 700;
-		this.background.tilePositionY = Math.sin(this.bgPosition) * 500;
-		this.background.rotation += 0.0005;
-
-		this.bgPosition += 0.0005;
 
 		if (this.gameConfigs.asteroids && this.lastAsteroids < time) this.generateAsteroids(time);
 	}

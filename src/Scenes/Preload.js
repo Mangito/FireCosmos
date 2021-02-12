@@ -53,7 +53,7 @@ export default class Preload extends Phaser.Scene {
 
 		// Buttons
 		this.load.spritesheet("Button", ui.Buttons.Button, { frameWidth: 250, frameHeight: 80 });
-		this.load.spritesheet("FullScreen", ui.Buttons.FullScreen, { frameWidth: 64, frameHeight: 64 });
+		this.load.spritesheet("FullScreen", ui.Buttons.FullScreen, { frameWidth: 32, frameHeight: 32 });
 	}
 
 	importSounds() {
@@ -119,7 +119,8 @@ export default class Preload extends Phaser.Scene {
 		this.progressBox.destroy();
 		this.percentText.destroy();
 
-		if (GlobalConfigs.debug) this.scene.start("TeamDeathmatch");
-		else this.scene.start("Home");
+		this.scene.start("Home");
+		// this.scene.start("Survive");
+		// this.scene.start("TeamDeathmatch");
 	}
 }
