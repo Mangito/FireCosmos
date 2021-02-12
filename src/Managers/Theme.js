@@ -33,6 +33,13 @@ export const TextStyle = {
 		stroke: '#f00',
 		strokeThickness: 2,
 	},
+	points: {
+		fontFamily: "'Press Start 2P",
+		fontSize: 10,
+		color: '#fff',
+		stroke: '#f00',
+		strokeThickness: 2,
+	},
 	buttons: {
 		fontFamily: "'Press Start 2P",
 		fontSize: 16,
