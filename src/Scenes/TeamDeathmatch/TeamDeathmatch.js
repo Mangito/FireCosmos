@@ -21,6 +21,8 @@ export default class TeamDeathmatch extends Phaser.Scene {
 
 		this.upPoints = 0;
 		this.downPoints = 0;
+
+		this.pause = false;
 	}
 
 	preload() { }
@@ -41,6 +43,11 @@ export default class TeamDeathmatch extends Phaser.Scene {
 		this.createPlayers();
 		if (this.gameConfigs.blocks) this.createBlocks();
 		this.createCollisions();
+
+		const keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+		const keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+		keyP.on("down", this.pauseGame, this);
+		keyESC.on("down", this.pauseGame, this);
 	}
 
 	createGroups() {
@@ -145,8 +152,16 @@ export default class TeamDeathmatch extends Phaser.Scene {
 		this.shipsPointsLabel.x = GlobalConfigs.screen.middleWidth - this.shipsPointsLabel.width / 2;
 	}
 
+	pauseGame() {
+		this.pause = !this.pause;
+		if (this.pause) this.physics.pause();
+		else this.physics.resume();
+	}
+
 	// -- Update
 	update(time) {
+		if (this.pause) return;
+
 		if (GlobalConfigs.debug) this.showFPSs.setText(Number(this.game.loop.actualFps).toFixed(1));
 
 		if (this.gameConfigs.asteroids && this.lastAsteroids < time) this.generateAsteroids(time);

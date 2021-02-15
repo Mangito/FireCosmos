@@ -1,6 +1,33 @@
 import GlobalConfigs from "../Config/GlobalConfigs";
 
-import Assets from "../Managers/Assets";
+// ---- Assets
+
+// Ship
+import BlackPearl from "../Assets/Sprites/Ships/BlackPearl/BlackPearl.png";
+import Ceuta from "../Assets/Sprites/Ships/Ceuta/Ceuta.png";
+import MilleniumFalcon from "../Assets/Sprites/Ships/MilleniumFalcon/MilleniumFalcon.png";
+import Victoria from "../Assets/Sprites/Ships/Victoria/Victoria.png";
+
+// Aliens
+import Olho from "../Assets/Sprites/Aliens/Olho/Olho.png";
+import Ravi from "../Assets/Sprites/Aliens/Ravi/Ravi.png";
+import Shell from "../Assets/Sprites/Aliens/Shell/Shell.png";
+import Tank from "../Assets/Sprites/Aliens/Tank/Tank.png";
+
+// Fire
+import Fire from "../Assets/Sprites/Fire/Fire.png";
+
+// Asteroids
+import BolaBranca from "../Assets/Sprites/BolaBranca.png";
+
+// Blocks
+import Block from "../Assets/Sprites/Block/Block.png";
+
+// UI
+import Background from "../Assets/UI/Background/Background.png";
+import Button from "../Assets/UI/Button/Button.png";
+import FullScreen from "../Assets/UI/Button/FullScreen.png";
+import PauseBackground from "../Assets/UI/Pause/Background.png";
 
 export default class Preload extends Phaser.Scene {
 	constructor() {
@@ -21,44 +48,42 @@ export default class Preload extends Phaser.Scene {
 	}
 
 	importSprites() {
-		const sprites = Assets.Sprite;
-
 		//Asteroid
-		this.load.image("Asteroid", sprites.Asteroids.BolaBranca);
+		this.load.image("Asteroid", BolaBranca);
 
 		// Block
-		this.load.image("Block", sprites.Block.Block);
+		this.load.image("Block", Block);
 
 		// Invaders
-		this.load.image("Olho", sprites.Aliens.Olho);
-		this.load.image("Ravi", sprites.Aliens.Ravi);
-		this.load.image("Shell", sprites.Aliens.Shell);
-		this.load.image("Tank", sprites.Aliens.Tank);
+		this.load.image("Olho", Olho);
+		this.load.image("Ravi", Ravi);
+		this.load.image("Shell", Shell);
+		this.load.image("Tank", Tank);
 
 		// Ship
-		this.load.image("BlackPearl", sprites.Ships.BlackPearl);
-		this.load.image("Ceuta", sprites.Ships.Ceuta);
-		this.load.image("MilleniumFalcon", sprites.Ships.MilleniumFalcon);
-		this.load.image("Victoria", sprites.Ships.Victoria);
+		this.load.image("BlackPearl", BlackPearl);
+		this.load.image("Ceuta", Ceuta);
+		this.load.image("MilleniumFalcon", MilleniumFalcon);
+		this.load.image("Victoria", Victoria);
 
 		// Fire
-		this.load.image("Fire", sprites.Shoot.Fire);
+		this.load.image("Fire", Fire);
 	}
 
 	importUI() {
-		const ui = Assets.UI;
-
 		// Background
-		this.load.image("Background", ui.Background);
+		this.load.image("Background", Background);
 
 		// Buttons
-		this.load.spritesheet("Button", ui.Buttons.Button, { frameWidth: 250, frameHeight: 80 });
-		this.load.spritesheet("FullScreen", ui.Buttons.FullScreen, { frameWidth: 32, frameHeight: 32 });
+		this.load.spritesheet("Button", Button, { frameWidth: 250, frameHeight: 80 });
+		this.load.spritesheet("FullScreen", FullScreen, { frameWidth: 32, frameHeight: 32 });
+
+		// Pause
+		this.load.image("PauseBackground", PauseBackground);
+
 	}
 
-	importSounds() {
-		const sound = Assets.Sound;
-	}
+	importSounds() { }
 
 	importFonts() { }
 
