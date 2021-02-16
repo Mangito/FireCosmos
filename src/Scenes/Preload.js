@@ -27,7 +27,6 @@ import Block from "../Assets/Sprites/Block/Block.png";
 import Background from "../Assets/UI/Background/Background.png";
 import Button from "../Assets/UI/Button/Button.png";
 import FullScreen from "../Assets/UI/Button/FullScreen.png";
-import PauseBackground from "../Assets/UI/Pause/Background.png";
 
 export default class Preload extends Phaser.Scene {
 	constructor() {
@@ -77,10 +76,6 @@ export default class Preload extends Phaser.Scene {
 		// Buttons
 		this.load.spritesheet("Button", Button, { frameWidth: 250, frameHeight: 80 });
 		this.load.spritesheet("FullScreen", FullScreen, { frameWidth: 32, frameHeight: 32 });
-
-		// Pause
-		this.load.image("PauseBackground", PauseBackground);
-
 	}
 
 	importSounds() { }
@@ -114,7 +109,7 @@ export default class Preload extends Phaser.Scene {
 		this.progressBox = this.add.graphics();
 
 		this.percentText = this.add.text(GlobalConfigs.screen.middleWidth, GlobalConfigs.screen.middleHeight, "0%", style);
-		this.percentText.setOrigin(0.5, 0.5);
+		this.percentText.setOrigin(0.5);
 
 		this.progressBox.fillStyle(0xffffff, 0.2);
 		this.progressBox.fillRoundedRect(
@@ -147,5 +142,6 @@ export default class Preload extends Phaser.Scene {
 		this.scene.start("Home");
 		// this.scene.start("Survive");
 		// this.scene.start("TeamDeathmatch");
+		// this.scene.start("PauseTeamDeathmatch");
 	}
 }

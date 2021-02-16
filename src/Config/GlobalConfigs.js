@@ -6,6 +6,7 @@ const GlobalConfigs = {
 		middleHeight: 0,
 	},
 	debug: false,
+	language: "en",
 };
 
 GlobalConfigs.screen.middleWidth = GlobalConfigs.screen.width / 2;

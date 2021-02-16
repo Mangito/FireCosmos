@@ -17,7 +17,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		this.kills = 0;
 		this.deaths = 0;
 
-		this.gameConfigs = new GameConfigs();
+		this.gameConfigs = GameConfigs.getInstance();
 		this.lastFire = 5000;
 		this.team = team;
 		this.teamCount = teamCount;
@@ -25,12 +25,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		this.name = this.scene.add.text(x, y, name, TextStyle.base);
 		this.name.setOrigin(0.5);
 
-		const { left, right, fire, missile } = controllers;
+		const { left, right, fire } = controllers;
 		this.keys = this.scene.input.keyboard.addKeys({
 			left: left,
 			right: right,
 			fire: fire,
-			missile: missile,
 		});
 
 		this.shoots = this.scene.physics.add.group({

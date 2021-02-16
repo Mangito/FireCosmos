@@ -1,8 +1,6 @@
 let instance = null;
-export default class GameConfigs {
+class GameConfigs {
 	constructor() {
-		if (instance) return instance;
-
 		this.mode = {
 			mode: "Free", // "Points", "Sudden Death", "Time"
 		};
@@ -23,7 +21,6 @@ export default class GameConfigs {
 						left: "LEFT",
 						right: "RIGHT",
 						fire: "UP",
-						missile: "DOWN",
 					},
 				},
 				{
@@ -36,7 +33,6 @@ export default class GameConfigs {
 						left: "A",
 						right: "D",
 						fire: "W",
-						missile: "S",
 					},
 				},
 				{
@@ -49,7 +45,6 @@ export default class GameConfigs {
 						left: "J",
 						right: "L",
 						fire: "I",
-						missile: "K",
 					},
 				},
 				{
@@ -62,7 +57,6 @@ export default class GameConfigs {
 						left: "F",
 						right: "H",
 						fire: "T",
-						missile: "G",
 					},
 				},
 			],
@@ -82,3 +76,18 @@ export default class GameConfigs {
 		this.players.number--;
 	}
 }
+
+const config = new GameConfigs();
+
+export default {
+	getInstance: () => {
+		if (!instance) {
+			instance = config;
+		}
+		return instance;
+	},
+};
+
+GameConfigs.getInstance = () => {
+	return instance;
+};

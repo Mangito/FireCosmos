@@ -12,7 +12,14 @@ import Background from "../../Objects/Background";
 export default class TeamDeathmatch extends Phaser.Scene {
 	constructor() {
 		super({ key: "TeamDeathmatch" });
-		this.gameConfigs = new GameConfigs();
+	}
+
+	preload() { }
+
+	// -- Create
+	create() {
+		const { width, height, middleWidth, middleHeight } = GlobalConfigs.screen;
+		this.gameConfigs = GameConfigs.getInstance();
 		this.playersConfig = this.gameConfigs.players.players;
 
 		if (this.gameConfigs.asteroids) this.lastAsteroids = 5000;
@@ -23,21 +30,13 @@ export default class TeamDeathmatch extends Phaser.Scene {
 		this.downPoints = 0;
 
 		this.pause = false;
-	}
 
-	preload() { }
-
-	// -- Create
-	create() {
 		const background = new Background(this);
 
-		if (GlobalConfigs.debug) this.showFPSs = this.add.text(GlobalConfigs.screen.width - 55, 0, 0, TextStyle.base);
+		if (GlobalConfigs.debug) this.showFPSs = this.add.text(width - 55, 0, 0, TextStyle.base);
 
-		this.aliensPointsLabel = this.add.text(GlobalConfigs.screen.width / 2, 20, 0, TextStyle.points);
-		this.aliensPointsLabel.setOrigin(0.5);
-
-		this.shipsPointsLabel = this.add.text(GlobalConfigs.screen.width / 2, GlobalConfigs.screen.height - 20, 0, TextStyle.points);
-		this.shipsPointsLabel.setOrigin(0.5);
+		this.aliensPointsLabel = this.add.text(middleWidth, 20, 0, TextStyle.points).setOrigin(0.5);
+		this.shipsPointsLabel = this.add.text(middleWidth, height - 20, 0, TextStyle.points).setOrigin(0.5);
 
 		this.createGroups();
 		this.createPlayers();
@@ -48,6 +47,8 @@ export default class TeamDeathmatch extends Phaser.Scene {
 		const keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 		keyP.on("down", this.pauseGame, this);
 		keyESC.on("down", this.pauseGame, this);
+
+		this.pauseLabel = this.add.text(middleWidth, middleHeight, "Press P or ESC to resume", TextStyle.pauseFooter).setOrigin(0.5).setVisible(false);
 	}
 
 	createGroups() {
@@ -154,8 +155,16 @@ export default class TeamDeathmatch extends Phaser.Scene {
 
 	pauseGame() {
 		this.pause = !this.pause;
-		if (this.pause) this.physics.pause();
-		else this.physics.resume();
+
+		if (this.pause) {
+			this.scene.pause();
+			this.physics.pause();
+			this.scene.launch("PauseTeamDeathmatch");
+			this.pauseLabel.setVisible(true);
+		} else {
+			this.physics.resume();
+			this.pauseLabel.setVisible(false);
+		}
 	}
 
 	// -- Update

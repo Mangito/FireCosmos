@@ -13,6 +13,7 @@ import Home from "./Scenes/Home";
 import Survive from "./Scenes/Survive/Survive";
 import CustomizeTeamDeathmatch from "./Scenes/TeamDeathmatch/CustomizeTeamDeathmatch";
 import TeamDeathmatch from "./Scenes/TeamDeathmatch/TeamDeathmatch";
+import PauseTeamDeathmatch from "./Scenes/TeamDeathmatch/Pause";
 
 const config = {
 	title: "Fire Cosmos",
@@ -50,6 +51,7 @@ const config = {
 		Survive,
 		CustomizeTeamDeathmatch,
 		TeamDeathmatch,
+		PauseTeamDeathmatch,
 	]
 }
 
