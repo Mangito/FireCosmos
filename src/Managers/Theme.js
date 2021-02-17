@@ -115,5 +115,50 @@ export const TextStyle = {
 			blur: 5,
 			fill: true
 		},
+	},
+	customizeBase: {
+		fontFamily: "monospace",
+		fontSize: 16,
+		fill: "#fff",
+		boundsAlignH: "center",
+		boundsAlignV: "middle",
+		shadow: {
+			offsetX: 0,
+			offsetY: 0,
+			color: "#d00",
+			blur: 5,
+			fill: true
+		},
+	},
+	customizeBaseSelect: {
+		fontFamily: "monospace",
+		fontSize: 14,
+		fill: "#000",
+		boundsAlignH: "center",
+		boundsAlignV: "middle",
+		shadow: {
+			offsetX: 0,
+			offsetY: 0,
+			color: "#d00",
+			blur: 5,
+			fill: true
+		},
+	},
+	start: {
+		fontFamily: PressStart2P,
+		fontSize: 35,
+		fill: "#000",
+		stroke: '#fff',
+		strokeThickness: 2,
+		boundsAlignH: "center",
+		boundsAlignV: "middle",
+		shadow: {
+			offsetX: 5,
+			offsetY: 5,
+			color: "#0f0",
+			blur: 2,
+			stroke: true,
+			fill: true
+		},
 	}
 };

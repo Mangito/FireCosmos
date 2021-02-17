@@ -18,7 +18,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		this.deaths = 0;
 
 		this.gameConfigs = GameConfigs.getInstance();
-		this.lastFire = 5000;
+		this.lastFire = 0;
 		this.team = team;
 		this.teamCount = teamCount;
 
@@ -46,7 +46,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		const marginName = 25;
 
 		if (this.team === "Aliens") {
-			this.flipY = true;
 			this.setPosition(middleWidth - teamX, yMargin);
 			this.name.y = this.y - marginName;
 		} else {
@@ -80,11 +79,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		const keys = this.keys;
 		const velocity = 200;
 		if (keys.left.isDown) {
-			if (this.gameConfigs.players.friction) this.setAccelerationX(-velocity)
+			if (this.gameConfigs.friction) this.setAccelerationX(-velocity)
 			else this.setVelocityX(-velocity);
 		};
 		if (keys.right.isDown) {
-			if (this.gameConfigs.players.friction) this.setAccelerationX(velocity)
+			if (this.gameConfigs.friction) this.setAccelerationX(velocity)
 			else this.setVelocityX(velocity);
 		};
 

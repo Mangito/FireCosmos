@@ -20,7 +20,7 @@ export default class TeamDeathmatch extends Phaser.Scene {
 	create() {
 		const { width, height, middleWidth, middleHeight } = GlobalConfigs.screen;
 		this.gameConfigs = GameConfigs.getInstance();
-		this.playersConfig = this.gameConfigs.players.players;
+		this.playersConfig = this.gameConfigs.players;
 
 		if (this.gameConfigs.asteroids) this.lastAsteroids = 5000;
 
@@ -49,6 +49,8 @@ export default class TeamDeathmatch extends Phaser.Scene {
 		keyESC.on("down", this.pauseGame, this);
 
 		this.pauseLabel = this.add.text(middleWidth, middleHeight, "Press P or ESC to resume", TextStyle.pauseFooter).setOrigin(0.5).setVisible(false);
+
+		this.pauseGame();
 	}
 
 	createGroups() {

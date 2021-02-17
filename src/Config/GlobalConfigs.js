@@ -7,6 +7,28 @@ const GlobalConfigs = {
 	},
 	debug: false,
 	language: "en",
+	controllers: [
+		{ // P1
+			left: "LEFT",
+			right: "RIGHT",
+			fire: "UP",
+		},
+		{// P2
+			left: "A",
+			right: "D",
+			fire: "W",
+		},
+		{// P3
+			left: "J",
+			right: "L",
+			fire: "I",
+		},
+		{// P4
+			left: "F",
+			right: "H",
+			fire: "T",
+		}
+	],
 };
 
 GlobalConfigs.screen.middleWidth = GlobalConfigs.screen.width / 2;

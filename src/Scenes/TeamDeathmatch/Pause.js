@@ -16,9 +16,9 @@ export default class Pause extends Phaser.Scene {
 		const border = this.add.graphics();
 		border.clear();
 		const borderStyle = {
-			x: 150,
+			x: 75,
 			y: 75,
-			width: 700,
+			width: 850,
 			height: 450,
 			color: 0x1C1C1C,
 			alpha: 0.9,
@@ -77,8 +77,7 @@ export default class Pause extends Phaser.Scene {
 
 		const border = this.add.graphics();
 		border.lineStyle(4, 0xff0000, 1);
-		border.strokeRoundedRect(middleWidth - 300, middleHeight - 100, 600, 200, 10);
-		// border.fillRect(middleWidth, 0, 1, height);
+		border.strokeRoundedRect(middleWidth - 400, middleHeight - 100, 800, 200, 10);
 
 		const teamTitleX = 200;
 		const teamTitleY = middleHeight - 100;
@@ -86,18 +85,16 @@ export default class Pause extends Phaser.Scene {
 		const Aliens = this.add.text(middleWidth - teamTitleX, teamTitleY, "Aliens", TextStyle.pauseTeamTitle).setOrigin(0.5);
 
 		const gameConfigs = GameConfigs.getInstance();
-		const players = gameConfigs.players.players;
+		const players = gameConfigs.players;
 
 		players.forEach((player, index) => {
 			const image = this.add.image(middleWidth - 225 + 150 * index, middleHeight, player.ship);
 			image.setScale(1.25);
 
-			if (player.team === "Aliens") {
-				image.flipY = true;
-				image.x = middleWidth + 100 * player.teamCount;
-			} else {
-				image.x = middleWidth - 100 * player.teamCount;
-			}
+			image.x = (player.team === "Aliens") ?
+				middleWidth - 100 * player.teamCount :
+				middleWidth + 100 * player.teamCount;
+
 			const nameLabel = this.add.text(image.x, image.y - 40, player.name, TextStyle.pausePlayer).setOrigin(0.5);
 
 			const controllers = player.controllers;

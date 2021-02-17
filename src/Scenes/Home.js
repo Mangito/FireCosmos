@@ -95,7 +95,7 @@ export default class Home extends Phaser.Scene {
 				exploded: 1,
 				text: "TeamDeathmatch",
 				style: TextStyle.buttons,
-				action: () => this.scene.start("TeamDeathmatch"),
+				action: () => this.scene.start("CustomizeTeamDeathmatch"),
 			},
 
 			{// Full Screen

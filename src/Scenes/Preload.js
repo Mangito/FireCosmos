@@ -27,6 +27,7 @@ import Block from "../Assets/Sprites/Block/Block.png";
 import Background from "../Assets/UI/Background/Background.png";
 import Button from "../Assets/UI/Button/Button.png";
 import FullScreen from "../Assets/UI/Button/FullScreen.png";
+import Friction from "../Assets/UI/Friction/Friction.png";
 
 export default class Preload extends Phaser.Scene {
 	constructor() {
@@ -76,6 +77,8 @@ export default class Preload extends Phaser.Scene {
 		// Buttons
 		this.load.spritesheet("Button", Button, { frameWidth: 250, frameHeight: 80 });
 		this.load.spritesheet("FullScreen", FullScreen, { frameWidth: 32, frameHeight: 32 });
+
+		this.load.image("Friction", Friction);
 	}
 
 	importSounds() { }
@@ -141,7 +144,5 @@ export default class Preload extends Phaser.Scene {
 
 		this.scene.start("Home");
 		// this.scene.start("Survive");
-		// this.scene.start("TeamDeathmatch");
-		// this.scene.start("PauseTeamDeathmatch");
 	}
 }
