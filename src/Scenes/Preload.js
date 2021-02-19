@@ -31,7 +31,8 @@ import Friction from "../Assets/UI/Friction/Friction.png";
 
 
 // Sound
-// import ShootSound from "../Assets/Sound/Shoot.wav";
+import ShootSound from "../Assets/Sound/Shoot.wav";
+
 export default class Preload extends Phaser.Scene {
 	constructor() {
 		super({ key: "Preload" });
@@ -91,7 +92,7 @@ export default class Preload extends Phaser.Scene {
 	}
 
 	importSounds() {
-		// this.load.audio("Shoot", ShootSound);
+		this.load.audio("Shoot", ShootSound);
 	}
 
 	importFonts() { }
