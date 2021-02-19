@@ -1,4 +1,4 @@
-import GlobalConfigs from "../Config/GlobalConfigs";
+import ProgressBar from "../Components/ProgressBar";
 
 // ---- Assets
 
@@ -29,22 +29,31 @@ import Button from "../Assets/UI/Button/Button.png";
 import FullScreen from "../Assets/UI/Button/FullScreen.png";
 import Friction from "../Assets/UI/Friction/Friction.png";
 
+
+// Sound
+// import ShootSound from "../Assets/Sound/Shoot.wav";
 export default class Preload extends Phaser.Scene {
 	constructor() {
 		super({ key: "Preload" });
 	}
 
 	preload() {
-		this.drawProgress();
+		const progressBar = new ProgressBar(this);
 
 		this.importSprites();
 		this.importUI();
 		this.importSounds();
 		this.importFonts();
 
-		this.load.on('progress', (p) => this.updateBar(p));
-		this.load.on("fileprogress", (f) => this.fileLoad(f));
-		this.load.on('complete', () => this.complete());
+		this.load.on('progress', (p) => progressBar.updateBar(p));
+		this.load.on("fileprogress", (f) => progressBar.fileLoad(f));
+
+		this.load.on('complete', () => {
+			progressBar.complete();
+
+			this.scene.start("Home");
+			// this.scene.start("Survive");
+		});
 	}
 
 	importSprites() {
@@ -81,68 +90,9 @@ export default class Preload extends Phaser.Scene {
 		this.load.image("Friction", Friction);
 	}
 
-	importSounds() { }
+	importSounds() {
+		// this.load.audio("Shoot", ShootSound);
+	}
 
 	importFonts() { }
-
-	drawProgress() {
-		this.size = {
-			width: 350,
-			height: 50,
-			padding: {
-				x: 10,
-				y: 5
-			},
-			border: 4,
-		};
-
-		this.position = {
-			x: GlobalConfigs.screen.middleWidth - this.size.width / 2,
-			y: GlobalConfigs.screen.middleHeight - this.size.height / 2
-		};
-
-		this.lastFileLoad = null;
-
-		const style = {
-			font: '18px monospace',
-			fill: '#ffffff'
-		};
-
-		this.progressBar = this.add.graphics();
-		this.progressBox = this.add.graphics();
-
-		this.percentText = this.add.text(GlobalConfigs.screen.middleWidth, GlobalConfigs.screen.middleHeight, "0%", style);
-		this.percentText.setOrigin(0.5);
-
-		this.progressBox.fillStyle(0xffffff, 0.2);
-		this.progressBox.fillRoundedRect(
-			this.position.x, this.position.y,
-			this.size.width, this.size.height,
-			this.size.border);
-	}
-
-	updateBar(percentage) {
-		this.progressBar.clear();
-		this.progressBar.fillStyle(0x00ff00, 1);
-		this.progressBar.stroke();
-		this.progressBar.fillRoundedRect(
-			this.position.x + this.size.padding.x, this.position.y + this.size.padding.y,
-			(this.size.width * percentage) - (this.size.padding.x * 2), this.size.height - (this.size.padding.y * 2),
-			this.size.border);
-
-		this.percentText.setText("Load: " + Math.round(percentage * 100) + "% - " + this?.lastFileLoad?.key);
-	}
-
-	fileLoad(file) {
-		this.lastFileLoad = file;
-	}
-
-	complete() {
-		this.progressBar.destroy();
-		this.progressBox.destroy();
-		this.percentText.destroy();
-
-		this.scene.start("Home");
-		// this.scene.start("Survive");
-	}
 }

@@ -15,7 +15,24 @@ export const Banner = {
 	],
 };
 
+export const ProgressBarStyle = {
+	width: 350,
+	height: 50,
+	padding: {
+		x: 10,
+		y: 5
+	},
+	border: 4,
+};
+
 export const TextStyle = {
+	progressBar: {
+		fontFamily: PressStart2P,
+		fontSize: 10,
+		fill: "#fff",
+		stroke: "#000",
+		strokeThickness: 2,
+	},
 	fireCosmos: {
 		fontFamily: PressStart2P,
 		fontSize: 50,
