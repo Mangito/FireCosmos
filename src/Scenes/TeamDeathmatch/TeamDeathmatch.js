@@ -44,11 +44,9 @@ export default class TeamDeathmatch extends Phaser.Scene {
 		this.createCollisions();
 
 		const keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
-		const keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 		keyP.on("down", this.pauseGame, this);
-		keyESC.on("down", this.pauseGame, this);
 
-		this.pauseLabel = this.add.text(middleWidth, middleHeight, "Press P or ESC to resume", TextStyle.pauseFooter).setOrigin(0.5).setVisible(false);
+		this.pauseLabel = this.add.text(middleWidth, middleHeight, "Press P to resume", TextStyle.pauseFooter).setOrigin(0.5).setVisible(false);
 
 		this.pauseGame();
 	}

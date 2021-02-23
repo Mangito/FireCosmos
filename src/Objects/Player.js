@@ -10,7 +10,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		const { name, ship, team, teamCount, controllers } = config;
 		super(scene, x, y, ship);
 
-
 		this.isAlive = true;
 		this.reviveTime = 0;
 		this.thisTime = 0;
@@ -24,8 +23,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		this.teamCount = teamCount;
 
 		this.shootSound = this.scene.sound.add("Shoot");
-		this.name = this.scene.add.text(x, y, name, TextStyle.base);
-		this.name.setOrigin(0.5);
+		this.name = this.scene.add.text(x, y, name, TextStyle.base).setOrigin(0.5);
 
 		const { left, right, fire } = controllers;
 		this.keys = this.scene.input.keyboard.addKeys({

@@ -7,6 +7,7 @@ const GlobalConfigs = {
 	},
 	debug: false,
 	language: "en",
+	isMute: false,
 	controllers: [
 		{ // P1
 			left: "LEFT",

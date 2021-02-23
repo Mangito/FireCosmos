@@ -1,3 +1,5 @@
+import GlobalState from "../Config/GlobalState";
+
 import ProgressBar from "../Components/ProgressBar";
 
 // ---- Assets
@@ -26,9 +28,11 @@ import Block from "../Assets/Sprites/Block/Block.png";
 // UI
 import Background from "../Assets/UI/Background/Background.png";
 import Button from "../Assets/UI/Button/Button.png";
-import FullScreen from "../Assets/UI/Button/FullScreen.png";
+import FullScreen from "../Assets/UI/FullScreen/FullScreen.png";
 import Friction from "../Assets/UI/Friction/Friction.png";
-
+import Settings from "../Assets/UI/Settings/Settings.png";
+import Sound from "../Assets/UI/Sound/Sound.png";
+import Flags from "../Assets/UI/Flags/Flags.png";
 
 // Sound
 import ShootSound from "../Assets/Sound/Shoot.wav";
@@ -39,6 +43,9 @@ export default class Preload extends Phaser.Scene {
 	}
 
 	preload() {
+		const globalState = GlobalState.getInstance();
+		this.game.sound.mute = globalState.isMute;
+
 		const progressBar = new ProgressBar(this);
 
 		this.importSprites();
@@ -87,6 +94,9 @@ export default class Preload extends Phaser.Scene {
 		// Buttons
 		this.load.spritesheet("Button", Button, { frameWidth: 250, frameHeight: 80 });
 		this.load.spritesheet("FullScreen", FullScreen, { frameWidth: 32, frameHeight: 32 });
+		this.load.spritesheet("Settings", Settings, { frameWidth: 32, frameHeight: 32 });
+		this.load.spritesheet("Sound", Sound, { frameWidth: 32, frameHeight: 32 });
+		this.load.spritesheet("Flags", Flags, { frameWidth: 32, frameHeight: 32 });
 
 		this.load.image("Friction", Friction);
 	}

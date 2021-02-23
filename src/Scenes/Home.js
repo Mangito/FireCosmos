@@ -11,6 +11,8 @@ export default class Home extends Phaser.Scene {
 	preload() { }
 
 	create() {
+		const { middleWidth, middleHeight } = GlobalConfigs.screen;
+
 		const background = new Background(this);
 
 		this.isFullScreen = false;
@@ -18,6 +20,12 @@ export default class Home extends Phaser.Scene {
 		this.createTitle();
 		this.createPlayer();
 		this.createButtons();
+
+		const keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+		keyP.on("down", this.pauseGame, this);
+		this.pauseLabel = this.add.text(middleWidth, middleHeight, "Press P to resume", TextStyle.pauseFooter).setOrigin(0.5).setVisible(false);
+
+		this.scene.launch("Settings");
 	}
 
 	createTitle() {
@@ -57,16 +65,11 @@ export default class Home extends Phaser.Scene {
 		});
 		const config = {
 			index: 0,
-			name: "Player",
+			name: "Home",
 			ship: "Victoria",
 			team: "Ships",
 			teamCount: 0,
-			controllers: {
-				left: "LEFT",
-				right: "RIGHT",
-				fire: "UP",
-				missile: "DOWN",
-			},
+			controllers: GlobalConfigs.controllers[0],
 		};
 
 		this.player = this.playersPhysics.get(0, 0, config);
@@ -86,8 +89,10 @@ export default class Home extends Phaser.Scene {
 				text: "Survive",
 				style: TextStyle.buttons,
 				action: () => this.scene.start("Survive"),
+				yoyo: false,
 			},
-			{// Team Deathmatch
+
+			{ // Team Deathmatch
 				x: middleWidth + 250,
 				y: middleHeight,
 				image: "Button",
@@ -96,59 +101,45 @@ export default class Home extends Phaser.Scene {
 				text: "TeamDeathmatch",
 				style: TextStyle.buttons,
 				action: () => this.scene.start("CustomizeTeamDeathmatch"),
+				yoyo: false,
 			},
 
-			{// Full Screen
+			{ // Settings
 				x: 40,
 				y: 40,
-				image: "FullScreen",
+				image: "Settings",
 				normal: 0,
 				exploded: 1,
-				action: () => this.checkFull(),
+				action: () => {
+					this.scene.pause();
+					this.physics.pause();
+					this.scene.launch("Settings");
+					this.pauseLabel.setVisible(true);
+				},
+				yoyo: true,
 			}
 		];
 
 		btnsConfigs.map(config => {
-			const { x, y, image, normal, exploded, text, style, action } = config;
+			const { x, y, image, normal, exploded, text, style, action, yoyo } = config;
 			const btn = this.physics.add.sprite(x, y, image, normal);
 
-			const label = this.add.text(x, y, text, style);
-			label.setOrigin(0.5);
+			const label = this.add.text(x, y, text, style).setOrigin(0.5);
 
-			this.physics.add.overlap(this.player.shoots, btn, (s, b) => {
-				b.destroy();
+			this.physics.add.overlap(this.player.shoots, btn, (b, s) => {
+				s.destroy();
+
 				btn.setFrame(btn.frame.name === exploded ? normal : exploded);
 				action();
+
+				if (yoyo) setTimeout(() => btn.setFrame(normal), 1000);
 			}, null, this);
+
 		});
 	}
 
-	checkFull() {
-		const body = document.body;
-
-		this.isFullScreen ? closeFullscreen() : openFullscreen();
-		this.isFullScreen = !this.isFullScreen;
-
-		function openFullscreen() {
-			if (body.requestFullscreen) body.requestFullscreen();
-			else if (body.webkitRequestFullscreen) body.webkitRequestFullscreen();/* Safari */
-			else if (body.msRequestFullscreen) body.msRequestFullscreen();/* IE11 */
-			else this.isFullScreen = !this.isFullScreen;
-		};
-
-		function closeFullscreen() {
-			if (document.exitFullscreen) document.exitFullscreen();
-			else if (document.webkitExitFullscreen) document.webkitExitFullscreen(); /* Safari */
-			else if (document.msExitFullscreen) document.msExitFullscreen(); /* IE11 */
-			else this.isFullScreen = !this.isFullScreen;
-		};
-	}
-
-	update() {
-		// this.background.tilePositionX = Math.cos(this.bgPosition) * 700;
-		// this.background.tilePositionY = Math.sin(this.bgPosition) * 500;
-		// this.background.rotation += 0.0001;
-
-		// this.bgPosition += 0.0005;
+	pauseGame() {
+		this.physics.resume();
+		this.pauseLabel.setVisible(false);
 	}
 }

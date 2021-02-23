@@ -48,14 +48,12 @@ export default class Pause extends Phaser.Scene {
 		underlined.fillStyle(0xdd0000, 0.75);
 		underlined.fillRectShape(underlinedRect);
 
-		const resumeLabel = this.add.text(middleWidth, height - 100, "Press P or ESC to resume, or Q to quit", TextStyle.pauseFooter);
+		const resumeLabel = this.add.text(middleWidth, height - 100, "Press P to resume, or Q to quit", TextStyle.pauseFooter);
 		resumeLabel.setOrigin(0.5);
 
 		const keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
-		const keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 		const keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
 		keyP.on("down", this.resumeGame, this);
-		keyESC.on("down", this.resumeGame, this);
 		keyQ.on("down", this.quitGame, this);
 
 		this.showPlayers();
