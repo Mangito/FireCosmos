@@ -24,8 +24,6 @@ export default class Home extends Phaser.Scene {
 		const keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
 		keyP.on("down", this.pauseGame, this);
 		this.pauseLabel = this.add.text(middleWidth, middleHeight, "Press P to resume", TextStyle.pauseFooter).setOrigin(0.5).setVisible(false);
-
-		this.scene.launch("Settings");
 	}
 
 	createTitle() {
