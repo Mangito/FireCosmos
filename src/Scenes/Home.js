@@ -1,6 +1,8 @@
 import GlobalConfigs from "../Config/GlobalConfigs";
 import Player from "../Objects/Player";
 
+import TDGameConfigs from "./TeamDeathmatch/GameConfigs";
+
 import { TextStyle } from "../Managers/Theme";
 import Background from "../Objects/Background";
 export default class Home extends Phaser.Scene {
@@ -14,8 +16,6 @@ export default class Home extends Phaser.Scene {
 		const { middleWidth, middleHeight } = GlobalConfigs.screen;
 
 		const background = new Background(this);
-
-		this.isFullScreen = false;
 
 		this.createTitle();
 		this.createPlayer();
@@ -77,50 +77,93 @@ export default class Home extends Phaser.Scene {
 	createButtons() {
 		const { middleWidth, middleHeight } = GlobalConfigs.screen;
 
-		const btnsConfigs = [
-			{	// Survive
-				x: middleWidth - 250,
-				y: middleHeight,
-				image: "Button",
-				normal: 0,
-				exploded: 1,
-				text: "Survive",
-				style: TextStyle.buttons,
-				action: () => this.scene.start("Survive"),
-				yoyo: false,
-			},
+		const gameConfigs = TDGameConfigs.getInstance();
 
-			{ // Team Deathmatch
-				x: middleWidth + 250,
-				y: middleHeight,
-				image: "Button",
-				normal: 0,
-				exploded: 1,
-				text: "TeamDeathmatch",
-				style: TextStyle.buttons,
-				action: () => this.scene.start("CustomizeTeamDeathmatch"),
-				yoyo: false,
+		const settingsBtn = {
+			x: 40,
+			y: 40,
+			image: "Settings",
+			normal: 0,
+			exploded: 1,
+			action: () => {
+				this.scene.pause();
+				this.physics.pause();
+				this.scene.launch("Settings");
+				this.pauseLabel.setVisible(true);
 			},
+			yoyo: true,
+			isVisible: true,
+		};
 
-			{ // Settings
-				x: 40,
-				y: 40,
-				image: "Settings",
-				normal: 0,
-				exploded: 1,
-				action: () => {
-					this.scene.pause();
-					this.physics.pause();
-					this.scene.launch("Settings");
-					this.pauseLabel.setVisible(true);
-				},
-				yoyo: true,
-			}
-		];
+		const surviveBtn = {
+			x: middleWidth - 250,
+			y: middleHeight,
+			image: "Button",
+			normal: 0,
+			exploded: 1,
+			text: "Survive",
+			style: TextStyle.buttons,
+			action: () => this.scene.start("Survive"),
+			yoyo: false,
+			isVisible: true,
+		};
+
+		const teamDeathmatchBtn = {
+			x: middleWidth + 250,
+			y: middleHeight,
+			image: "Button",
+			normal: 0,
+			exploded: 1,
+			text: "TeamDeathmatch",
+			style: TextStyle.buttons,
+			// action: () => this.scene.start("CustomizeTeamDeathmatch"),
+			yoyo: false,
+			isVisible: true,
+		};
+
+		const teamDeathmatch2PBtn = { // 2P
+			x: teamDeathmatchBtn.x - 50,
+			y: middleHeight + 70,
+			image: "Button",
+			normal: 0,
+			exploded: 1,
+			text: "2P",
+			style: TextStyle.buttons,
+			action: () => {
+				gameConfigs.default2P();
+				this.scene.start("TeamDeathmatch");
+			},
+			yoyo: false,
+			isVisible: true,
+			scale: 0.35,
+		};
+
+		const teamDeathmatch4PBtn = { // 4P
+			x: teamDeathmatchBtn.x + 50,
+			y: middleHeight + 70,
+			image: "Button",
+			normal: 0,
+			exploded: 1,
+			text: "4P",
+			style: TextStyle.buttons,
+			action: () => {
+				gameConfigs.default4P();
+				this.scene.start("TeamDeathmatch");
+			},
+			yoyo: false,
+			isVisible: true,
+			scale: 0.35,
+		};
+
+		const btnsConfigs = [settingsBtn, surviveBtn, teamDeathmatchBtn, teamDeathmatch2PBtn, teamDeathmatch4PBtn];
+
+		const btns = [];
 
 		btnsConfigs.map(config => {
-			const { x, y, image, normal, exploded, text, style, action, yoyo } = config;
+			const { x, y, image, normal, exploded, text, style, action, yoyo, isVisible, scale } = config;
 			const btn = this.physics.add.sprite(x, y, image, normal);
+			btn.setVisible(isVisible);
+			btn.setScale(scale || 1);
 
 			const label = this.add.text(x, y, text, style).setOrigin(0.5);
 
@@ -132,6 +175,7 @@ export default class Home extends Phaser.Scene {
 
 				if (yoyo) setTimeout(() => btn.setFrame(normal), 1000);
 			}, null, this);
+			btns.push();
 
 		});
 	}

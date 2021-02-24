@@ -13,6 +13,8 @@ export default class Pause extends Phaser.Scene {
 	create() {
 		const { width, height, middleWidth, middleHeight } = GlobalConfigs.screen;
 
+		this.gameConfigs = GameConfigs.getInstance();
+
 		const border = this.add.graphics();
 		border.clear();
 		const borderStyle = {
@@ -65,6 +67,7 @@ export default class Pause extends Phaser.Scene {
 	}
 
 	quitGame() {
+		this.gameConfigs.players = [];
 		this.scene.stop("TeamDeathmatch");
 		this.scene.start("Home");
 		this.scene.stop();
@@ -82,8 +85,7 @@ export default class Pause extends Phaser.Scene {
 		const Ships = this.add.text(middleWidth + teamTitleX, teamTitleY, "Ships", TextStyle.pauseTeamTitle).setOrigin(0.5);
 		const Aliens = this.add.text(middleWidth - teamTitleX, teamTitleY, "Aliens", TextStyle.pauseTeamTitle).setOrigin(0.5);
 
-		const gameConfigs = GameConfigs.getInstance();
-		const players = gameConfigs.players;
+		const players = this.gameConfigs.players;
 
 		players.forEach((player, index) => {
 			const image = this.add.image(middleWidth - 225 + 150 * index, middleHeight, player.ship);

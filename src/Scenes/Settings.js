@@ -82,7 +82,7 @@ export default class Settings extends Phaser.Scene {
 		});
 		const config = {
 			index: 0,
-			name: "Settings",
+			name: this.globalState.language === "pt" ? "Definições" : "Settings",
 			ship: "MilleniumFalcon",
 			team: "Ships",
 			teamCount: 0,
@@ -98,9 +98,6 @@ export default class Settings extends Phaser.Scene {
 	}
 
 	drawButtons() {
-
-		// console.log(this.game.sound.stopAll());
-
 		const { middleWidth, middleHeight } = GlobalConfigs.screen;
 
 		const x = this.borderStyle.x + 100;
@@ -122,7 +119,10 @@ export default class Settings extends Phaser.Scene {
 				image: "Flags",
 				normal: (this.globalState.language === "pt" ? 1 : 0),
 				exploded: (this.globalState.language === "pt" ? 0 : 1),
-				action: () => this.globalState.language = (this.globalState.language === "pt" ? "en" : "pt"),
+				action: () => {
+					this.globalState.language = (this.globalState.language === "pt" ? "en" : "pt");
+					this.player.name.setText(this.globalState.language === "pt" ? "Definições" : "Settings");
+				},
 			},
 
 			{ // Sound
@@ -137,17 +137,17 @@ export default class Settings extends Phaser.Scene {
 				},
 			},
 
-			// { // Exit Settings
-			// 	x: x + 300,
-			// 	y: y,
-			// 	image: "FullScreen",
-			// 	normal: 0,
-			// 	exploded: 1,
-			// 	action: () => {
-			// 		this.scene.resume("Home");
-			// 		this.scene.stop();
-			// 	},
-			// },
+			{ // Exit Settings
+				x: x + 300,
+				y: y,
+				image: "Exit",
+				normal: 0,
+				exploded: 1,
+				action: () => {
+					this.scene.resume("Home");
+					this.scene.stop();
+				},
+			},
 		];
 
 		btnsConfigs.map(config => {
