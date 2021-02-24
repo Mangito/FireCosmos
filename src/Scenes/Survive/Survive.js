@@ -1,5 +1,6 @@
 import GlobalConfigs from "../../Config/GlobalConfigs";
 
+import { TextStyle } from "../../Managers/Theme";
 import { randomNumber } from "../../Utils/Utils";
 
 import Background from "../../Objects/Background";

@@ -1,7 +1,11 @@
 import GlobalConfigs from "../Config/GlobalConfigs";
+
+import Button from "../Components/Button";
+
 import Player from "../Objects/Player";
 
 import TDGameConfigs from "./TeamDeathmatch/GameConfigs";
+import SurviveGameConfigs from "./Survive/GameConfigs";
 
 import { TextStyle } from "../Managers/Theme";
 import Background from "../Objects/Background";
@@ -76,107 +80,194 @@ export default class Home extends Phaser.Scene {
 
 	createButtons() {
 		const { middleWidth, middleHeight } = GlobalConfigs.screen;
+		const tDGameConfigs = TDGameConfigs.getInstance();
+		const surviveGameConfigs = SurviveGameConfigs.getInstance();
 
-		const gameConfigs = TDGameConfigs.getInstance();
+		this.buttonsGroup = this.physics.add.group({ classType: Button });
 
-		const settingsBtn = {
-			x: 40,
-			y: 40,
-			image: "Settings",
-			normal: 0,
-			exploded: 1,
-			action: () => {
+		// --- Settings
+		const settingsBtn = this.buttonsGroup.get();
+		if (settingsBtn) {
+			settingsBtn.generate({
+				x: 40,
+				y: 40,
+				image: "Settings",
+			});
+			settingsBtn.action = () => {
+				settingsBtn.changeFrame(true);
 				this.scene.pause();
 				this.physics.pause();
 				this.scene.launch("Settings");
 				this.pauseLabel.setVisible(true);
-			},
-			yoyo: true,
-			isVisible: true,
-		};
+			}
+		}
 
-		const surviveBtn = {
-			x: middleWidth - 250,
-			y: middleHeight,
-			image: "Button",
-			normal: 0,
-			exploded: 1,
-			text: "Survive",
-			style: TextStyle.buttons,
-			action: () => this.scene.start("Survive"),
-			yoyo: false,
-			isVisible: true,
-		};
+		{ // --- Survive
+			const startX = middleWidth - 250;
+			const scale = 0.25;
 
-		const teamDeathmatchBtn = {
-			x: middleWidth + 250,
-			y: middleHeight,
-			image: "Button",
-			normal: 0,
-			exploded: 1,
-			text: "TeamDeathmatch",
-			style: TextStyle.buttons,
-			// action: () => this.scene.start("CustomizeTeamDeathmatch"),
-			yoyo: false,
-			isVisible: true,
-		};
+			const _1P = this.buttonsGroup.get();
+			if (_1P) {
+				_1P.generate({
+					x: startX - 150,
+					y: middleHeight + 70,
+					image: "Button",
+					text: "1P",
+					style: TextStyle.buttons,
+				});
 
-		const teamDeathmatch2PBtn = { // 2P
-			x: teamDeathmatchBtn.x - 50,
-			y: middleHeight + 70,
-			image: "Button",
-			normal: 0,
-			exploded: 1,
-			text: "2P",
-			style: TextStyle.buttons,
-			action: () => {
-				gameConfigs.default2P();
-				this.scene.start("TeamDeathmatch");
-			},
-			yoyo: false,
-			isVisible: true,
-			scale: 0.35,
-		};
+				_1P.action = () => {
+					_1P.changeFrame();
+					surviveGameConfigs.createPlayers(1);
+					this.scene.start("Survive");
+				};
 
-		const teamDeathmatch4PBtn = { // 4P
-			x: teamDeathmatchBtn.x + 50,
-			y: middleHeight + 70,
-			image: "Button",
-			normal: 0,
-			exploded: 1,
-			text: "4P",
-			style: TextStyle.buttons,
-			action: () => {
-				gameConfigs.default4P();
-				this.scene.start("TeamDeathmatch");
-			},
-			yoyo: false,
-			isVisible: true,
-			scale: 0.35,
-		};
+				_1P.setScale(scale);
+				_1P.changeVisible(false);
+			}
 
-		const btnsConfigs = [settingsBtn, surviveBtn, teamDeathmatchBtn, teamDeathmatch2PBtn, teamDeathmatch4PBtn];
+			const _2P = this.buttonsGroup.get();
+			if (_2P) {
+				_2P.generate({
+					x: startX - 50,
+					y: middleHeight + 70,
+					image: "Button",
+					text: "2P",
+					style: TextStyle.buttons,
+				});
+				_2P.action = () => {
+					_2P.changeFrame();
+					surviveGameConfigs.createPlayers(2);
+					this.scene.start("Survive");
+				};
 
-		const btns = [];
+				_2P.setScale(scale);
+				_2P.changeVisible(false);
+			}
 
-		btnsConfigs.map(config => {
-			const { x, y, image, normal, exploded, text, style, action, yoyo, isVisible, scale } = config;
-			const btn = this.physics.add.sprite(x, y, image, normal);
-			btn.setVisible(isVisible);
-			btn.setScale(scale || 1);
+			const _3P = this.buttonsGroup.get();
+			if (_3P) {
+				_3P.generate({
+					x: startX + 50,
+					y: middleHeight + 70,
+					image: "Button",
+					text: "3P",
+					style: TextStyle.buttons,
+				});
+				_3P.action = () => {
+					_3P.changeFrame();
+					surviveGameConfigs.createPlayers(3);
+					this.scene.start("Survive");
+				};
 
-			const label = this.add.text(x, y, text, style).setOrigin(0.5);
+				_3P.setScale(scale);
+				_3P.changeVisible(false);
+			}
 
-			this.physics.add.overlap(this.player.shoots, btn, (b, s) => {
-				s.destroy();
+			const _4P = this.buttonsGroup.get();
+			if (_4P) {
+				_4P.generate({
+					x: startX + 150,
+					y: middleHeight + 70,
+					image: "Button",
+					text: "4P",
+					style: TextStyle.buttons,
+				});
+				_4P.action = () => {
+					_4P.changeFrame();
+					surviveGameConfigs.createPlayers(4);
+					this.scene.start("Survive");
+				};
 
-				btn.setFrame(btn.frame.name === exploded ? normal : exploded);
-				action();
+				_4P.setScale(scale);
+				_4P.changeVisible(false);
+			}
 
-				if (yoyo) setTimeout(() => btn.setFrame(normal), 1000);
-			}, null, this);
-			btns.push();
+			const surviveBtn = this.buttonsGroup.get();
+			if (surviveBtn) {
+				surviveBtn.generate({
+					x: startX,
+					y: middleHeight,
+					image: "Button",
+					text: "Survive",
+					style: TextStyle.buttons,
+				});
+				surviveBtn.action = () => {
+					surviveBtn.changeFrame();
 
+					const visible = !_1P.visible;
+					_1P.changeVisible(visible);
+					_2P.changeVisible(visible);
+					_3P.changeVisible(visible);
+					_4P.changeVisible(visible);
+				};
+			}
+		}
+
+
+		{// --- Team Deathmatch
+			const startX = middleWidth + 250;
+
+			const _2P = this.buttonsGroup.get();
+			if (_2P) {
+				_2P.generate({
+					x: startX - 50,
+					y: middleHeight + 70,
+					image: "Button",
+					text: "2P",
+					style: TextStyle.buttons,
+				});
+				_2P.action = () => {
+					_2P.changeFrame();
+					tDGameConfigs.default2P();
+					this.scene.start("TeamDeathmatch");
+				};
+
+				_2P.setScale(0.35);
+				_2P.changeVisible(false);
+			}
+
+			const _4P = this.buttonsGroup.get();
+			if (_4P) {
+				_4P.generate({
+					x: startX + 50,
+					y: middleHeight + 70,
+					image: "Button",
+					text: "4P",
+					style: TextStyle.buttons,
+				});
+				_4P.action = () => {
+					_4P.changeFrame();
+					tDGameConfigs.default4vP();
+					this.scene.start("TeamDeathmatch");
+				};
+
+				_4P.setScale(0.35);
+				_4P.changeVisible(false);
+			}
+
+			const teamDeathmatch = this.buttonsGroup.get();
+			if (teamDeathmatch) {
+				teamDeathmatch.generate({
+					x: startX,
+					y: middleHeight,
+					image: "Button",
+					text: "TeamDeathmatch",
+					style: TextStyle.buttons,
+				});
+				teamDeathmatch.action = () => {
+					teamDeathmatch.changeFrame();
+
+					const visible = !_2P.visible;
+					_2P.changeVisible(visible);
+					_4P.changeVisible(visible);
+				};
+			}
+		}
+
+		this.physics.add.overlap(this.player.shoots, this.buttonsGroup, (s, b) => {
+			s.destroy();
+			b.action();
 		});
 	}
 
