@@ -170,6 +170,7 @@ export default class TeamDeathmatch extends Phaser.Scene {
 			this.pauseLabel.setVisible(true);
 		} else {
 			this.timerAsteroids.paused = false;
+			this.scene.resume();
 			this.physics.resume();
 			this.pauseLabel.setVisible(false);
 		}

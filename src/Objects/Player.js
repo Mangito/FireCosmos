@@ -23,7 +23,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		this.teamCount = teamCount;
 
 		this.shootSound = this.scene.sound.add("Shoot");
-		this.name = this.scene.add.text(x, y, name, TextStyle.base).setOrigin(0.5);
+		this.label = this.scene.add.text(x, y, name, TextStyle.base).setOrigin(0.5);
 
 		const { left, right, fire } = controllers;
 		this.keys = this.scene.input.keyboard.addKeys({
@@ -40,17 +40,17 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 	}
 
 	generate() {
-		const middleWidth = GlobalConfigs.screen.middleWidth;
+		const { middleWidth } = GlobalConfigs.screen;
 		const teamX = this.teamCount * 50;
 		const yMargin = 50;
 		const marginName = 25;
 
 		if (this.team === "Aliens") {
 			this.setPosition(middleWidth - teamX, yMargin);
-			this.name.y = this.y - marginName;
+			this.label.y = this.y - marginName;
 		} else {
 			this.setPosition(middleWidth + teamX, GlobalConfigs.screen.height - yMargin);
-			this.name.y = this.y + marginName;
+			this.label.y = this.y + marginName;
 		}
 
 		this.setCollideWorldBounds(true);
@@ -101,6 +101,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 			}
 		}
 
-		this.name.x = this.x;
+		this.label.x = this.x;
 	}
 }

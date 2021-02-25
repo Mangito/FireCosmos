@@ -93,7 +93,7 @@ export default class Settings extends Phaser.Scene {
 		if (this.player) {
 			this.player.generate();
 			this.player.y = middleHeight + 80;
-			this.player.name.y = this.player.y + this.player.height;
+			this.player.label.y = this.player.y + this.player.height;
 		}
 	}
 
@@ -121,7 +121,7 @@ export default class Settings extends Phaser.Scene {
 				exploded: (this.globalState.language === "pt" ? 0 : 1),
 				action: () => {
 					this.globalState.language = (this.globalState.language === "pt" ? "en" : "pt");
-					this.player.name.setText(this.globalState.language === "pt" ? "Definições" : "Settings");
+					this.player.label.setText(this.globalState.language === "pt" ? "Definições" : "Settings");
 				},
 			},
 
