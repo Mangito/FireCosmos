@@ -7,22 +7,16 @@ import { randomNumber } from "../../Utils/Utils";
 import Player from "../../Objects/Player";
 import Asteroid from "../../Objects/Asteroid";
 import Block from "../../Objects/Blocks";
-import Background from "../../Objects/Background";
+import Background from "../../Components/Background";
 
 export default class TeamDeathmatch extends Phaser.Scene {
 	constructor() {
 		super({ key: "TeamDeathmatch" });
 	}
 
-	preload() { }
-
-	// -- Create
-	create() {
-		const { width, height, middleWidth, middleHeight } = GlobalConfigs.screen;
+	init() {
 		this.gameConfigs = GameConfigs.getInstance();
 		this.playersConfig = this.gameConfigs.players;
-
-		if (this.gameConfigs.asteroids) this.lastAsteroids = 5000;
 
 		this.players = [];
 
@@ -30,6 +24,10 @@ export default class TeamDeathmatch extends Phaser.Scene {
 		this.downPoints = 0;
 
 		this.pause = false;
+	}
+
+	create() {
+		const { width, height, middleWidth, middleHeight } = GlobalConfigs.screen;
 
 		const background = new Background(this);
 
@@ -43,12 +41,15 @@ export default class TeamDeathmatch extends Phaser.Scene {
 		if (this.gameConfigs.blocks) this.createBlocks();
 		this.createCollisions();
 
+		this.timerAsteroids = this.time.addEvent({ delay: randomNumber(750, 2500), callback: this.generateAsteroids, callbackScope: this, loop: true });
+
 		const keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
 		keyP.on("down", this.pauseGame, this);
 
-		this.pauseLabel = this.add.text(middleWidth, middleHeight, "Press P to resume", TextStyle.pauseFooter).setOrigin(0.5).setVisible(false);
-
-		this.pauseGame();
+		this.pauseLabel = this.add.text(middleWidth, middleHeight, "Press P to resume/pause", TextStyle.pauseFooter).setOrigin(0.5);
+		setTimeout(() => {
+			this.pauseLabel.setVisible(false);
+		}, 1000);
 	}
 
 	createGroups() {
@@ -153,32 +154,29 @@ export default class TeamDeathmatch extends Phaser.Scene {
 		this.shipsPointsLabel.x = GlobalConfigs.screen.middleWidth - this.shipsPointsLabel.width / 2;
 	}
 
+	generateAsteroids() {
+		const asteroid = this.asteroids.get();
+		if (asteroid) asteroid.generate();
+	}
+
 	pauseGame() {
 		this.pause = !this.pause;
 
 		if (this.pause) {
+			this.timerAsteroids.paused = true;
 			this.scene.pause();
 			this.physics.pause();
 			this.scene.launch("PauseTeamDeathmatch");
 			this.pauseLabel.setVisible(true);
 		} else {
+			this.timerAsteroids.paused = false;
 			this.physics.resume();
 			this.pauseLabel.setVisible(false);
 		}
 	}
 
-	// -- Update
-	update(time) {
+	update() {
 		if (this.pause) return;
-
 		if (GlobalConfigs.debug) this.showFPSs.setText(Number(this.game.loop.actualFps).toFixed(1));
-
-		if (this.gameConfigs.asteroids && this.lastAsteroids < time) this.generateAsteroids(time);
-	}
-
-	generateAsteroids(time) {
-		this.lastAsteroids = time + randomNumber(500, 10000);
-		const asteroid = this.asteroids.get();
-		if (asteroid) asteroid.generate();
 	}
 }

@@ -43,16 +43,18 @@ export default class Preload extends Phaser.Scene {
 		super({ key: "Preload" });
 	}
 
-	preload() {
+	init() {
 		const globalState = GlobalState.getInstance();
 		this.game.sound.mute = globalState.isMute;
+	}
+
+	preload() {
 
 		const progressBar = new ProgressBar(this);
 
 		this.importSprites();
 		this.importUI();
 		this.importSounds();
-		this.importFonts();
 
 		this.load.on('progress', (p) => progressBar.updateBar(p));
 		this.load.on("fileprogress", (f) => progressBar.fileLoad(f));
@@ -106,6 +108,4 @@ export default class Preload extends Phaser.Scene {
 	importSounds() {
 		this.load.audio("Shoot", ShootSound);
 	}
-
-	importFonts() { }
 }

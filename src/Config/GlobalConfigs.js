@@ -8,6 +8,8 @@ const GlobalConfigs = {
 	debug: false,
 	language: "en",
 	isMute: false,
+	textureShips: ["BlackPearl", "Ceuta", "MilleniumFalcon", "Victoria"],
+	textureAliens: ["Olho", "Ravi", "Shell", "Tank"],
 	controllers: [
 		{ // P1
 			left: "LEFT",

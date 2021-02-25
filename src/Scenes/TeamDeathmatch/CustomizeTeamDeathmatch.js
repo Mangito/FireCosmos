@@ -2,7 +2,7 @@ import GlobalConfigs from "../../Config/GlobalConfigs";
 import GameConfigs from "./GameConfigs";
 import { TextStyle } from "../../Managers/Theme";
 
-import Background from "../../Objects/Background";
+import Background from "../../Components/Background";
 
 export default class CustomizeTeamDeathmatch extends Phaser.Scene {
 	constructor() {

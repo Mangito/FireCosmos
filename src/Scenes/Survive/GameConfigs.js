@@ -5,6 +5,8 @@ let instance = null;
 class GameConfigs {
 	constructor() {
 		this.players = [];
+
+		this.createPlayers(1);
 	}
 
 	reset() {
@@ -18,12 +20,10 @@ class GameConfigs {
 	}
 
 	addPlayer(i) {
-		const shipsName = ["BlackPearl", "Ceuta", "MilleniumFalcon", "Victoria"];
-
 		const config = {
 			index: i,
-			name: "P" + i + 1,
-			ship: shipsName[i],
+			name: "P" + (i + 1),
+			ship: GlobalConfigs.textureShips[i],
 			team: "Ships",
 			teamCount: i + 1,
 			controllers: GlobalConfigs.controllers[i],

@@ -10,11 +10,11 @@ export default class Settings extends Phaser.Scene {
 		super({ key: "Settings" });
 	}
 
-	preload() { }
+	init() {
+		this.globalState = GlobalState.getInstance();
+	}
 
 	create() {
-		this.globalState = GlobalState.getInstance();
-
 		const { width, height, middleWidth, middleHeight } = GlobalConfigs.screen;
 
 		this.graphic = this.add.graphics();

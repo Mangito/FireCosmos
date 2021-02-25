@@ -8,12 +8,12 @@ export default class Pause extends Phaser.Scene {
 		super({ key: "PauseTeamDeathmatch" });
 	}
 
-	preload() { }
+	init() {
+		this.gameConfigs = GameConfigs.getInstance();
+	}
 
 	create() {
 		const { width, height, middleWidth, middleHeight } = GlobalConfigs.screen;
-
-		this.gameConfigs = GameConfigs.getInstance();
 
 		const border = this.add.graphics();
 		border.clear();

@@ -8,13 +8,11 @@ import TDGameConfigs from "./TeamDeathmatch/GameConfigs";
 import SurviveGameConfigs from "./Survive/GameConfigs";
 
 import { TextStyle } from "../Managers/Theme";
-import Background from "../Objects/Background";
+import Background from "../Components/Background";
 export default class Home extends Phaser.Scene {
 	constructor() {
 		super({ key: "Home" });
 	}
-
-	preload() { }
 
 	create() {
 		const { middleWidth, middleHeight } = GlobalConfigs.screen;
@@ -204,7 +202,6 @@ export default class Home extends Phaser.Scene {
 			}
 		}
 
-
 		{// --- Team Deathmatch
 			const startX = middleWidth + 250;
 
@@ -238,7 +235,7 @@ export default class Home extends Phaser.Scene {
 				});
 				_4P.action = () => {
 					_4P.changeFrame();
-					tDGameConfigs.default4vP();
+					tDGameConfigs.default4P();
 					this.scene.start("TeamDeathmatch");
 				};
 
