@@ -20,6 +20,8 @@ export default class Survive extends Phaser.Scene {
 
 		this.players = [];
 
+		this.pause = false;
+
 		this.currentLevel = 1;
 		this.totalAliens = 0;
 		this.enemyLevel = [];
@@ -47,18 +49,19 @@ export default class Survive extends Phaser.Scene {
 		const keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
 		keyQ.on("down", () => {
 			if (!this.pause) return;
+			keyP.removeAllListeners();
 			this.scene.start("Home");
 			this.scene.stop();
 		});
 
 		this.timerAliens = this.time.addEvent({ delay: 500, callback: this.createAlien, callbackScope: this, loop: true });
 
-		const survive = this.add.text(middleWidth, 30, "Survive").setOrigin(0.5);
-		this.statusLabel = this.add.text(middleWidth, middleHeight, "Level 1!").setOrigin(0.5).setVisible(false);
+		const survive = this.add.text(middleWidth, 30, "Survive", TextStyle.surviveTitle).setOrigin(0.5);
+		this.statusLabel = this.add.text(middleWidth, middleHeight, "Level 1!", TextStyle.statusLabel).setOrigin(0.5).setVisible(false);
 		this.statusLabelPauseTween = null;
 
-		this.currentLevelLabel = this.add.text(10, 10, "Currente Level: " + this.currentLevel);
-		this.totalAliensLabel = this.add.text(width - 200, 10, "Total enemies: " + this.totalAliens);
+		this.currentLevelLabel = this.add.text(10, 10, "Currente Level: " + this.currentLevel, TextStyle.points);
+		this.totalAliensLabel = this.add.text(width - 200, 10, "Total enemies: " + this.totalAliens, TextStyle.points);
 
 		this.newLevel();
 	}

@@ -23,6 +23,8 @@ export default class Settings extends Phaser.Scene {
 		this.drawBackground();
 		this.drawBorder();
 
+		const titleLabel = this.add.text(middleWidth, 50, "Settings", TextStyle.subScenesTitle).setOrigin(0.5);
+
 		this.createPlayer();
 
 		this.drawButtons();

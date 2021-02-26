@@ -81,84 +81,37 @@ export const TextStyle = {
 			fill: true
 		},
 	},
-	pauseTitle: {
+	subScenesTitle: {
 		fontFamily: PressStart2P,
-		fontSize: 40,
+		fontSize: 30,
 		fill: "#000",
 		stroke: '#fff',
-		strokeThickness: 1,
+		strokeThickness: 2,
 		boundsAlignH: "center",
 		boundsAlignV: "middle",
 		shadow: {
-			offsetX: 2,
-			offsetY: 2,
+			offsetX: 0,
+			offsetY: 0,
 			color: "#b00",
-			blur: 2,
+			blur: 10,
 			stroke: true,
 			fill: true
 		},
 	},
-	pauseTeamTitle: {
-		fontFamily: PressStart2P,
-		fontSize: 16,
-		fill: "#fff",
-		boundsAlignH: "center",
-		boundsAlignV: "middle",
-		shadow: {
-			offsetX: 0,
-			offsetY: 0,
-			color: "#d00",
-			blur: 5,
-			fill: true
-		},
-	},
-	pausePlayer: {
-		fontFamily: "monospace",
-		fontSize: 14,
-		fill: "#fff",
-		boundsAlignH: "center",
-		boundsAlignV: "middle",
-	},
-	pauseFooter: {
-		fontFamily: "monospace",
-		fontSize: 16,
-		fill: "#000",
-		boundsAlignH: "center",
-		boundsAlignV: "middle",
-		shadow: {
-			offsetX: 0,
-			offsetY: 0,
-			color: "#d00",
-			blur: 5,
-			fill: true
-		},
-	},
-	customizeBase: {
-		fontFamily: "monospace",
-		fontSize: 16,
-		fill: "#fff",
-		boundsAlignH: "center",
-		boundsAlignV: "middle",
-		shadow: {
-			offsetX: 0,
-			offsetY: 0,
-			color: "#d00",
-			blur: 5,
-			fill: true
-		},
-	},
-	customizeBaseSelect: {
-		fontFamily: "monospace",
-		fontSize: 14,
-		fill: "#000",
-		boundsAlignH: "center",
-		boundsAlignV: "middle",
-		shadow: {
-			offsetX: 0,
-			offsetY: 0,
-			color: "#d00",
-			blur: 5,
-			fill: true
+	info: {
+		tips: {
+			fontFamily: "monospace",
+			fontSize: 16,
+			fill: "#fff",
+			boundsAlignH: "center",
+			boundsAlignV: "middle",
+			shadow: {
+				offsetX: 0,
+				offsetY: 0,
+				color: "#d00",
+				blur: 1,
+				fill: true
+			},
 		},
 	},
 	start: {
@@ -177,5 +130,41 @@ export const TextStyle = {
 			stroke: true,
 			fill: true
 		},
+	},
+	surviveTitle: {
+		fontFamily: PressStart2P,
+		fontSize: 20,
+		fill: "#000",
+		stroke: '#fff',
+		strokeThickness: 2,
+		boundsAlignH: "center",
+		boundsAlignV: "middle",
+		shadow: {
+			offsetX: 0,
+			offsetY: 0,
+			color: "#f00",
+			blur: 10,
+			stroke: true,
+			fill: true
+		},
+	},
+	statusLabel: {
+		fontFamily: PressStart2P,
+		fontSize: 30,
+		fill: "#000",
+		stroke: '#fff',
+		strokeThickness: 2,
+		boundsAlignH: "center",
+		boundsAlignV: "middle",
+	},
+	statusLabelLittle: {
+		fontFamily: PressStart2P,
+		fontSize: 20,
+		fill: "#000",
+		stroke: '#fff',
+		strokeThickness: 2,
+		boundsAlignH: "center",
+		boundsAlignV: "middle",
+		align: 'center',
 	}
 };

@@ -25,7 +25,19 @@ export default class Home extends Phaser.Scene {
 
 		const keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
 		keyP.on("down", this.pauseGame, this);
-		this.pauseLabel = this.add.text(middleWidth, middleHeight, "Press P to resume", TextStyle.pauseFooter).setOrigin(0.5).setVisible(false);
+
+		const text = `  Move in arrows left and right; \n
+		Select in arrow up;`;
+		this.statusLabel = this.add.text(middleWidth, middleHeight + 150, text, TextStyle.statusLabelLittle).setOrigin(0.5);
+		this.tweens.add({
+			targets: this.statusLabel,
+			duration: 10000,
+			alpha: { from: 1, to: 0 },
+			onComplete: () => {
+				this.statusLabel.setText("Press P to resume");
+				this.statusLabel.setVisible(false);
+			}
+		});
 	}
 
 	createTitle() {
@@ -77,7 +89,7 @@ export default class Home extends Phaser.Scene {
 	}
 
 	createButtons() {
-		const { middleWidth, middleHeight } = GlobalConfigs.screen;
+		const { width, height, middleWidth, middleHeight } = GlobalConfigs.screen;
 		const tDGameConfigs = TDGameConfigs.getInstance();
 		const surviveGameConfigs = SurviveGameConfigs.getInstance();
 
@@ -96,7 +108,24 @@ export default class Home extends Phaser.Scene {
 				this.scene.pause();
 				this.physics.pause();
 				this.scene.launch("Settings");
-				this.pauseLabel.setVisible(true);
+				this.statusLabel.setVisible(true);
+			}
+		}
+
+		// --- Info
+		const infoBtn = this.buttonsGroup.get();
+		if (infoBtn) {
+			infoBtn.generate({
+				x: width - 40,
+				y: 40,
+				image: "QuestionMark",
+			});
+			infoBtn.action = () => {
+				infoBtn.changeFrame(true);
+				this.scene.pause();
+				this.physics.pause();
+				this.scene.launch("Info");
+				this.statusLabel.setVisible(true);
 			}
 		}
 
@@ -270,6 +299,6 @@ export default class Home extends Phaser.Scene {
 
 	pauseGame() {
 		this.physics.resume();
-		this.pauseLabel.setVisible(false);
+		this.statusLabel.setVisible(false);
 	}
 }

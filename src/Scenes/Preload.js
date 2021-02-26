@@ -34,6 +34,7 @@ import Settings from "../Assets/UI/Settings/Settings.png";
 import Sound from "../Assets/UI/Sound/Sound.png";
 import Flags from "../Assets/UI/Flags/Flags.png";
 import Exit from "../Assets/UI/Exit/Exit.png";
+import QuestionMark from "../Assets/UI/QuestionMark/QuestionMark.png";
 
 // Sound
 import ShootSound from "../Assets/Sound/Shoot.wav";
@@ -63,7 +64,6 @@ export default class Preload extends Phaser.Scene {
 			progressBar.complete();
 
 			this.scene.start("Home");
-			// this.scene.start("Survive");
 		});
 	}
 
@@ -101,6 +101,7 @@ export default class Preload extends Phaser.Scene {
 		this.load.spritesheet("Sound", Sound, { frameWidth: 32, frameHeight: 32 });
 		this.load.spritesheet("Flags", Flags, { frameWidth: 32, frameHeight: 32 });
 		this.load.spritesheet("Exit", Exit, { frameWidth: 32, frameHeight: 32 });
+		this.load.spritesheet("QuestionMark", QuestionMark, { frameWidth: 32, frameHeight: 32 });
 
 		this.load.image("Friction", Friction);
 	}

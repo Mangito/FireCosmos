@@ -6,8 +6,6 @@ export default class ProgressBar extends Phaser.GameObjects.Graphics {
 		super(scene, options);
 		scene.add.existing(this);
 
-		this.scene = scene;
-
 		this.drawProgress();
 	}
 

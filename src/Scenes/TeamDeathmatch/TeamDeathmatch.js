@@ -43,10 +43,12 @@ export default class TeamDeathmatch extends Phaser.Scene {
 
 		this.timerAsteroids = this.time.addEvent({ delay: randomNumber(750, 2500), callback: this.generateAsteroids, callbackScope: this, loop: true });
 
-		const keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
-		keyP.on("down", this.pauseGame, this);
+		this.keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+		const keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
+		this.keyP.on("down", this.pauseGame, this);
+		keyQ.on("down", this.quitInfo, this);
 
-		this.pauseLabel = this.add.text(middleWidth, middleHeight, "Press P to resume/pause", TextStyle.pauseFooter).setOrigin(0.5);
+		this.pauseLabel = this.add.text(middleWidth, middleHeight, "Paused, Press Q to exit!", TextStyle.statusLabel).setOrigin(0.5);
 		setTimeout(() => {
 			this.pauseLabel.setVisible(false);
 		}, 1000);
@@ -164,15 +166,19 @@ export default class TeamDeathmatch extends Phaser.Scene {
 
 		if (this.pause) {
 			this.timerAsteroids.paused = true;
-			this.scene.pause();
 			this.physics.pause();
-			this.scene.launch("PauseTeamDeathmatch");
 			this.pauseLabel.setVisible(true);
 		} else {
 			this.timerAsteroids.paused = false;
-			this.scene.resume();
 			this.physics.resume();
 			this.pauseLabel.setVisible(false);
+		}
+	}
+
+	quitInfo() {
+		if (this.pause) {
+			this.keyP.removeAllListeners();
+			this.scene.start("Home");
 		}
 	}
 

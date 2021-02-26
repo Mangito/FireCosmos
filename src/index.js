@@ -11,10 +11,9 @@ import { Banner } from "./Managers/Theme";
 import Preload from "./Scenes/Preload";
 import Home from "./Scenes/Home";
 import Settings from "./Scenes/Settings";
+import Info from "./Scenes/Info";
 import Survive from "./Scenes/Survive/Survive";
-import CustomizeTeamDeathmatch from "./Scenes/TeamDeathmatch/CustomizeTeamDeathmatch";
 import TeamDeathmatch from "./Scenes/TeamDeathmatch/TeamDeathmatch";
-import PauseTeamDeathmatch from "./Scenes/TeamDeathmatch/Pause";
 
 const config = {
 	title: "Fire Cosmos",
@@ -50,10 +49,9 @@ const config = {
 		Preload,
 		Home,
 		Settings,
+		Info,
 		Survive,
-		CustomizeTeamDeathmatch,
 		TeamDeathmatch,
-		PauseTeamDeathmatch,
 	]
 }
 
