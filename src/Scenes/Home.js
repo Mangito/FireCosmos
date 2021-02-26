@@ -105,10 +105,11 @@ export default class Home extends Phaser.Scene {
 			});
 			settingsBtn.action = () => {
 				settingsBtn.changeFrame(true);
+				this.statusLabel.setText("Press P to resume");
+				this.statusLabel.setVisible(true);
 				this.scene.pause();
 				this.physics.pause();
 				this.scene.launch("Settings");
-				this.statusLabel.setVisible(true);
 			}
 		}
 
@@ -122,10 +123,11 @@ export default class Home extends Phaser.Scene {
 			});
 			infoBtn.action = () => {
 				infoBtn.changeFrame(true);
+				this.statusLabel.setText("Press P to resume");
+				this.statusLabel.setVisible(true);
 				this.scene.pause();
 				this.physics.pause();
 				this.scene.launch("Info");
-				this.statusLabel.setVisible(true);
 			}
 		}
 

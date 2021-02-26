@@ -28,6 +28,9 @@ export default class Settings extends Phaser.Scene {
 		this.createPlayer();
 
 		this.drawButtons();
+
+		const keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
+		keyQ.on("down", this.quitSettings, this);
 	}
 
 	drawBackground() {
@@ -146,8 +149,7 @@ export default class Settings extends Phaser.Scene {
 				normal: 0,
 				exploded: 1,
 				action: () => {
-					this.scene.resume("Home");
-					this.scene.stop();
+					this.quitSettings();
 				},
 			},
 		];
@@ -165,5 +167,10 @@ export default class Settings extends Phaser.Scene {
 				action();
 			}, null, this);
 		});
+	}
+
+	quitSettings() {
+		this.scene.resume("Home");
+		this.scene.stop();
 	}
 }
