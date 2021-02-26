@@ -7,14 +7,17 @@ export default class Aliens extends Phaser.Physics.Arcade.Sprite {
 		const texture = GlobalConfigs.textureAliens[textureNumber];
 		super(scene, x, y, texture);
 
+		this.textureNumber = textureNumber;
 		this.textureName = texture;
 
 		this.life = textureNumber + 1;
+		this.speed = 100;
 	}
 
 	generate() {
+		this.speed = 200 - (this.textureNumber * 25);
 		this.setPosition(-20, 50);
-		this.setVelocityX(100);
+		this.setVelocityX(this.speed);
 	}
 
 	removeLife() {
@@ -25,11 +28,13 @@ export default class Aliens extends Phaser.Physics.Arcade.Sprite {
 
 	update() {
 		if (this.x + 20 >= GlobalConfigs.screen.width) {
-			this.setVelocityX(-100);
+			this.setVelocityX(-this.speed);
 			this.y += 50;
+			this.flipX = true;
 		} else if (this.x - 20 <= 0 && this.y > 50) {
-			this.setVelocityX(100);
+			this.setVelocityX(this.speed);
 			this.y += 50;
+			this.flipX = false;
 		}
 	}
 }

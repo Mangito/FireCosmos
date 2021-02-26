@@ -34,22 +34,28 @@ export default class Survive extends Phaser.Scene {
 
 		this.aliensGroup = this.physics.add.group({
 			classType: Aliens,
-			// collideWorldBounds: true,
 			runChildUpdate: true,
 		});
 
 		this.createPlayers();
 
 		this.physics.add.overlap(this.aliensGroup, this.playersGroup, this.pauseGame, null, this); // Aliens -> Players
-		this.physics.add.collider(this.aliensGroup); // Aliens
 
 		const keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
 		keyP.on("down", this.pauseGame, this);
 
+		const keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
+		keyQ.on("down", () => {
+			if (!this.pause) return;
+			this.scene.start("Home");
+			this.scene.stop();
+		});
+
 		this.timerAliens = this.time.addEvent({ delay: 500, callback: this.createAlien, callbackScope: this, loop: true });
 
 		const survive = this.add.text(middleWidth, 30, "Survive").setOrigin(0.5);
-		this.statusLabel = this.add.text(middleWidth, middleHeight, "Survive").setOrigin(0.5).setVisible(false);
+		this.statusLabel = this.add.text(middleWidth, middleHeight, "Level 1!").setOrigin(0.5).setVisible(false);
+		this.statusLabelPauseTween = null;
 
 		this.currentLevelLabel = this.add.text(10, 10, "Currente Level: " + this.currentLevel);
 		this.totalAliensLabel = this.add.text(width - 200, 10, "Total enemies: " + this.totalAliens);
@@ -93,58 +99,6 @@ export default class Survive extends Phaser.Scene {
 		}
 	}
 
-	newLevel() {
-		// const randomNumTexture = randomNumber(0, GlobalConfigs.textureAliens.length);
-
-		this.statusLabel.setText(this.currentLevel > 1 ? "Level Completed!!" : "Survive");
-		this.statusLabel.setVisible(true);
-		this.tweens.add({
-			targets: this.statusLabel,
-			duration: 2500,
-			alpha: { from: 1, to: 0 },
-		});
-
-
-		this.currentLevelLabel.setText("Currente Level: " + this.currentLevel);
-
-		switch (this.currentLevel) {
-			case 1:
-				for (let i = 0; i < 4; i++) {
-					this.enemyLevel.push(0);
-					// this.createAlien(0);
-				}
-				break;
-
-			case 2:
-				for (let i = 0; i < 4; i++) {
-					this.enemyLevel.push(0);
-					// this.createAlien(0);
-				}
-				for (let i = 0; i < 4; i++) {
-					this.enemyLevel.push(1);
-					// this.createAlien(1);
-				}
-				break;
-
-			case 3:
-				for (let i = 0; i < 6; i++) {
-					this.enemyLevel.push(0);
-					// this.createAlien(0);
-					for (let i = 0; i < 2; i++) {
-						this.enemyLevel.push(1);
-						// this.createAlien(1);
-					}
-				}
-				break;
-
-			default:
-				break;
-		}
-
-		this.totalAliens = this.enemyLevel.length;
-		this.totalAliensLabel.setText("Total enemies: " + this.totalAliens);
-	}
-
 	createAlien() {
 		if (!this.enemyLevel.length) return;
 
@@ -161,12 +115,22 @@ export default class Survive extends Phaser.Scene {
 		if (this.pause) {
 			this.timerAliens.paused = true;
 			this.physics.pause();
-			// this.scene.launch("PauseTeamDeathmatch");
-			// this.pauseLabel.setVisible(true);
+
+			this.statusLabel.setText("Paused, press Q to exit!");
+			this.statusLabel.setVisible(true);
+			this.statusLabelPauseTween = this.tweens.add({
+				targets: this.statusLabel,
+				repeat: -1,
+				duration: 1500,
+				yoyo: true,
+				alpha: { from: 1, to: 0.25 },
+			});
+
 		} else {
 			this.timerAliens.paused = false;
 			this.physics.resume();
-			// this.pauseLabel.setVisible(false);
+			this.statusLabel.setVisible(false);
+			this.statusLabelPauseTween.stop();
 		}
 	}
 
@@ -179,5 +143,173 @@ export default class Survive extends Phaser.Scene {
 			this.currentLevel++;
 			this.newLevel();
 		}
+	}
+
+	// ----------------------------------------------------------------
+	newLevel() {
+		this.statusLabel.setText(this.currentLevel > 1 ? "Level Completed!!" : "Survive");
+		this.statusLabel.setVisible(true);
+		this.tweens.add({
+			targets: this.statusLabel,
+			duration: 2500,
+			alpha: { from: 1, to: 0 },
+		});
+
+		this.currentLevelLabel.setText("Currente Level: " + this.currentLevel);
+
+		const numPlayers = this.playersConfig.length;
+		switch (this.currentLevel) {
+			case 1:
+				for (let i = 0; i < 4 * numPlayers; i++) {
+					this.enemyLevel.push(0);
+				}
+				break;
+
+			case 2:
+				for (let i = 0; i < 4 * numPlayers; i++) {
+					this.enemyLevel.push(0);
+				}
+				for (let i = 0; i < 4 * numPlayers; i++) {
+					this.enemyLevel.push(1);
+				}
+				break;
+
+			case 3:
+				for (let i = 0; i < 2 * numPlayers; i++) {
+					this.enemyLevel.push(1);
+					for (let i = 0; i < 6 * numPlayers; i++) {
+						this.enemyLevel.push(0);
+					}
+				}
+				break;
+
+			case 4:
+				for (let i = 0; i < 6 * numPlayers; i++) {
+					this.enemyLevel.push(0);
+					for (let i = 0; i < 2 * numPlayers; i++) {
+						this.enemyLevel.push(1);
+					}
+				}
+				break;
+
+			case 5:
+				for (let i = 0; i < 20 * numPlayers; i++) {
+					this.enemyLevel.push(0);
+				}
+				for (let i = 0; i < 10 * numPlayers; i++) {
+					this.enemyLevel.push(1);
+				}
+				for (let i = 0; i < 5 * numPlayers; i++) {
+					this.enemyLevel.push(2);
+				}
+				break;
+
+			case 6:
+				for (let i = 0; i < 2 * numPlayers; i++) {
+					this.enemyLevel.push(2);
+					for (let i = 0; i < 5 * numPlayers; i++) {
+						this.enemyLevel.push(1);
+						for (let i = 0; i < 5 * numPlayers; i++) {
+							this.enemyLevel.push(0);
+						}
+					}
+				}
+				break;
+
+			case 7:
+				for (let i = 0; i < 5 * numPlayers; i++) {
+					this.enemyLevel.push(0);
+					for (let i = 0; i < 2 * numPlayers; i++) {
+						this.enemyLevel.push(1);
+						for (let i = 0; i < 5 * numPlayers; i++) {
+							this.enemyLevel.push(2);
+						}
+					}
+				}
+				break;
+
+			case 8:
+				for (let i = 0; i < 10 * numPlayers; i++) {
+					this.enemyLevel.push(0);
+				}
+				for (let i = 0; i < 10 * numPlayers; i++) {
+					this.enemyLevel.push(3);
+				}
+				break;
+
+			case 9:
+				for (let i = 0; i < 10 * numPlayers; i++) {
+					this.enemyLevel.push(0);
+				}
+				for (let i = 0; i < 10 * numPlayers; i++) {
+					this.enemyLevel.push(1);
+				}
+				for (let i = 0; i < 10 * numPlayers; i++) {
+					this.enemyLevel.push(2);
+				}
+				for (let i = 0; i < 10 * numPlayers; i++) {
+					this.enemyLevel.push(3);
+				}
+				break;
+
+			case 10:
+				for (let i = 0; i < 4 * numPlayers; i++) {
+					this.enemyLevel.push(3);
+					for (let i = 0; i < 3 * numPlayers; i++) {
+						this.enemyLevel.push(2);
+						for (let i = 0; i < 2 * numPlayers; i++) {
+							this.enemyLevel.push(1);
+							for (let i = 0; i < 1 * numPlayers; i++) {
+								this.enemyLevel.push(0);
+							}
+						}
+					}
+				}
+				break;
+
+			case 11:
+			case 12:
+			case 13:
+			case 14:
+			case 15:
+				const randomEnemysLevel = randomNumber(this.currentLevel * numPlayers * 2, this.currentLevel * numPlayers * 10);
+				for (let i = 0; i < randomEnemysLevel; i++) {
+					const randomNumTexture = randomNumber(0, GlobalConfigs.textureAliens.length);
+					this.enemyLevel.push(randomNumTexture);
+				}
+				break;
+
+			default:
+				const enemysMax = this.currentLevel * numPlayers * 15;
+
+				for (let i = 0; i < 10; i++) {
+					this.enemyLevel.push(1);
+				}
+				for (let i = 0; i < 10; i++) {
+					this.enemyLevel.push(3);
+				}
+				for (let i = 0; i < 10; i++) {
+					this.enemyLevel.push(0);
+				}
+				for (let i = 0; i < 10; i++) {
+					this.enemyLevel.push(2);
+				}
+
+				for (let i = 0; i < enemysMax; i++) {
+					const randomNumTexture = randomNumber(0, GlobalConfigs.textureAliens.length);
+					this.enemyLevel.push(randomNumTexture);
+				}
+
+				for (let i = 0; i < 10; i++) {
+					this.enemyLevel.push(3);
+				}
+				for (let i = 0; i < 10; i++) {
+					this.enemyLevel.push(1);
+				}
+				break;
+		}
+
+		this.totalAliens = this.enemyLevel.length;
+		this.totalAliensLabel.setText("Total enemies: " + this.totalAliens);
 	}
 }
