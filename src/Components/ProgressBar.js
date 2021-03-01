@@ -1,5 +1,5 @@
 import GlobalConfigs from "../Config/GlobalConfigs";
-import { ProgressBarStyle, TextStyle } from "../Managers/Theme";
+import { ProgressBarStyle, TextStyle } from "../Theme";
 
 export default class ProgressBar extends Phaser.GameObjects.Graphics {
 	constructor(scene, options) {

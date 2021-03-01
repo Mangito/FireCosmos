@@ -1,7 +1,7 @@
 import GlobalConfigs from "../Config/GlobalConfigs";
 import GameConfigs from "../Scenes/TeamDeathmatch/GameConfigs";
 
-import { TextStyle } from "../Managers/Theme";
+import { TextStyle } from "../Theme";
 
 import Shoot from "../Objects/Shoot";
 

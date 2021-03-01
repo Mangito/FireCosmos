@@ -5,7 +5,7 @@ import "./CSS/Reset.css";
 // Configs/Infos
 import packageJson from "../package.json";
 import GlobalConfigs from "./Config/GlobalConfigs";
-import { Banner } from "./Managers/Theme";
+import { Banner } from "./Theme";
 
 // Scenes
 import Preload from "./Scenes/Preload";

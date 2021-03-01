@@ -1,5 +1,5 @@
 import GlobalConfigs from "../Config/GlobalConfigs";
-import { TextStyle } from "../Managers/Theme";
+import { TextStyle } from "../Theme";
 
 export default class Info extends Phaser.Scene {
 	constructor() {

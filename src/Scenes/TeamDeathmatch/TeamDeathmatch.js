@@ -1,7 +1,7 @@
 import GlobalConfigs from "../../Config/GlobalConfigs";
 import GameConfigs from "./GameConfigs";
 
-import { TextStyle } from "../../Managers/Theme";
+import { TextStyle } from "../../Theme";
 import { randomNumber } from "../../Utils/Utils";
 
 import Player from "../../Objects/Player";

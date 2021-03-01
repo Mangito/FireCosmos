@@ -3,7 +3,7 @@ import GlobalState from "../Config/GlobalState";
 
 import Player from "../Objects/Player";
 
-import { TextStyle } from "../Managers/Theme";
+import { TextStyle } from "../Theme";
 
 export default class Settings extends Phaser.Scene {
 	constructor() {

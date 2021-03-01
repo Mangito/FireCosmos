@@ -7,7 +7,7 @@ import Player from "../Objects/Player";
 import TDGameConfigs from "./TeamDeathmatch/GameConfigs";
 import InvasionGameConfigs from "./Invasion/GameConfigs";
 
-import { TextStyle } from "../Managers/Theme";
+import { TextStyle } from "../Theme";
 import Background from "../Components/Background";
 export default class Home extends Phaser.Scene {
 	constructor() {
