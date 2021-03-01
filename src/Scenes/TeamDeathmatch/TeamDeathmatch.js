@@ -95,16 +95,16 @@ export default class TeamDeathmatch extends Phaser.Scene {
 
 	createCollisions() {
 		for (let i = 0; i < this.players.length; i++) {
-			const player = this.players[i];
-			this.physics.add.overlap(this.playersPhysics, player.shoots, this.collisionPlayerShot, null, this); // Players -> Shoots
+			const shoots = this.players[i].shoots;
+			this.physics.add.overlap(this.playersPhysics, shoots, this.collisionPlayerShot, null, this); // Players -> Shoots
 
 			if (this.gameConfigs.asteroids) {
 				// Shoots -> Asteroids
-				this.physics.add.overlap(this.asteroids, player.shoots, this.collisionShootAsteroid, null, this);
+				this.physics.add.overlap(this.asteroids, shoots, this.collisionShootAsteroid, null, this);
 			}
 
 			// Shoots -> Block
-			if (this.gameConfigs.blocks) this.physics.add.overlap(player.shoots, this.blocks, s => s.destroy(), null, this);
+			if (this.gameConfigs.blocks) this.physics.add.overlap(shoots, this.blocks, s => s.destroy(), null, this);
 		}
 
 		// Asteroids -> ....

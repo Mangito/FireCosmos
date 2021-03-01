@@ -20,7 +20,7 @@ import Tank from "../Assets/Sprites/Aliens/Tank/Tank.png";
 import Fire from "../Assets/Sprites/Fire/Fire.png";
 
 // Asteroids
-import BolaBranca from "../Assets/Sprites/BolaBranca.png";
+import Asteroid from "../Assets/Sprites/Asteroids/Asteroid.png";
 
 // Blocks
 import Block from "../Assets/Sprites/Block/Block.png";
@@ -70,7 +70,7 @@ export default class Preload extends Phaser.Scene {
 
 	importSprites() {
 		//Asteroid
-		this.load.image("Asteroid", BolaBranca);
+		this.load.image("Asteroid", Asteroid);
 
 		// Block
 		this.load.image("Block", Block);
