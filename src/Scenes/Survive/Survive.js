@@ -9,7 +9,7 @@ import Background from "../../Components/Background";
 import Player from "../../Objects/Player";
 import Aliens from "../../Objects/Aliens";
 
-export default class Survive extends Phaser.Scene {
+export default class Survive extends Phaser.Scene {  // Invasion
 	constructor() {
 		super({ key: "Survive" });
 	}

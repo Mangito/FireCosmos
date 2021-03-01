@@ -12,6 +12,8 @@ export default class Aliens extends Phaser.Physics.Arcade.Sprite {
 
 		this.life = textureNumber + 1;
 		this.speed = 100;
+
+		this.explosionSound = this.scene.sound.add("Explosion", { volume: 0.75 });
 	}
 
 	generate() {
@@ -23,7 +25,10 @@ export default class Aliens extends Phaser.Physics.Arcade.Sprite {
 	removeLife() {
 		this.life--;
 		this.setAlpha(this.life * 0.25);
-		if (this.life <= 0) this.destroy();
+		if (this.life <= 0) {
+			this.explosionSound.play();
+			this.destroy();
+		}
 	}
 
 	update() {

@@ -23,6 +23,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		this.teamCount = teamCount;
 
 		this.shootSound = this.scene.sound.add("Shoot");
+		this.explosionSound = this.scene.sound.add("Explosion");
+
 		this.label = this.scene.add.text(x, y, name, TextStyle.base).setOrigin(0.5);
 
 		const { left, right, fire } = controllers;
@@ -64,6 +66,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 	}
 
 	hited() {
+		this.explosionSound.play();
 		this.deaths++;
 		this.visible = false;
 		this.reviveTime += 3000;

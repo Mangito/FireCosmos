@@ -14,6 +14,10 @@ export default class Home extends Phaser.Scene {
 		super({ key: "Home" });
 	}
 
+	init() {
+		this.isPaused = false;
+	}
+
 	create() {
 		const { middleWidth, middleHeight } = GlobalConfigs.screen;
 
@@ -35,7 +39,8 @@ export default class Home extends Phaser.Scene {
 			alpha: { from: 1, to: 0 },
 			onComplete: () => {
 				this.statusLabel.setText("Press P to resume");
-				this.statusLabel.setVisible(false);
+				this.statusLabel.setVisible(this.isPaused);
+				this.statusLabel.setAlpha(1);
 			}
 		});
 	}
@@ -105,10 +110,7 @@ export default class Home extends Phaser.Scene {
 			});
 			settingsBtn.action = () => {
 				settingsBtn.changeFrame(true);
-				this.statusLabel.setText("Press P to resume");
-				this.statusLabel.setVisible(true);
-				this.scene.pause();
-				this.physics.pause();
+				this.pauseGame();
 				this.scene.launch("Settings");
 			}
 		}
@@ -123,10 +125,7 @@ export default class Home extends Phaser.Scene {
 			});
 			infoBtn.action = () => {
 				infoBtn.changeFrame(true);
-				this.statusLabel.setText("Press P to resume");
-				this.statusLabel.setVisible(true);
-				this.scene.pause();
-				this.physics.pause();
+				this.pauseGame();
 				this.scene.launch("Info");
 			}
 		}
@@ -300,7 +299,18 @@ export default class Home extends Phaser.Scene {
 	}
 
 	pauseGame() {
-		this.physics.resume();
-		this.statusLabel.setVisible(false);
+		this.isPaused = !this.isPaused;
+
+		if (this.isPaused) {
+			this.statusLabel.setText("Press P to resume");
+			this.statusLabel.setAlpha(1);
+			this.statusLabel.setVisible(true);
+			this.scene.pause();
+			this.physics.pause();
+		} else {
+			this.scene.resume();
+			this.physics.resume();
+			this.statusLabel.setVisible(false);
+		}
 	}
 }

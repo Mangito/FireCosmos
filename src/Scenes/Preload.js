@@ -38,6 +38,7 @@ import QuestionMark from "../Assets/UI/QuestionMark/QuestionMark.png";
 
 // Sound
 import ShootSound from "../Assets/Sound/Shoot.wav";
+import ExplosionSound from "../Assets/Sound/Explosion.wav";
 
 export default class Preload extends Phaser.Scene {
 	constructor() {
@@ -108,5 +109,6 @@ export default class Preload extends Phaser.Scene {
 
 	importSounds() {
 		this.load.audio("Shoot", ShootSound);
+		this.load.audio("Explosion", ExplosionSound);
 	}
 }
