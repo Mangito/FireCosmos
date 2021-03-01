@@ -12,13 +12,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
 		this.isAlive = true;
 		this.reviveTime = 0;
-		this.thisTime = 0;
 		this.size = this.height / 4;
 		this.kills = 0;
 		this.deaths = 0;
 
 		this.gameConfigs = GameConfigs.getInstance();
-		this.lastFire = 0;
 		this.team = team;
 		this.teamCount = teamCount;
 
@@ -58,7 +56,36 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		this.setCollideWorldBounds(true);
 		this.setImmovable(true);
 
+		this.createMovement();
+	}
+
+	createMovement() {
 		this.setMaxVelocity(250);
+
+		const keys = this.keys;
+		const velocity = 200;
+
+		keys.left.on("down", () => {
+			if (this.gameConfigs.friction) this.setAccelerationX(-velocity)
+			else this.setVelocityX(-velocity);
+		});
+
+		keys.right.on("down", () => {
+			if (this.gameConfigs.friction) this.setAccelerationX(velocity)
+			else this.setVelocityX(velocity);
+		});
+
+		keys.fire.on("down", () => {
+			if (!this.isAlive && this.shoots.countActive() < 1) return;
+
+			const shoot = this.shoots.get();
+			if (shoot) {
+				this.shootSound.play();
+				const startY = this.team === "Aliens" ? this.y + this.size : this.y - this.size;
+
+				shoot.fire(this.x, startY, this.team, () => this.addKill());
+			}
+		});
 	}
 
 	addKill() {
@@ -79,31 +106,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 			this.visible = true;
 		}
 
-		const keys = this.keys;
-		const velocity = 200;
-		if (keys.left.isDown) {
-			if (this.gameConfigs.friction) this.setAccelerationX(-velocity)
-			else this.setVelocityX(-velocity);
-		};
-		if (keys.right.isDown) {
-			if (this.gameConfigs.friction) this.setAccelerationX(velocity)
-			else this.setVelocityX(velocity);
-		};
-
 		if (!this.isAlive) return;
+
 		this.reviveTime = time;
-
-		if (keys.fire.isDown && this.lastFire < time && this.isAlive) {
-			const shoot = this.shoots.get();
-			if (shoot) {
-				this.shootSound.play();
-				const startY = this.team === "Aliens" ? this.y + this.size : this.y - this.size;
-
-				shoot.fire(this.x, startY, this.team, () => this.addKill());
-				this.lastFire = time + 200;
-			}
-		}
-
 		this.label.x = this.x;
 	}
 }
