@@ -113,6 +113,15 @@ export const TextStyle = {
 				fill: true
 			},
 		},
+		controllers: {
+			fontFamily: "monospace",
+			fontSize: 16,
+			fill: "#d00",
+			stroke: '#000',
+			strokeThickness: 1,
+			boundsAlignH: "center",
+			boundsAlignV: "middle",
+		},
 	},
 	start: {
 		fontFamily: PressStart2P,

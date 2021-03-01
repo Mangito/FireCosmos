@@ -84,9 +84,9 @@ export default class Info extends Phaser.Scene {
 			const p1 = this.add.image(middleWidth - playerMarginX, middleHeight + playerMarginY, "BlackPearl");
 			this.add.text(p1.x, p1.y + marginName, "P1", TextStyle.base).setOrigin(0.5);
 
-			this.add.text(p1.x, p1.y - marginName, controllers.fire, TextStyle.base).setOrigin(0.5);
-			this.add.text(p1.x - marginControllersX, p1.y, controllers.left, TextStyle.base).setOrigin(0.5);
-			this.add.text(p1.x + marginControllersX, p1.y, controllers.right, TextStyle.base).setOrigin(0.5);
+			this.add.text(p1.x, p1.y - marginName, controllers.fire, TextStyle.info.controllers).setOrigin(0.5);
+			this.add.text(p1.x - marginControllersX, p1.y, controllers.left, TextStyle.info.controllers).setOrigin(0.5);
+			this.add.text(p1.x + marginControllersX, p1.y, controllers.right, TextStyle.info.controllers).setOrigin(0.5);
 		}
 
 		{ // P2
@@ -94,9 +94,9 @@ export default class Info extends Phaser.Scene {
 			const p2 = this.add.image(middleWidth - playerMarginX, middleHeight - playerMarginY, "Olho");
 			this.add.text(p2.x, p2.y - marginName, "P2", TextStyle.base).setOrigin(0.5);
 
-			this.add.text(p2.x, p2.y + marginName, controllers.fire, TextStyle.base).setOrigin(0.5);
-			this.add.text(p2.x - marginControllersX, p2.y, controllers.left, TextStyle.base).setOrigin(0.5);
-			this.add.text(p2.x + marginControllersX, p2.y, controllers.right, TextStyle.base).setOrigin(0.5);
+			this.add.text(p2.x, p2.y + marginName, controllers.fire, TextStyle.info.controllers).setOrigin(0.5);
+			this.add.text(p2.x - marginControllersX, p2.y, controllers.left, TextStyle.info.controllers).setOrigin(0.5);
+			this.add.text(p2.x + marginControllersX, p2.y, controllers.right, TextStyle.info.controllers).setOrigin(0.5);
 		}
 
 		{ // P3
@@ -104,9 +104,9 @@ export default class Info extends Phaser.Scene {
 			const p3 = this.add.image(middleWidth + playerMarginX, middleHeight + playerMarginY, "Ceuta");
 			this.add.text(p3.x, p3.y + marginName, "P3", TextStyle.base).setOrigin(0.5);
 
-			this.add.text(p3.x, p3.y - marginName, controllers.fire, TextStyle.base).setOrigin(0.5);
-			this.add.text(p3.x - marginControllersX, p3.y, controllers.left, TextStyle.base).setOrigin(0.5);
-			this.add.text(p3.x + marginControllersX, p3.y, controllers.right, TextStyle.base).setOrigin(0.5);
+			this.add.text(p3.x, p3.y - marginName, controllers.fire, TextStyle.info.controllers).setOrigin(0.5);
+			this.add.text(p3.x - marginControllersX, p3.y, controllers.left, TextStyle.info.controllers).setOrigin(0.5);
+			this.add.text(p3.x + marginControllersX, p3.y, controllers.right, TextStyle.info.controllers).setOrigin(0.5);
 		}
 
 		{ // P4
@@ -114,9 +114,9 @@ export default class Info extends Phaser.Scene {
 			const p4 = this.add.image(middleWidth + playerMarginX, middleHeight - playerMarginY, "Ravi");
 			this.add.text(p4.x, p4.y - marginName, "P4", TextStyle.base).setOrigin(0.5);
 
-			this.add.text(p4.x, p4.y + marginName, controllers.fire, TextStyle.base).setOrigin(0.5);
-			this.add.text(p4.x - marginControllersX, p4.y, controllers.left, TextStyle.base).setOrigin(0.5);
-			this.add.text(p4.x + marginControllersX, p4.y, controllers.right, TextStyle.base).setOrigin(0.5);
+			this.add.text(p4.x, p4.y + marginName, controllers.fire, TextStyle.info.controllers).setOrigin(0.5);
+			this.add.text(p4.x - marginControllersX, p4.y, controllers.left, TextStyle.info.controllers).setOrigin(0.5);
+			this.add.text(p4.x + marginControllersX, p4.y, controllers.right, TextStyle.info.controllers).setOrigin(0.5);
 		}
 
 		{	// Fire
