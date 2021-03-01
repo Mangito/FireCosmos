@@ -5,7 +5,7 @@ import Button from "../Components/Button";
 import Player from "../Objects/Player";
 
 import TDGameConfigs from "./TeamDeathmatch/GameConfigs";
-import SurviveGameConfigs from "./Survive/GameConfigs";
+import InvasionGameConfigs from "./Invasion/GameConfigs";
 
 import { TextStyle } from "../Managers/Theme";
 import Background from "../Components/Background";
@@ -96,7 +96,7 @@ export default class Home extends Phaser.Scene {
 	createButtons() {
 		const { width, height, middleWidth, middleHeight } = GlobalConfigs.screen;
 		const tDGameConfigs = TDGameConfigs.getInstance();
-		const surviveGameConfigs = SurviveGameConfigs.getInstance();
+		const invasionGameConfigs = InvasionGameConfigs.getInstance();
 
 		this.buttonsGroup = this.physics.add.group({ classType: Button });
 
@@ -130,7 +130,7 @@ export default class Home extends Phaser.Scene {
 			}
 		}
 
-		{ // --- Survive
+		{ // --- Invasion
 			const startX = middleWidth - 250;
 			const scale = 0.25;
 
@@ -146,8 +146,8 @@ export default class Home extends Phaser.Scene {
 
 				_1P.action = () => {
 					_1P.changeFrame();
-					surviveGameConfigs.createPlayers(1);
-					this.scene.start("Survive");
+					invasionGameConfigs.createPlayers(1);
+					this.scene.start("Invasion");
 				};
 
 				_1P.setScale(scale);
@@ -165,8 +165,8 @@ export default class Home extends Phaser.Scene {
 				});
 				_2P.action = () => {
 					_2P.changeFrame();
-					surviveGameConfigs.createPlayers(2);
-					this.scene.start("Survive");
+					invasionGameConfigs.createPlayers(2);
+					this.scene.start("Invasion");
 				};
 
 				_2P.setScale(scale);
@@ -184,8 +184,8 @@ export default class Home extends Phaser.Scene {
 				});
 				_3P.action = () => {
 					_3P.changeFrame();
-					surviveGameConfigs.createPlayers(3);
-					this.scene.start("Survive");
+					invasionGameConfigs.createPlayers(3);
+					this.scene.start("Invasion");
 				};
 
 				_3P.setScale(scale);
@@ -203,25 +203,25 @@ export default class Home extends Phaser.Scene {
 				});
 				_4P.action = () => {
 					_4P.changeFrame();
-					surviveGameConfigs.createPlayers(4);
-					this.scene.start("Survive");
+					invasionGameConfigs.createPlayers(4);
+					this.scene.start("Invasion");
 				};
 
 				_4P.setScale(scale);
 				_4P.changeVisible(false);
 			}
 
-			const surviveBtn = this.buttonsGroup.get();
-			if (surviveBtn) {
-				surviveBtn.generate({
+			const invasionBtn = this.buttonsGroup.get();
+			if (invasionBtn) {
+				invasionBtn.generate({
 					x: startX,
 					y: middleHeight,
 					image: "Button",
-					text: "Survive",
+					text: "Invasion",
 					style: TextStyle.buttons,
 				});
-				surviveBtn.action = () => {
-					surviveBtn.changeFrame();
+				invasionBtn.action = () => {
+					invasionBtn.changeFrame();
 
 					const visible = !_1P.visible;
 					_1P.changeVisible(visible);

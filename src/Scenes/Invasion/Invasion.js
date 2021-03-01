@@ -9,9 +9,9 @@ import Background from "../../Components/Background";
 import Player from "../../Objects/Player";
 import Aliens from "../../Objects/Aliens";
 
-export default class Survive extends Phaser.Scene {  // Invasion
+export default class Invasion extends Phaser.Scene {  // Invasion
 	constructor() {
-		super({ key: "Survive" });
+		super({ key: "Invasion" });
 	}
 
 	init() {
@@ -56,7 +56,7 @@ export default class Survive extends Phaser.Scene {  // Invasion
 
 		this.timerAliens = this.time.addEvent({ delay: 500, callback: this.createAlien, callbackScope: this, loop: true });
 
-		const survive = this.add.text(middleWidth, 30, "Survive", TextStyle.surviveTitle).setOrigin(0.5);
+		const invasion = this.add.text(middleWidth, 30, "Invasion", TextStyle.invasionTitle).setOrigin(0.5);
 		this.statusLabel = this.add.text(middleWidth, middleHeight, "Level 1!", TextStyle.statusLabel).setOrigin(0.5).setVisible(false);
 		this.statusLabelPauseTween = null;
 
@@ -150,7 +150,7 @@ export default class Survive extends Phaser.Scene {  // Invasion
 
 	// ----------------------------------------------------------------
 	newLevel() {
-		this.statusLabel.setText(this.currentLevel > 1 ? "Level Completed!!" : "Survive");
+		this.statusLabel.setText(this.currentLevel > 1 ? "Level Completed!!" : "Invasion");
 		this.statusLabel.setVisible(true);
 		this.tweens.add({
 			targets: this.statusLabel,

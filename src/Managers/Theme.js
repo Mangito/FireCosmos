@@ -131,7 +131,7 @@ export const TextStyle = {
 			fill: true
 		},
 	},
-	surviveTitle: {
+	invasionTitle: {
 		fontFamily: PressStart2P,
 		fontSize: 20,
 		fill: "#000",

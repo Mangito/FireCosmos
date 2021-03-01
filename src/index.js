@@ -12,7 +12,7 @@ import Preload from "./Scenes/Preload";
 import Home from "./Scenes/Home";
 import Settings from "./Scenes/Settings";
 import Info from "./Scenes/Info";
-import Survive from "./Scenes/Survive/Survive";
+import Invasion from "./Scenes/Invasion/Invasion";
 import TeamDeathmatch from "./Scenes/TeamDeathmatch/TeamDeathmatch";
 
 const config = {
@@ -50,7 +50,7 @@ const config = {
 		Home,
 		Settings,
 		Info,
-		Survive,
+		Invasion,
 		TeamDeathmatch,
 	]
 }
