@@ -18,6 +18,8 @@ export default class Invasion extends Phaser.Scene {  // Invasion
 		this.gameConfigs = GameConfigs.getInstance();
 		this.playersConfig = this.gameConfigs.players;
 
+		this.statusLabelPauseTween = null;
+
 		this.players = [];
 
 		this.pause = false;
@@ -58,7 +60,6 @@ export default class Invasion extends Phaser.Scene {  // Invasion
 
 		const invasion = this.add.text(middleWidth, 30, "Invasion", TextStyle.invasionTitle).setOrigin(0.5);
 		this.statusLabel = this.add.text(middleWidth, middleHeight, "Level 1!", TextStyle.statusLabel).setOrigin(0.5).setVisible(false);
-		this.statusLabelPauseTween = null;
 
 		this.currentLevelLabel = this.add.text(10, 10, "Currente Level: " + this.currentLevel, TextStyle.points);
 		this.totalAliensLabel = this.add.text(width - 200, 10, "Total enemies: " + this.totalAliens, TextStyle.points);

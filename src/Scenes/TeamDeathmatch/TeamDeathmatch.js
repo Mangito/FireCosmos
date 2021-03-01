@@ -20,6 +20,8 @@ export default class TeamDeathmatch extends Phaser.Scene {
 
 		this.players = [];
 
+		this.statusLabelPauseTween = null;
+
 		this.upPoints = 0;
 		this.downPoints = 0;
 
@@ -48,10 +50,17 @@ export default class TeamDeathmatch extends Phaser.Scene {
 		this.keyP.on("down", this.pauseGame, this);
 		keyQ.on("down", this.quitInfo, this);
 
-		this.pauseLabel = this.add.text(middleWidth, middleHeight, "Paused, Press Q to exit!", TextStyle.statusLabel).setOrigin(0.5);
-		setTimeout(() => {
-			this.pauseLabel.setVisible(false);
-		}, 1000);
+		this.pauseLabel = this.add.text(middleWidth, middleHeight, "TeamDeathmatch", TextStyle.statusLabel).setOrigin(0.5);
+		this.statusLabelPauseTween = this.tweens.add({
+			targets: this.pauseLabel,
+			duration: 3000,
+			alpha: { from: 1, to: 0 },
+			onComplete: () => {
+				this.pauseLabel.setVisible(false);
+				this.pauseLabel.setAlpha(1);
+				this.pauseLabel.setText("Paused, press Q to exit!");
+			}
+		});
 	}
 
 	createGroups() {
@@ -168,10 +177,21 @@ export default class TeamDeathmatch extends Phaser.Scene {
 			this.timerAsteroids.paused = true;
 			this.physics.pause();
 			this.pauseLabel.setVisible(true);
+			this.pauseLabel.setText("Paused, Press Q to exit!");
+
+			this.statusLabelPauseTween = this.tweens.add({
+				targets: this.pauseLabel,
+				repeat: -1,
+				duration: 1500,
+				yoyo: true,
+				alpha: { from: 1, to: 0.25 },
+			});
+
 		} else {
 			this.timerAsteroids.paused = false;
 			this.physics.resume();
 			this.pauseLabel.setVisible(false);
+			this.statusLabelPauseTween.stop();
 		}
 	}
 

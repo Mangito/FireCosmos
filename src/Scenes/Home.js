@@ -30,8 +30,7 @@ export default class Home extends Phaser.Scene {
 		const keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
 		keyP.on("down", this.pauseGame, this);
 
-		const text = `  Move in arrows left and right; \n
-		Select in arrow up;`;
+		const text = `Move in arrows left and right; \n Select in arrow up;`;
 		this.statusLabel = this.add.text(middleWidth, middleHeight + 150, text, TextStyle.statusLabelLittle).setOrigin(0.5);
 		this.tweens.add({
 			targets: this.statusLabel,
@@ -43,6 +42,8 @@ export default class Home extends Phaser.Scene {
 				this.statusLabel.setAlpha(1);
 			}
 		});
+
+		this.openSceneKeyboard();
 	}
 
 	createTitle() {
@@ -54,6 +55,7 @@ export default class Home extends Phaser.Scene {
 			targets: fireCosmos,
 			duration: 5000,
 			scale: { from: 0.5, to: 1 },
+			alpha: { from: 0.25, to: 1 },
 			onComplete: () => {
 				this.tweens.add({
 					targets: fireCosmos,
@@ -305,12 +307,18 @@ export default class Home extends Phaser.Scene {
 			this.statusLabel.setText("Press P to resume");
 			this.statusLabel.setAlpha(1);
 			this.statusLabel.setVisible(true);
-			this.scene.pause();
 			this.physics.pause();
 		} else {
 			this.scene.resume();
 			this.physics.resume();
 			this.statusLabel.setVisible(false);
 		}
+	}
+
+	openSceneKeyboard() {
+		this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ONE).on("down", () => { this.scene.launch("Settings"); });
+		this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TWO).on("down", () => { this.scene.launch("Info"); });
+		this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.THREE).on("down", () => { this.scene.start("Invasion"); });
+		this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FOUR).on("down", () => { this.scene.start("TeamDeathmatch"); });
 	}
 }
