@@ -37,7 +37,15 @@ const pt = {
 		],
 	},
 	types: [
-
+		"Cada jogador tem as suas próprias teclas no teclado",
+		"O tiro é destruído ao atingir um inimigo",
+		"O tiro é destruído ao atingir um inimigo",
+		"Basta clicar na tecla para mudar de direção",
+		"Os níveis de invasão são infinitos,\n tenta fazer o melhor que conseguires",
+		"Em pausa podes clicar Q para sair",
+		"Podes clicar P para pausar o jogo",
+		"Se queres continuar um jogo em pausa pressiona P",
+		"Pressiona Q para sair!",
 	],
 };
 

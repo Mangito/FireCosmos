@@ -51,7 +51,6 @@ export default class Preload extends Phaser.Scene {
 	}
 
 	preload() {
-
 		const progressBar = new ProgressBar(this);
 
 		this.importSprites();

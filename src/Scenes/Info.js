@@ -2,6 +2,7 @@ import GlobalConfigs from "../Config/GlobalConfigs";
 import GlobalState from "../Config/GlobalState";
 
 import { TextStyle } from "../Theme";
+import { randomNumber } from "../Utils/Utils";
 
 export default class Info extends Phaser.Scene {
 	constructor() {
@@ -24,7 +25,7 @@ export default class Info extends Phaser.Scene {
 
 		const infoLabel = this.add.text(middleWidth, 50, this.language.info.info, TextStyle.subScenesTitle).setOrigin(0.5);
 
-		this.tipsLabel = this.add.text(middleWidth, middleHeight, this.language.info.exit, TextStyle.info.tips).setOrigin(0.5);
+		this.animationTipsLabel();
 
 		const keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
 		keyQ.on("down", this.quitInfo, this);
@@ -139,6 +140,24 @@ export default class Info extends Phaser.Scene {
 			const blockImage = this.add.image(middleWidth - 100, middleHeight + 50, "Block");
 			this.add.text(blockImage.x, blockImage.y + marginName, this.language.info.block, TextStyle.base).setOrigin(0.5);
 		}
+	}
+
+	animationTipsLabel() {
+		const { width, height, middleWidth, middleHeight } = GlobalConfigs.screen;
+
+		this.tipsLabel = this.add.text(middleWidth, middleHeight, this.language.info.exit, TextStyle.info.tips).setOrigin(0.5);
+		this.tweens.add({
+			targets: this.tipsLabel,
+			alpha: { start: 1, to: 0 },
+			ease: "Linear",
+			duration: 5000,
+			repeat: -1,
+			yoyo: true,
+			onYoyo: () => {
+				const randomTip = this.language.types[randomNumber(0, this.language.types.length)];
+				this.tipsLabel.setText(randomTip);
+			},
+		});
 	}
 
 	quitInfo() {

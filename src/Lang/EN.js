@@ -37,7 +37,15 @@ const en = {
 		],
 	},
 	types: [
-
+		"Each player has their own keys on the keyboard",
+		"The shot is destroyed when it hits an enemy",
+		"The shot is destroyed when it hits an enemy",
+		"Just click on the button to change direction",
+		"The invasion levels are infinite,\n try to do the best you can",
+		"Paused, you can click Q to exit",
+		"You can click P to pause the game",
+		"If you want to continue a game on pause, press P",
+		"Press Q to exit",
 	],
 };
 
