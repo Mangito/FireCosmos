@@ -1,12 +1,12 @@
 {
   "name": "firecosmos",
   "version": "1.0.0",
-  "description": "FireCosmos",
+  "description": "Save the Earth from an alien invasion!",
   "homepage": "https://mangito.github.io/FireCosmos/",
   "private": false,
   "author": {
     "name": "Mangito",
-    "email": "flavioandre.2001.9.7@gmail.com",
+    "email": "mangitogame@gmail.com",
     "url": "https://mangito.github.io/Manguito/"
   },
   "main": "src/index.js",
