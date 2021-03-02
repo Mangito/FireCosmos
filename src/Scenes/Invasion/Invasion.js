@@ -194,7 +194,7 @@ export default class Invasion extends Phaser.Scene {
 				for (let i = 0; i < 4 * numPlayers; i++) {
 					this.enemyLevel.push(0);
 				}
-				for (let i = 0; i < 4 * numPlayers; i++) {
+				for (let i = 0; i < 3 * numPlayers; i++) {
 					this.enemyLevel.push(1);
 				}
 				break;
@@ -202,7 +202,7 @@ export default class Invasion extends Phaser.Scene {
 			case 3:
 				for (let i = 0; i < 2 * numPlayers; i++) {
 					this.enemyLevel.push(1);
-					for (let i = 0; i < 6 * numPlayers; i++) {
+					for (let i = 0; i < 2 * numPlayers; i++) {
 						this.enemyLevel.push(0);
 					}
 				}
@@ -211,7 +211,7 @@ export default class Invasion extends Phaser.Scene {
 			case 4:
 				for (let i = 0; i < 6 * numPlayers; i++) {
 					this.enemyLevel.push(0);
-					for (let i = 0; i < 2 * numPlayers; i++) {
+					for (let i = 0; i < 1 * numPlayers; i++) {
 						this.enemyLevel.push(1);
 					}
 				}
@@ -230,11 +230,11 @@ export default class Invasion extends Phaser.Scene {
 				break;
 
 			case 6:
-				for (let i = 0; i < 2 * numPlayers; i++) {
+				for (let i = 0; i < 4 * numPlayers; i++) {
 					this.enemyLevel.push(2);
-					for (let i = 0; i < 5 * numPlayers; i++) {
+					for (let i = 0; i < 2; i++) {
 						this.enemyLevel.push(1);
-						for (let i = 0; i < 5 * numPlayers; i++) {
+						for (let i = 0; i < 1 * numPlayers; i++) {
 							this.enemyLevel.push(0);
 						}
 					}
@@ -242,11 +242,11 @@ export default class Invasion extends Phaser.Scene {
 				break;
 
 			case 7:
-				for (let i = 0; i < 5 * numPlayers; i++) {
+				for (let i = 0; i < 1 * numPlayers; i++) {
 					this.enemyLevel.push(0);
 					for (let i = 0; i < 2 * numPlayers; i++) {
 						this.enemyLevel.push(1);
-						for (let i = 0; i < 5 * numPlayers; i++) {
+						for (let i = 0; i < 3 * numPlayers; i++) {
 							this.enemyLevel.push(2);
 						}
 					}
@@ -254,37 +254,40 @@ export default class Invasion extends Phaser.Scene {
 				break;
 
 			case 8:
-				for (let i = 0; i < 10 * numPlayers; i++) {
-					this.enemyLevel.push(0);
-				}
-				for (let i = 0; i < 10 * numPlayers; i++) {
-					this.enemyLevel.push(3);
+				for (let i = 0; i < 2 * numPlayers; i++) {
+					this.enemyLevel.push(1);
+					for (let i = 0; i < 4 * numPlayers; i++) {
+						this.enemyLevel.push(0);
+					}
+					for (let i = 0; i < 4 * numPlayers; i++) {
+						this.enemyLevel.push(3);
+					}
 				}
 				break;
 
 			case 9:
-				for (let i = 0; i < 10 * numPlayers; i++) {
+				for (let i = 0; i < 20 * numPlayers; i++) {
 					this.enemyLevel.push(0);
 				}
-				for (let i = 0; i < 10 * numPlayers; i++) {
+				for (let i = 0; i < 20 * numPlayers; i++) {
 					this.enemyLevel.push(1);
 				}
-				for (let i = 0; i < 10 * numPlayers; i++) {
+				for (let i = 0; i < 20 * numPlayers; i++) {
 					this.enemyLevel.push(2);
 				}
-				for (let i = 0; i < 10 * numPlayers; i++) {
+				for (let i = 0; i < 20 * numPlayers; i++) {
 					this.enemyLevel.push(3);
 				}
 				break;
 
 			case 10:
-				for (let i = 0; i < 4 * numPlayers; i++) {
+				for (let i = 0; i < 1 * numPlayers; i++) {
 					this.enemyLevel.push(3);
-					for (let i = 0; i < 3 * numPlayers; i++) {
+					for (let i = 0; i < 1 * numPlayers; i++) {
 						this.enemyLevel.push(2);
-						for (let i = 0; i < 2 * numPlayers; i++) {
+						for (let i = 0; i < 1 * numPlayers; i++) {
 							this.enemyLevel.push(1);
-							for (let i = 0; i < 1 * numPlayers; i++) {
+							for (let i = 0; i < 2 * numPlayers; i++) {
 								this.enemyLevel.push(0);
 							}
 						}
@@ -297,7 +300,7 @@ export default class Invasion extends Phaser.Scene {
 			case 13:
 			case 14:
 			case 15:
-				const randomEnemysLevel = randomNumber(this.currentLevel * numPlayers * 2, this.currentLevel * numPlayers * 10);
+				const randomEnemysLevel = randomNumber(this.currentLevel * numPlayers * 5, this.currentLevel * numPlayers * 15);
 				for (let i = 0; i < randomEnemysLevel; i++) {
 					const randomNumTexture = randomNumber(0, GlobalConfigs.textureAliens.length);
 					this.enemyLevel.push(randomNumTexture);
