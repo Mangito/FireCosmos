@@ -1,6 +1,7 @@
 import Phaser from "Phaser";
 
 import "./CSS/Reset.css";
+import favicon from "./Assets/Favicon/favicon.png";
 
 // Configs/Infos
 import packageJson from "../package.json";
@@ -56,3 +57,5 @@ const config = {
 }
 
 const game = new Phaser.Game(config);
+
+document.getElementById("favicon").setAttribute("href", favicon);
