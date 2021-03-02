@@ -110,16 +110,21 @@ export default class TeamDeathmatch extends Phaser.Scene {
 
 	createCollisions() {
 		for (let i = 0; i < this.players.length; i++) {
-			const shoots = this.players[i].shoots;
-			this.physics.add.overlap(this.playersPhysics, shoots, this.collisionPlayerShot, null, this); // Players -> Shoots
+			const player = this.players[i];
 
+			// Players -> Shoots
+			this.physics.add.overlap(
+				this.playersPhysics, player.shoots,
+				(dead, shoot) => { this.collisionPlayerShot(dead, shoot, player); },
+				null, this);
+
+			// Shoots -> Asteroids
 			if (this.gameConfigs.asteroids) {
-				// Shoots -> Asteroids
-				this.physics.add.overlap(this.asteroids, shoots, this.collisionShootAsteroid, null, this);
+				this.physics.add.overlap(this.asteroids, player.shoots, this.collisionShootAsteroid, null, this);
 			}
 
 			// Shoots -> Block
-			if (this.gameConfigs.blocks) this.physics.add.overlap(shoots, this.blocks, s => s.destroy(), null, this);
+			if (this.gameConfigs.blocks) this.physics.add.overlap(player.shoots, this.blocks, s => s.destroy(), null, this);
 		}
 
 		// Asteroids -> ....
@@ -135,13 +140,15 @@ export default class TeamDeathmatch extends Phaser.Scene {
 		}
 	}
 
-	collisionPlayerShot(player, shoot) {
-		if (player.isAlive && player.team !== shoot.team) {
-			player.hited();
-			shoot.addKill();
+	collisionPlayerShot(dead, shoot, killer) {
+		if (dead.isAlive && dead.team !== shoot.team) {
+			dead.hited();
 			if (shoot.team === "Aliens") this.updateAliensPoints();
 			else this.updateShipsPoints();
 			shoot.destroy();
+
+			killer.addKill();
+			killer.label.setText(killer.kills);
 		}
 	}
 

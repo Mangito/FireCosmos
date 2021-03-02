@@ -7,12 +7,15 @@ export default class Shoot extends Phaser.Physics.Arcade.Sprite {
 		this.speed = 600;
 	}
 
-	fire(x, y, team, addKill) {
+	fire(x, y, team) {
 		this.team = team;
 
-		this.setVelocityY(team === "Aliens" ? this.speed : -this.speed);
-
-		this.addKill = addKill;
+		if (team === "Aliens") {
+			this.setVelocityY(this.speed);
+			this.setFlipY(true);
+		} else {
+			this.setVelocityY(-this.speed);
+		}
 
 		this.setPosition(x, y);
 		this.setActive(true);
@@ -20,8 +23,7 @@ export default class Shoot extends Phaser.Physics.Arcade.Sprite {
 	}
 
 	update() {
-		if (this.y > GlobalConfigs.screen.height) this.remove();
-		if (this.y < -50) this.remove();
+		if (this.y > GlobalConfigs.screen.height || this.y < -50) this.remove();
 	}
 
 	remove() {
