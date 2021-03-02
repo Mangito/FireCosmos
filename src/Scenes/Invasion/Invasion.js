@@ -48,17 +48,6 @@ export default class Invasion extends Phaser.Scene {
 
 		this.physics.add.overlap(this.aliensGroup, this.playersGroup, this.endGame, null, this); // Aliens -> Players
 
-		const keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
-		keyP.on("down", this.pauseGame, this);
-
-		const keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
-		keyQ.on("down", () => {
-			if (!this.pause) return;
-			keyP.removeAllListeners();
-			this.scene.start("Home");
-			this.scene.stop();
-		});
-
 		this.timerAliens = this.time.addEvent({ delay: 500, callback: this.createAlien, callbackScope: this, loop: true });
 
 		const invasion = this.add.text(middleWidth, 30, this.language.invasion.invasion, TextStyle.invasionTitle).setOrigin(0.5);
@@ -67,6 +56,7 @@ export default class Invasion extends Phaser.Scene {
 		this.currentLevelLabel = this.add.text(10, 10, this.language.invasion.currentLevel + this.currentLevel, TextStyle.points);
 		this.totalAliensLabel = this.add.text(width - 250, 10, this.language.invasion.totalEnemies + this.totalAliens, TextStyle.points);
 
+		this.createKeys();
 		this.newLevel();
 	}
 
@@ -116,6 +106,36 @@ export default class Invasion extends Phaser.Scene {
 		}
 	}
 
+	createKeys() {
+		// Get Keys
+		const keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+		const keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
+		const keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+
+		// Remove  Listeners
+		removeKeysListener();
+
+		// Add Listeners
+		keyP.on("down", this.pauseGame, this);
+		keyQ.on("down", () => {
+			if (!this.pause) return;
+			removeKeysListener();
+			this.scene.start("Home");
+			this.scene.stop();
+		});
+		keyR.on("down", () => {
+			if (!this.pause) return;
+			removeKeysListener();
+			this.scene.restart();
+		});
+
+		function removeKeysListener() {
+			keyQ.removeAllListeners();
+			keyP.removeAllListeners();
+			keyR.removeAllListeners();
+		}
+	}
+
 	pauseGame() {
 		this.pause = !this.pause;
 
@@ -143,7 +163,7 @@ export default class Invasion extends Phaser.Scene {
 
 	endGame() {
 		this.statusLabel.setVisible(true);
-		this.statusLabel.setText(`${this.language.invasion.endGame} \n ${this.language.info.exit}`);
+		this.statusLabel.setText(`${this.language.invasion.endGame} \n ${this.language.invasion.exit}`);
 		this.statusLabel.setStyle(TextStyle.loseGame);
 
 		this.statusLabelPauseTween = this.tweens.add({

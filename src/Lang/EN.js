@@ -24,6 +24,7 @@ const en = {
 		levelCompleted: "Level completed!!",
 		pause: "Paused, press Q to exit!",
 		endGame: "You lost, the aliens invaded Earth !!",
+		exit: "Press Q to exit or R to restart",
 	},
 	teamDeathmatch: {
 		howWin: ["Fist team get ", " points, win!"],
@@ -35,6 +36,7 @@ const en = {
 			"The Terrans won!",
 			"The Earth is saved!",
 		],
+		exit: "Press Q to exit or R to restart",
 	},
 	types: [
 		"Each player has their own keys on the keyboard",
@@ -43,6 +45,7 @@ const en = {
 		"Just click on the button to change direction",
 		"The invasion levels are infinite,\n try to do the best you can",
 		"Paused, you can click Q to exit",
+		"Paused, you can click R to restart",
 		"You can click P to pause the game",
 		"If you want to continue a game \n  and it is on pause, press P",
 		"Press Q to exit",

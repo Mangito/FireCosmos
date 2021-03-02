@@ -24,6 +24,7 @@ const pt = {
 		levelCompleted: "Nivel completo!!",
 		pause: "Em pausa, pressiona Q para sair!",
 		endGame: "Perdeste, os alienígenas invadiram a Terra!!",
+		exit: "Pressiona Q para sair ou R para recomeçar",
 	},
 	teamDeathmatch: {
 		howWin: ["Primeira equipa a chegar aos ", " pontos, vence!"],
@@ -35,6 +36,7 @@ const pt = {
 			"Os Terráqueos venceram!",
 			"A Terra está salva!",
 		],
+		exit: "Pressiona Q para sair ou R para recomeçar",
 	},
 	types: [
 		"Cada jogador tem as suas próprias teclas no teclado",
@@ -43,6 +45,7 @@ const pt = {
 		"Basta clicar na tecla para mudar de direção",
 		"Os níveis de invasão são infinitos,\n tenta fazer o melhor que conseguires",
 		"Em pausa podes clicar Q para sair",
+		"Em pausa podes clicar R para recomeçar",
 		"Podes clicar P para pausar o jogo",
 		"Se queres continuar um jogo em pausa pressiona P",
 		"Pressiona Q para sair!",

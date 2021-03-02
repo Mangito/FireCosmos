@@ -47,10 +47,7 @@ export default class TeamDeathmatch extends Phaser.Scene {
 
 		this.timerAsteroids = this.time.addEvent({ delay: randomNumber(750, 2500), callback: this.generateAsteroids, callbackScope: this, loop: true });
 
-		this.keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
-		const keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
-		this.keyP.on("down", this.pauseGame, this);
-		keyQ.on("down", this.quitInfo, this);
+		this.createKeys();
 
 		const howWinText = this.language.teamDeathmatch.howWin;
 		this.statusLabel = this.add.text(middleWidth, middleHeight,
@@ -187,6 +184,36 @@ export default class TeamDeathmatch extends Phaser.Scene {
 		if (asteroid) asteroid.generate();
 	}
 
+	createKeys() {
+		// Get Keys
+		const keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+		const keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
+		const keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+
+		// Remove  Listeners
+		removeKeysListener();
+
+		// Add Listeners
+		keyP.on("down", this.pauseGame, this);
+		keyQ.on("down", () => {
+			if (!this.pause) return;
+			removeKeysListener();
+			this.scene.start("Home");
+			this.scene.stop();
+		});
+		keyR.on("down", () => {
+			if (!this.pause) return;
+			removeKeysListener();
+			this.scene.restart();
+		});
+
+		function removeKeysListener() {
+			keyQ.removeAllListeners();
+			keyP.removeAllListeners();
+			keyR.removeAllListeners();
+		}
+	}
+
 	pauseGame() {
 		this.pause = !this.pause;
 
@@ -215,7 +242,7 @@ export default class TeamDeathmatch extends Phaser.Scene {
 	endGame() {
 		const output = this.upPoints > this.downPoints ? this.language.teamDeathmatch.aliensWin : this.language.teamDeathmatch.shipsWin;
 		this.statusLabel.setVisible(true);
-		this.statusLabel.setText(`${output[0]} \n ${output[1]}`);
+		this.statusLabel.setText(`${output[0]} \n ${output[1]} \n ${this.language.teamDeathmatch.exit}`);
 		this.statusLabel.setStyle(TextStyle.loseGame);
 
 		this.statusLabelPauseTween = this.tweens.add({
@@ -230,13 +257,6 @@ export default class TeamDeathmatch extends Phaser.Scene {
 		this.physics.pause();
 		this.keyP.removeAllListeners();
 		this.timerAsteroids.paused = true;
-	}
-
-	quitInfo() {
-		if (this.pause) {
-			this.keyP.removeAllListeners();
-			this.scene.start("Home");
-		}
 	}
 
 	update() {
