@@ -5,8 +5,6 @@ let instance = null;
 class GameConfigs {
 	constructor() {
 		this.players = [];
-
-		this.createPlayers(1);
 	}
 
 	reset() {

@@ -1,5 +1,6 @@
 import GlobalConfigs from "../Config/GlobalConfigs";
 import GlobalState from "../Config/GlobalState";
+import EventManager from "../Managers/EventManager";
 
 import Player from "../Objects/Player";
 
@@ -12,6 +13,7 @@ export default class Settings extends Phaser.Scene {
 
 	init() {
 		this.globalState = GlobalState.getInstance();
+		this.eventManager = EventManager.getInstance();
 	}
 
 	create() {
@@ -23,7 +25,7 @@ export default class Settings extends Phaser.Scene {
 		this.drawBackground();
 		this.drawBorder();
 
-		const titleLabel = this.add.text(middleWidth, 50, "Settings", TextStyle.subScenesTitle).setOrigin(0.5);
+		this.titleLabel = this.add.text(middleWidth, 50, this.globalState.output.settings.settings, TextStyle.subScenesTitle).setOrigin(0.5);
 
 		this.createPlayer();
 
@@ -87,7 +89,7 @@ export default class Settings extends Phaser.Scene {
 		});
 		const config = {
 			index: 0,
-			name: this.globalState.language === "pt" ? "Definições" : "Settings",
+			name: this.globalState.output.settings.settings,
 			ship: "MilleniumFalcon",
 			team: "Ships",
 			teamCount: 0,
@@ -126,7 +128,7 @@ export default class Settings extends Phaser.Scene {
 				exploded: (this.globalState.language === "pt" ? 0 : 1),
 				action: () => {
 					this.globalState.language = (this.globalState.language === "pt" ? "en" : "pt");
-					this.player.label.setText(this.globalState.language === "pt" ? "Definições" : "Settings");
+					this.updateLabels();
 				},
 			},
 
@@ -167,6 +169,12 @@ export default class Settings extends Phaser.Scene {
 				action();
 			}, null, this);
 		});
+	}
+
+	updateLabels() {
+		this.titleLabel.setText(this.globalState.output.settings.settings);
+		this.player.label.setText(this.globalState.output.settings.settings);
+		this.eventManager.dispatch("changeLanguage");
 	}
 
 	quitSettings() {

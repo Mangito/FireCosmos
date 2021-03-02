@@ -1,5 +1,6 @@
 import GlobalConfigs from "../../Config/GlobalConfigs";
 import GameConfigs from "./GameConfigs";
+import GlobalState from "../../Config/GlobalState";
 
 import { TextStyle } from "../../Theme";
 import { randomNumber } from "../../Utils/Utils";
@@ -18,12 +19,13 @@ export default class TeamDeathmatch extends Phaser.Scene {
 		this.gameConfigs = GameConfigs.getInstance();
 		this.playersConfig = this.gameConfigs.players;
 
-		this.players = [];
+		this.language = GlobalState.getInstance().output;
 
-		this.statusLabelPauseTween = null;
+		this.players = [];
 
 		this.upPoints = 0;
 		this.downPoints = 0;
+		this.endGamePoints = 5; // Game ends on some team get this points
 
 		this.pause = false;
 	}
@@ -50,16 +52,20 @@ export default class TeamDeathmatch extends Phaser.Scene {
 		this.keyP.on("down", this.pauseGame, this);
 		keyQ.on("down", this.quitInfo, this);
 
-		this.pauseLabel = this.add.text(middleWidth, middleHeight, "TeamDeathmatch", TextStyle.statusLabel).setOrigin(0.5);
+		const howWinText = this.language.teamDeathmatch.howWin;
+		this.statusLabel = this.add.text(middleWidth, middleHeight,
+			howWinText[0] + this.endGamePoints + howWinText[1],
+			TextStyle.statusLabelLittle).setOrigin(0.5);
+
 		this.statusLabelPauseTween = this.tweens.add({
-			targets: this.pauseLabel,
+			targets: this.statusLabel,
 			duration: 3000,
 			alpha: { from: 1, to: 0 },
 			onComplete: () => {
-				this.pauseLabel.setVisible(false);
-				this.pauseLabel.setAlpha(1);
-				this.pauseLabel.setText("Paused, press Q to exit!");
-			}
+				this.statusLabel.setVisible(this.pause);
+				this.statusLabel.setAlpha(1);
+				this.statusLabel.setText(this.language.invasion.pause);
+			},
 		});
 	}
 
@@ -157,12 +163,16 @@ export default class TeamDeathmatch extends Phaser.Scene {
 		this.upPoints++;
 		this.aliensPointsLabel.setText(this.upPoints);
 		this.aliensPointsLabel.x = GlobalConfigs.screen.middleWidth - this.aliensPointsLabel.width / 2;
+
+		if (this.upPoints >= this.endGamePoints) this.endGame();
 	}
 
 	updateShipsPoints() {
 		this.downPoints++;
 		this.shipsPointsLabel.setText(this.downPoints);
 		this.shipsPointsLabel.x = GlobalConfigs.screen.middleWidth - this.shipsPointsLabel.width / 2;
+
+		if (this.downPoints >= this.endGamePoints) this.endGame();
 	}
 
 	generateAsteroids() {
@@ -176,11 +186,11 @@ export default class TeamDeathmatch extends Phaser.Scene {
 		if (this.pause) {
 			this.timerAsteroids.paused = true;
 			this.physics.pause();
-			this.pauseLabel.setVisible(true);
-			this.pauseLabel.setText("Paused, Press Q to exit!");
+			this.statusLabel.setVisible(true);
+			this.statusLabel.setText(this.language.invasion.pause);
 
 			this.statusLabelPauseTween = this.tweens.add({
-				targets: this.pauseLabel,
+				targets: this.statusLabel,
 				repeat: -1,
 				duration: 1500,
 				yoyo: true,
@@ -190,9 +200,29 @@ export default class TeamDeathmatch extends Phaser.Scene {
 		} else {
 			this.timerAsteroids.paused = false;
 			this.physics.resume();
-			this.pauseLabel.setVisible(false);
+			this.statusLabel.setVisible(false);
 			this.statusLabelPauseTween.stop();
 		}
+	}
+
+	endGame() {
+		const output = this.upPoints > this.downPoints ? this.language.teamDeathmatch.aliensWin : this.language.teamDeathmatch.shipsWin;
+		this.statusLabel.setVisible(true);
+		this.statusLabel.setText(`${output[0]} \n ${output[1]}`);
+		this.statusLabel.setStyle(TextStyle.loseGame);
+
+		this.statusLabelPauseTween = this.tweens.add({
+			targets: this.statusLabel,
+			repeat: -1,
+			duration: 1500,
+			yoyo: true,
+			alpha: { from: 1, to: 0.5 },
+		});
+
+		this.pause = true;
+		this.physics.pause();
+		this.keyP.removeAllListeners();
+		this.timerAsteroids.paused = true;
 	}
 
 	quitInfo() {

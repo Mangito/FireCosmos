@@ -1,9 +1,15 @@
 import GlobalConfigs from "../Config/GlobalConfigs";
+import GlobalState from "../Config/GlobalState";
+
 import { TextStyle } from "../Theme";
 
 export default class Info extends Phaser.Scene {
 	constructor() {
 		super({ key: "Info" });
+	}
+
+	init() {
+		this.language = GlobalState.getInstance().output;
 	}
 
 	create() {
@@ -16,9 +22,9 @@ export default class Info extends Phaser.Scene {
 		this.drawBorder();
 		this.drawPlayers();
 
-		const infoLabel = this.add.text(middleWidth, 50, "Info", TextStyle.subScenesTitle).setOrigin(0.5);
+		const infoLabel = this.add.text(middleWidth, 50, this.language.info.info, TextStyle.subScenesTitle).setOrigin(0.5);
 
-		this.tipsLabel = this.add.text(middleWidth, middleHeight, "Press Q to exit!", TextStyle.info.tips).setOrigin(0.5);
+		this.tipsLabel = this.add.text(middleWidth, middleHeight, this.language.info.exit, TextStyle.info.tips).setOrigin(0.5);
 
 		const keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
 		keyQ.on("down", this.quitInfo, this);
@@ -121,17 +127,17 @@ export default class Info extends Phaser.Scene {
 
 		{	// Fire
 			const fireImage = this.add.image(middleWidth + playerMarginX, middleHeight + playerMarginY - 100, "Fire");  // P3 Position
-			this.add.text(fireImage.x, fireImage.y + marginName, "Fire", TextStyle.base).setOrigin(0.5);
+			this.add.text(fireImage.x, fireImage.y + marginName, this.language.info.fire, TextStyle.base).setOrigin(0.5);
 		}
 
 		{	// Asteroid
 			const asteroidImage = this.add.image(middleWidth + 100, middleHeight - 100, "Asteroid");
-			this.add.text(asteroidImage.x, asteroidImage.y + marginName, "Asteroid", TextStyle.base).setOrigin(0.5);
+			this.add.text(asteroidImage.x, asteroidImage.y + marginName, this.language.info.asteroid, TextStyle.base).setOrigin(0.5);
 		}
 
 		{	// Block
 			const blockImage = this.add.image(middleWidth - 100, middleHeight + 50, "Block");
-			this.add.text(blockImage.x, blockImage.y + marginName, "Block", TextStyle.base).setOrigin(0.5);
+			this.add.text(blockImage.x, blockImage.y + marginName, this.language.info.block, TextStyle.base).setOrigin(0.5);
 		}
 	}
 

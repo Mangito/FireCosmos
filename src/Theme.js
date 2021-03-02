@@ -174,6 +174,23 @@ export const TextStyle = {
 		strokeThickness: 2,
 		boundsAlignH: "center",
 		boundsAlignV: "middle",
-		align: 'center',
+		align: "center",
+	},
+	loseGame: {
+		fontFamily: PressStart2P,
+		fontSize: 20,
+		fill: "#000",
+		stroke: '#fff',
+		strokeThickness: 2,
+		boundsAlignH: "center",
+		boundsAlignV: "middle",
+		align: "center",
+		shadow: {
+			offsetX: 0,
+			offsetY: 0,
+			color: "#f00",
+			blur: 10,
+			fill: true
+		},
 	}
 };

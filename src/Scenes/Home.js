@@ -1,4 +1,6 @@
 import GlobalConfigs from "../Config/GlobalConfigs";
+import GlobalState from "../Config/GlobalState";
+import EventManager from "../Managers/EventManager";
 
 import Button from "../Components/Button";
 
@@ -16,6 +18,9 @@ export default class Home extends Phaser.Scene {
 
 	init() {
 		this.isPaused = false;
+		this.language = GlobalState.getInstance().output;
+		const eventManager = EventManager.getInstance();
+		eventManager.on("changeLanguage", () => this.updateLabels());
 	}
 
 	create() {
@@ -30,14 +35,14 @@ export default class Home extends Phaser.Scene {
 		const keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
 		keyP.on("down", this.pauseGame, this);
 
-		const text = `Move in arrows left and right; \n Select in arrow up;`;
+		const text = `${this.language.home.moveText} \n ${this.language.home.shootText}`;
 		this.statusLabel = this.add.text(middleWidth, middleHeight + 150, text, TextStyle.statusLabelLittle).setOrigin(0.5);
 		this.tweens.add({
 			targets: this.statusLabel,
 			duration: 10000,
 			alpha: { from: 1, to: 0 },
 			onComplete: () => {
-				this.statusLabel.setText("Press P to resume");
+				this.statusLabel.setText(this.language.home.pause);
 				this.statusLabel.setVisible(this.isPaused);
 				this.statusLabel.setAlpha(1);
 			}
@@ -219,7 +224,7 @@ export default class Home extends Phaser.Scene {
 					x: startX,
 					y: middleHeight,
 					image: "Button",
-					text: "Invasion",
+					text: this.language.home.invasion,
 					style: TextStyle.buttons,
 				});
 				invasionBtn.action = () => {
@@ -304,7 +309,7 @@ export default class Home extends Phaser.Scene {
 		this.isPaused = !this.isPaused;
 
 		if (this.isPaused) {
-			this.statusLabel.setText("Press P to resume");
+			this.statusLabel.setText(this.language.home.pause);
 			this.statusLabel.setAlpha(1);
 			this.statusLabel.setVisible(true);
 			this.physics.pause();
@@ -313,6 +318,11 @@ export default class Home extends Phaser.Scene {
 			this.physics.resume();
 			this.statusLabel.setVisible(false);
 		}
+	}
+
+	updateLabels() {
+		this.language = GlobalState.getInstance().output;
+		this.statusLabel.setText(this.language.home.pause);
 	}
 
 	openSceneKeyboard() {

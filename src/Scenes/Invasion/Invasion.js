@@ -1,5 +1,6 @@
 import GlobalConfigs from "../../Config/GlobalConfigs";
 import GameConfigs from "./GameConfigs";
+import GlobalState from "../../Config/GlobalState";
 
 import { TextStyle } from "../../Theme";
 import { randomNumber } from "../../Utils/Utils";
@@ -9,7 +10,7 @@ import Background from "../../Components/Background";
 import Player from "../../Objects/Player";
 import Aliens from "../../Objects/Aliens";
 
-export default class Invasion extends Phaser.Scene {  // Invasion
+export default class Invasion extends Phaser.Scene {
 	constructor() {
 		super({ key: "Invasion" });
 	}
@@ -17,6 +18,8 @@ export default class Invasion extends Phaser.Scene {  // Invasion
 	init() {
 		this.gameConfigs = GameConfigs.getInstance();
 		this.playersConfig = this.gameConfigs.players;
+
+		this.language = GlobalState.getInstance().output;
 
 		this.statusLabelPauseTween = null;
 
@@ -43,7 +46,7 @@ export default class Invasion extends Phaser.Scene {  // Invasion
 
 		this.createPlayers();
 
-		this.physics.add.overlap(this.aliensGroup, this.playersGroup, this.pauseGame, null, this); // Aliens -> Players
+		this.physics.add.overlap(this.aliensGroup, this.playersGroup, this.endGame, null, this); // Aliens -> Players
 
 		const keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
 		keyP.on("down", this.pauseGame, this);
@@ -58,11 +61,11 @@ export default class Invasion extends Phaser.Scene {  // Invasion
 
 		this.timerAliens = this.time.addEvent({ delay: 500, callback: this.createAlien, callbackScope: this, loop: true });
 
-		const invasion = this.add.text(middleWidth, 30, "Invasion", TextStyle.invasionTitle).setOrigin(0.5);
-		this.statusLabel = this.add.text(middleWidth, middleHeight, "Level 1!", TextStyle.statusLabel).setOrigin(0.5).setVisible(false);
+		const invasion = this.add.text(middleWidth, 30, this.language.invasion.invasion, TextStyle.invasionTitle).setOrigin(0.5);
+		this.statusLabel = this.add.text(middleWidth, middleHeight, this.language.invasion.level + "1!", TextStyle.statusLabel).setOrigin(0.5).setVisible(false);
 
-		this.currentLevelLabel = this.add.text(10, 10, "Currente Level: " + this.currentLevel, TextStyle.points);
-		this.totalAliensLabel = this.add.text(width - 200, 10, "Total enemies: " + this.totalAliens, TextStyle.points);
+		this.currentLevelLabel = this.add.text(10, 10, this.language.invasion.currentLevel + this.currentLevel, TextStyle.points);
+		this.totalAliensLabel = this.add.text(width - 250, 10, this.language.invasion.totalEnemies + this.totalAliens, TextStyle.points);
 
 		this.newLevel();
 	}
@@ -97,7 +100,7 @@ export default class Invasion extends Phaser.Scene {  // Invasion
 
 		if (a.life <= 0) {
 			this.totalAliens--;
-			this.totalAliensLabel.setText("Total enemies: " + this.totalAliens);
+			this.totalAliensLabel.setText(this.language.invasion.totalEnemies + this.totalAliens);
 			player.addKill();
 			player.label.setText(player.kills);
 		}
@@ -120,8 +123,8 @@ export default class Invasion extends Phaser.Scene {  // Invasion
 			this.timerAliens.paused = true;
 			this.physics.pause();
 
-			this.statusLabel.setText("Paused, press Q to exit!");
 			this.statusLabel.setVisible(true);
+			this.statusLabel.setText(this.language.invasion.pause);
 			this.statusLabelPauseTween = this.tweens.add({
 				targets: this.statusLabel,
 				repeat: -1,
@@ -138,6 +141,24 @@ export default class Invasion extends Phaser.Scene {  // Invasion
 		}
 	}
 
+	endGame() {
+		this.statusLabel.setVisible(true);
+		this.statusLabel.setText(`${this.language.invasion.endGame} \n ${this.language.info.exit}`);
+		this.statusLabel.setStyle(TextStyle.loseGame);
+
+		this.statusLabelPauseTween = this.tweens.add({
+			targets: this.statusLabel,
+			repeat: -1,
+			duration: 1500,
+			yoyo: true,
+			alpha: { from: 1, to: 0.5 },
+		});
+
+		this.pause = true;
+		this.physics.pause();
+		this.timerAliens.paused = true;
+	}
+
 	update() {
 		if (this.pause) return;
 
@@ -151,7 +172,7 @@ export default class Invasion extends Phaser.Scene {  // Invasion
 
 	// ----------------------------------------------------------------
 	newLevel() {
-		this.statusLabel.setText(this.currentLevel > 1 ? "Level Completed!!" : "Invasion");
+		this.statusLabel.setText(this.currentLevel > 1 ? this.language.invasion.levelCompleted : this.language.invasion.invasion);
 		this.statusLabel.setVisible(true);
 		this.tweens.add({
 			targets: this.statusLabel,
@@ -159,7 +180,7 @@ export default class Invasion extends Phaser.Scene {  // Invasion
 			alpha: { from: 1, to: 0 },
 		});
 
-		this.currentLevelLabel.setText("Currente Level: " + this.currentLevel);
+		this.currentLevelLabel.setText(this.language.invasion.currentLevel + this.currentLevel);
 
 		const numPlayers = this.playersConfig.length;
 		switch (this.currentLevel) {
@@ -314,6 +335,6 @@ export default class Invasion extends Phaser.Scene {  // Invasion
 		}
 
 		this.totalAliens = this.enemyLevel.length;
-		this.totalAliensLabel.setText("Total enemies: " + this.totalAliens);
+		this.totalAliensLabel.setText(this.language.invasion.totalEnemies + this.totalAliens);
 	}
 }
