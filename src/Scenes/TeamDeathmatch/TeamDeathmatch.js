@@ -255,7 +255,6 @@ export default class TeamDeathmatch extends Phaser.Scene {
 
 		this.pause = true;
 		this.physics.pause();
-		this.keyP.removeAllListeners();
 		this.timerAsteroids.paused = true;
 	}
 
