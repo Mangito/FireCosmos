@@ -5,6 +5,7 @@ import EventManager from "../Managers/EventManager";
 import Player from "../Objects/Player";
 
 import { TextStyle } from "../Theme";
+import { randomNumber } from "../Utils/Utils";
 
 export default class Settings extends Phaser.Scene {
 	constructor() {
@@ -87,10 +88,11 @@ export default class Settings extends Phaser.Scene {
 			classType: Player,
 			runChildUpdate: true,
 		});
+		const textureShip = GlobalConfigs.textureShips[randomNumber(0, GlobalConfigs.textureShips.length)];
 		const config = {
 			index: 0,
 			name: this.globalState.output.settings.settings,
-			ship: "MilleniumFalcon",
+			ship: textureShip,
 			team: "Ships",
 			teamCount: 0,
 			controllers: GlobalConfigs.controllers[0],

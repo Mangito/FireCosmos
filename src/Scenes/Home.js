@@ -9,8 +9,11 @@ import Player from "../Objects/Player";
 import TDGameConfigs from "./TeamDeathmatch/GameConfigs";
 import InvasionGameConfigs from "./Invasion/GameConfigs";
 
-import { TextStyle } from "../Theme";
 import Background from "../Components/Background";
+
+import { TextStyle } from "../Theme";
+import { randomNumber } from "../Utils/Utils";
+
 export default class Home extends Phaser.Scene {
 	constructor() {
 		super({ key: "Home" });
@@ -87,10 +90,11 @@ export default class Home extends Phaser.Scene {
 			classType: Player,
 			runChildUpdate: true,
 		});
+		const textureShip = GlobalConfigs.textureShips[randomNumber(0, GlobalConfigs.textureShips.length)];
 		const config = {
 			index: 0,
 			name: "Home",
-			ship: "Victoria",
+			ship: textureShip,
 			team: "Ships",
 			teamCount: 0,
 			controllers: GlobalConfigs.controllers[0],

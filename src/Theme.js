@@ -44,7 +44,7 @@ export const TextStyle = {
 		shadow: {
 			offsetX: 5,
 			offsetY: 5,
-			color: "#f00",
+			color: "#800",
 			blur: 2,
 			stroke: true,
 			fill: true
@@ -105,6 +105,7 @@ export const TextStyle = {
 			fill: "#fff",
 			boundsAlignH: "center",
 			boundsAlignV: "middle",
+			align: "center",
 			shadow: {
 				offsetX: 0,
 				offsetY: 0,
