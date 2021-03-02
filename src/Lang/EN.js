@@ -44,7 +44,7 @@ const en = {
 		"The invasion levels are infinite,\n try to do the best you can",
 		"Paused, you can click Q to exit",
 		"You can click P to pause the game",
-		"If you want to continue a game on pause, press P",
+		"If you want to continue a game \n  and it is on pause, press P",
 		"Press Q to exit",
 	],
 };

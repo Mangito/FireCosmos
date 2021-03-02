@@ -20,6 +20,8 @@ export default class Settings extends Phaser.Scene {
 	create() {
 		const { width, height, middleWidth, middleHeight } = GlobalConfigs.screen;
 
+		this.explosionSound = this.sound.add("Explosion");
+
 		this.graphic = this.add.graphics();
 		this.graphic.clear();
 
@@ -119,7 +121,10 @@ export default class Settings extends Phaser.Scene {
 				image: "FullScreen",
 				normal: 0,
 				exploded: 1,
-				action: () => this.scale.isFullscreen ? this.scale.stopFullscreen() : this.scale.startFullscreen(),
+				action: () => {
+					this.explosionSound.play();
+					this.scale.isFullscreen ? this.scale.stopFullscreen() : this.scale.startFullscreen();
+				},
 			},
 
 			{ // Language
@@ -129,6 +134,7 @@ export default class Settings extends Phaser.Scene {
 				normal: (this.globalState.language === "pt" ? 1 : 0),
 				exploded: (this.globalState.language === "pt" ? 0 : 1),
 				action: () => {
+					this.explosionSound.play();
 					this.globalState.language = (this.globalState.language === "pt" ? "en" : "pt");
 					this.updateLabels();
 				},
@@ -141,6 +147,7 @@ export default class Settings extends Phaser.Scene {
 				normal: (this.globalState.isMute ? 1 : 0),
 				exploded: (this.globalState.isMute ? 0 : 1),
 				action: () => {
+					this.explosionSound.play();
 					this.globalState.isMute = !this.globalState.isMute;
 					this.game.sound.mute = this.globalState.isMute;
 				},
@@ -153,6 +160,7 @@ export default class Settings extends Phaser.Scene {
 				normal: 0,
 				exploded: 1,
 				action: () => {
+					this.explosionSound.play();
 					this.quitSettings();
 				},
 			},

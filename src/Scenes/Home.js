@@ -31,6 +31,8 @@ export default class Home extends Phaser.Scene {
 
 		const background = new Background(this);
 
+		this.explosionSound = this.sound.add("Explosion");
+
 		this.createTitle();
 		this.createPlayer();
 		this.createButtons();
@@ -120,6 +122,7 @@ export default class Home extends Phaser.Scene {
 				image: "Settings",
 			});
 			settingsBtn.action = () => {
+				this.explosionSound.play();
 				settingsBtn.changeFrame(true);
 				this.pauseGame();
 				this.scene.launch("Settings");
@@ -135,6 +138,7 @@ export default class Home extends Phaser.Scene {
 				image: "QuestionMark",
 			});
 			infoBtn.action = () => {
+				this.explosionSound.play();
 				infoBtn.changeFrame(true);
 				this.pauseGame();
 				this.scene.launch("Info");
@@ -156,6 +160,7 @@ export default class Home extends Phaser.Scene {
 				});
 
 				_1P.action = () => {
+					this.explosionSound.play();
 					_1P.changeFrame();
 					invasionGameConfigs.createPlayers(1);
 					this.scene.start("Invasion");
@@ -175,6 +180,7 @@ export default class Home extends Phaser.Scene {
 					style: TextStyle.buttons,
 				});
 				_2P.action = () => {
+					this.explosionSound.play();
 					_2P.changeFrame();
 					invasionGameConfigs.createPlayers(2);
 					this.scene.start("Invasion");
@@ -194,6 +200,7 @@ export default class Home extends Phaser.Scene {
 					style: TextStyle.buttons,
 				});
 				_3P.action = () => {
+					this.explosionSound.play();
 					_3P.changeFrame();
 					invasionGameConfigs.createPlayers(3);
 					this.scene.start("Invasion");
@@ -213,6 +220,7 @@ export default class Home extends Phaser.Scene {
 					style: TextStyle.buttons,
 				});
 				_4P.action = () => {
+					this.explosionSound.play();
 					_4P.changeFrame();
 					invasionGameConfigs.createPlayers(4);
 					this.scene.start("Invasion");
@@ -232,6 +240,7 @@ export default class Home extends Phaser.Scene {
 					style: TextStyle.buttons,
 				});
 				invasionBtn.action = () => {
+					this.explosionSound.play();
 					invasionBtn.changeFrame();
 
 					const visible = !_1P.visible;
@@ -256,6 +265,7 @@ export default class Home extends Phaser.Scene {
 					style: TextStyle.buttons,
 				});
 				_2P.action = () => {
+					this.explosionSound.play();
 					_2P.changeFrame();
 					tDGameConfigs.default2P();
 					this.scene.start("TeamDeathmatch");
@@ -275,6 +285,7 @@ export default class Home extends Phaser.Scene {
 					style: TextStyle.buttons,
 				});
 				_4P.action = () => {
+					this.explosionSound.play();
 					_4P.changeFrame();
 					tDGameConfigs.default4P();
 					this.scene.start("TeamDeathmatch");
@@ -294,6 +305,7 @@ export default class Home extends Phaser.Scene {
 					style: TextStyle.buttons,
 				});
 				teamDeathmatch.action = () => {
+					this.explosionSound.play();
 					teamDeathmatch.changeFrame();
 
 					const visible = !_2P.visible;
