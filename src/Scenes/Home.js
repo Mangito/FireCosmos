@@ -3,6 +3,7 @@ import GlobalState from "../Config/GlobalState";
 import EventManager from "../Managers/EventManager";
 
 import Button from "../Components/Button";
+import Key from "../Components/Key";
 
 import Player from "../Objects/Player";
 
@@ -40,18 +41,7 @@ export default class Home extends Phaser.Scene {
 		const keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
 		keyP.on("down", this.pauseGame, this);
 
-		const text = `${this.language.home.moveText} \n ${this.language.home.shootText}`;
-		this.statusLabel = this.add.text(middleWidth, middleHeight + 150, text, TextStyle.statusLabelLittle).setOrigin(0.5);
-		this.tweens.add({
-			targets: this.statusLabel,
-			duration: 10000,
-			alpha: { from: 1, to: 0 },
-			onComplete: () => {
-				this.statusLabel.setText(this.language.home.pause);
-				this.statusLabel.setVisible(this.isPaused);
-				this.statusLabel.setAlpha(1);
-			}
-		});
+		this.statusLabel = this.add.text(middleWidth, middleHeight + 150, this.language.home.pause, TextStyle.statusLabelLittle).setOrigin(0.5).setVisible(false);
 
 		this.openSceneKeyboard();
 	}
@@ -92,6 +82,9 @@ export default class Home extends Phaser.Scene {
 			classType: Player,
 			runChildUpdate: true,
 		});
+
+		const controllers = GlobalConfigs.controllers[0];
+
 		const textureShip = GlobalConfigs.textureShips[randomNumber(0, GlobalConfigs.textureShips.length)];
 		const config = {
 			index: 0,
@@ -99,11 +92,44 @@ export default class Home extends Phaser.Scene {
 			ship: textureShip,
 			team: "Ships",
 			teamCount: 0,
-			controllers: GlobalConfigs.controllers[0],
+			controllers: controllers,
 		};
 
 		this.player = this.playersPhysics.get(0, 0, config);
-		if (this.player) this.player.generate();
+		if (this.player) {
+			this.player.generate();
+			const { x, y } = this.player;
+
+			const marginControllersX = 40;
+			const marginControllersY = 40;
+
+			this.createImage({ x: x, y: y - marginControllersY, text: controllers.fire });
+			this.createImage({ x: x - marginControllersX, y: y, text: controllers.left });
+			this.createImage({ x: x + marginControllersX, y: y, text: controllers.right });
+		}
+	}
+
+	createImage(configs) {
+		const margin = 40;
+		const key = this.add.existing(new Key(this, configs.x, configs.y));
+		if (key) {
+
+			const label = this.add.text(configs.x, configs.y, this.language.home.moveText, TextStyle.base).setOrigin(0.5);
+			if (configs.text === "LEFT") label.setX(configs.x - margin);
+			else if (configs.text === "RIGHT") label.setX(configs.x + margin);
+			else if (configs.text === "UP") {
+				label.setY(configs.y - margin);
+				label.setText(this.language.home.shootText);
+			}
+
+			key.generate(configs);
+			this.tweens.add({
+				targets: [key, label],
+				duration: 10000,
+				alpha: { from: 1, to: 0 },
+				onComplete: () => { key.destroy(); }
+			});
+		}
 	}
 
 	createButtons() {

@@ -5,10 +5,12 @@ import GlobalState from "../../Config/GlobalState";
 import { TextStyle } from "../../Theme";
 import { randomNumber } from "../../Utils/Utils";
 
+import Background from "../../Components/Background";
+import Key from "../../Components/Key";
+
 import Player from "../../Objects/Player";
 import Asteroid from "../../Objects/Asteroid";
 import Block from "../../Objects/Blocks";
-import Background from "../../Components/Background";
 
 export default class TeamDeathmatch extends Phaser.Scene {
 	constructor() {
@@ -27,7 +29,8 @@ export default class TeamDeathmatch extends Phaser.Scene {
 		this.downPoints = 0;
 		this.endGamePoints = 5; // Game ends on some team get this points
 
-		this.pause = false;
+		this.isGameOver = false;
+		this.isPaused = false;
 	}
 
 	create() {
@@ -40,14 +43,14 @@ export default class TeamDeathmatch extends Phaser.Scene {
 		this.aliensPointsLabel = this.add.text(middleWidth, 20, 0, TextStyle.points).setOrigin(0.5);
 		this.shipsPointsLabel = this.add.text(middleWidth, height - 20, 0, TextStyle.points).setOrigin(0.5);
 
+		this.createKeys();
+
 		this.createGroups();
 		this.createPlayers();
 		if (this.gameConfigs.blocks) this.createBlocks();
 		this.createCollisions();
 
 		this.timerAsteroids = this.time.addEvent({ delay: randomNumber(750, 2500), callback: this.generateAsteroids, callbackScope: this, loop: true });
-
-		this.createKeys();
 
 		const howWinText = this.language.teamDeathmatch.howWin;
 		this.statusLabel = this.add.text(middleWidth, middleHeight,
@@ -59,7 +62,7 @@ export default class TeamDeathmatch extends Phaser.Scene {
 			duration: 3000,
 			alpha: { from: 1, to: 0 },
 			onComplete: () => {
-				this.statusLabel.setVisible(this.pause);
+				this.statusLabel.setVisible(this.isPaused);
 				this.statusLabel.setAlpha(1);
 				this.statusLabel.setText(this.language.invasion.pause);
 			},
@@ -185,6 +188,8 @@ export default class TeamDeathmatch extends Phaser.Scene {
 	}
 
 	createKeys() {
+		const { width, height, middleWidth, middleHeight } = GlobalConfigs.screen;
+
 		// Get Keys
 		const keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
 		const keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
@@ -193,16 +198,22 @@ export default class TeamDeathmatch extends Phaser.Scene {
 		// Remove  Listeners
 		removeKeysListener();
 
+		// Draw Keys
+		const margin = 30;
+		this.createKeyImage({ x: width - margin, y: margin, text: "P" });
+		this.createKeyImage({ x: margin, y: middleHeight, text: "R" });
+		this.createKeyImage({ x: width - margin, y: middleHeight, text: "Q" });
+
 		// Add Listeners
 		keyP.on("down", this.pauseGame, this);
 		keyQ.on("down", () => {
-			if (!this.pause) return;
+			if (!this.isPaused) return;
 			removeKeysListener();
 			this.scene.start("Home");
 			this.scene.stop();
 		});
 		keyR.on("down", () => {
-			if (!this.pause) return;
+			if (!this.isPaused) return;
 			removeKeysListener();
 			this.scene.restart();
 		});
@@ -214,10 +225,47 @@ export default class TeamDeathmatch extends Phaser.Scene {
 		}
 	}
 
-	pauseGame() {
-		this.pause = !this.pause;
+	createKeyImage(configs) {
+		const margin = 20;
+		const key = this.add.existing(new Key(this, configs.x, configs.y));
+		if (key) {
+			key.generate(configs);
 
-		if (this.pause) {
+			const label = this.add.text(configs.x, configs.y + margin, "", TextStyle.base).setOrigin(0.5);
+			if (configs.text === "P") {
+				label.setText(this.language.info.pauseKey);
+				label.setAlpha(0.5);
+				key.setAlpha(0.5);
+
+				this.imageKeyPause = key;
+				this.labelKeyPause = label;
+
+			} else if (configs.text === "R") {
+				label.setText(this.language.info.restartKey);
+
+				key.setVisible(false);
+				key.label.setVisible(false);
+				label.setVisible(false);
+				this.imageKeyRestart = key;
+				this.labelKeyRestart = label;
+
+			} else if (configs.text === "Q") {
+				label.setText(this.language.info.exitKey);
+
+				key.setVisible(false);
+				key.label.setVisible(false);
+				label.setVisible(false);
+				this.imageKeyExit = key;
+				this.labelKeyExit = label;
+			}
+		}
+	}
+
+	pauseGame() {
+		if (this.isGameOver) return;
+		this.isPaused = !this.isPaused;
+
+		if (this.isPaused) {
 			this.timerAsteroids.paused = true;
 			this.physics.pause();
 			this.statusLabel.setVisible(true);
@@ -231,11 +279,27 @@ export default class TeamDeathmatch extends Phaser.Scene {
 				alpha: { from: 1, to: 0.25 },
 			});
 
+			this.imageKeyRestart.setVisible(true);
+			this.imageKeyRestart.label.setVisible(true);
+			this.labelKeyRestart.setVisible(true);
+
+			this.imageKeyExit.setVisible(true);
+			this.imageKeyExit.label.setVisible(true);
+			this.labelKeyExit.setVisible(true);
+
 		} else {
 			this.timerAsteroids.paused = false;
 			this.physics.resume();
 			this.statusLabel.setVisible(false);
 			this.statusLabelPauseTween.stop();
+
+			this.imageKeyRestart.setVisible(false);
+			this.imageKeyRestart.label.setVisible(false);
+			this.labelKeyRestart.setVisible(false);
+
+			this.imageKeyExit.setVisible(false);
+			this.imageKeyExit.label.setVisible(false);
+			this.labelKeyExit.setVisible(false);
 		}
 	}
 
@@ -253,13 +317,18 @@ export default class TeamDeathmatch extends Phaser.Scene {
 			alpha: { from: 1, to: 0.5 },
 		});
 
-		this.pause = true;
+		this.imageKeyPause.setVisible(false);
+		this.imageKeyPause.label.setVisible(false);
+		this.labelKeyPause.setVisible(false);
+
+		this.isGameOver = true;
+		this.isPaused = true;
 		this.physics.pause();
 		this.timerAsteroids.paused = true;
 	}
 
 	update() {
-		if (this.pause) return;
+		if (this.isPaused) return;
 		if (GlobalConfigs.debug) this.showFPSs.setText(Number(this.game.loop.actualFps).toFixed(1));
 	}
 }

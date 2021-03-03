@@ -2,8 +2,8 @@ const en = {
 	home: {
 		home: "Home",
 		invasion: "Invasion",
-		moveText: "Move in arrows left and right;",
-		shootText: "Select in arrow up;",
+		moveText: "Move",
+		shootText: "Select / Shoot",
 		pause: "Paused, press P to resume!",
 	},
 	settings: {
@@ -15,6 +15,9 @@ const en = {
 		fire: "Fire",
 		asteroid: "Asteroid",
 		block: "Block",
+		pauseKey: "Pause",
+		restartKey: "Restart",
+		exitKey: "Exit",
 	},
 	invasion: {
 		invasion: "Invasion",
@@ -22,7 +25,7 @@ const en = {
 		totalEnemies: "Total enemies: ",
 		level: "Level ",
 		levelCompleted: "Level completed!!",
-		pause: "Paused, press Q to exit!",
+		pause: "Game paused",
 		endGame: "You lost, the aliens invaded Earth !!",
 		exit: "Press Q to exit or R to restart",
 	},

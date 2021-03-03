@@ -2,6 +2,8 @@ import GlobalConfigs from "../Config/GlobalConfigs";
 import GlobalState from "../Config/GlobalState";
 import EventManager from "../Managers/EventManager";
 
+import Button from "../Components/Button";
+
 import Player from "../Objects/Player";
 
 import { TextStyle } from "../Theme";
@@ -15,6 +17,7 @@ export default class Settings extends Phaser.Scene {
 	init() {
 		this.globalState = GlobalState.getInstance();
 		this.eventManager = EventManager.getInstance();
+		this.isPaused = false;
 	}
 
 	create() {
@@ -114,70 +117,75 @@ export default class Settings extends Phaser.Scene {
 		const x = this.borderStyle.x + 100;
 		const y = this.borderStyle.y + 50;
 
-		const btnsConfigs = [
-			{ // Full Screen
+		this.buttonsGroup = this.physics.add.group({ classType: Button });
+
+		// --- Full Screen
+		const fullScreenBtn = this.buttonsGroup.get();
+		if (fullScreenBtn) {
+			fullScreenBtn.generate({
 				x: x,
 				y: y,
 				image: "FullScreen",
-				normal: 0,
-				exploded: 1,
-				action: () => {
-					this.explosionSound.play();
-					this.scale.isFullscreen ? this.scale.stopFullscreen() : this.scale.startFullscreen();
-				},
-			},
+			});
+			fullScreenBtn.action = () => {
+				this.explosionSound.play();
+				fullScreenBtn.changeFrame();
+				this.scale.isFullscreen ? this.scale.stopFullscreen() : this.scale.startFullscreen();
+			}
+		}
 
-			{ // Language
+		// --- Language
+		const languageBtn = this.buttonsGroup.get();
+		if (languageBtn) {
+			languageBtn.generate({
 				x: x + 100,
 				y: y,
 				image: "Flags",
-				normal: (this.globalState.language === "pt" ? 1 : 0),
-				exploded: (this.globalState.language === "pt" ? 0 : 1),
-				action: () => {
-					this.explosionSound.play();
-					this.globalState.language = (this.globalState.language === "pt" ? "en" : "pt");
-					this.updateLabels();
-				},
-			},
+				startFrame: (this.globalState.language === "pt" ? 1 : 0),
+			});
+			languageBtn.action = () => {
+				this.explosionSound.play();
+				languageBtn.changeFrame();
+				this.globalState.language = (this.globalState.language === "pt" ? "en" : "pt");
+				this.updateLabels();
+			}
+		}
 
-			{ // Sound
+		// --- Sound
+		const soundBtn = this.buttonsGroup.get();
+		if (soundBtn) {
+			soundBtn.generate({
 				x: x + 200,
 				y: y,
 				image: "Sound",
-				normal: (this.globalState.isMute ? 1 : 0),
-				exploded: (this.globalState.isMute ? 0 : 1),
-				action: () => {
-					this.explosionSound.play();
-					this.globalState.isMute = !this.globalState.isMute;
-					this.game.sound.mute = this.globalState.isMute;
-				},
-			},
+				startFrame: (this.globalState.isMute ? 1 : 0),
+			});
+			soundBtn.action = () => {
+				this.explosionSound.play();
+				soundBtn.changeFrame();
 
-			{ // Exit Settings
+				this.globalState.isMute = !this.globalState.isMute;
+				this.game.sound.mute = this.globalState.isMute;
+			}
+		}
+
+		// --- Exit
+		const exitBtn = this.buttonsGroup.get();
+		if (exitBtn) {
+			exitBtn.generate({
 				x: x + 300,
 				y: y,
 				image: "Exit",
-				normal: 0,
-				exploded: 1,
-				action: () => {
-					this.explosionSound.play();
-					this.quitSettings();
-				},
-			},
-		];
+			});
+			exitBtn.action = () => {
+				this.explosionSound.play();
+				this.quitSettings();
+			}
+		}
 
-		btnsConfigs.map(config => {
-			const { x, y, image, normal, exploded, text, style, action } = config;
-			const btn = this.physics.add.sprite(x, y, image, normal);
-
-			const label = this.add.text(x, y, text, style).setOrigin(0.5);
-
-			this.physics.add.overlap(this.player.shoots, btn, (b, s) => {
-				s.destroy();
-
-				btn.setFrame(btn.frame.name === exploded ? normal : exploded);
-				action();
-			}, null, this);
+		this.physics.add.overlap(this.player.shoots, this.buttonsGroup, (s, b) => {
+			s.destroy();
+			b.action();
 		});
 	}
 

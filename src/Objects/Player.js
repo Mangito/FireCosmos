@@ -79,17 +79,19 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 			else this.setVelocityX(velocity);
 		});
 
-		keys.fire.on("down", () => {
-			if (!this.isAlive) return;
+		keys.fire.on("down", this.fireShot, this);
+	}
 
-			const shoot = this.shoots.get();
-			if (shoot) {
-				this.shootSound.play();
-				const startY = this.team === "Aliens" ? this.y + this.size : this.y - this.size;
+	fireShot() {
+		if (!this.isAlive || this.scene.isPaused) return;
 
-				shoot.fire(this.x, startY, this.team);
-			}
-		});
+		const shoot = this.shoots.get();
+		if (shoot) {
+			this.shootSound.play();
+			const startY = this.team === "Aliens" ? this.y + this.size : this.y - this.size;
+
+			shoot.fire(this.x, startY, this.team);
+		}
 	}
 
 	addKill() {

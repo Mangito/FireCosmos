@@ -6,6 +6,7 @@ import { TextStyle } from "../../Theme";
 import { randomNumber } from "../../Utils/Utils";
 
 import Background from "../../Components/Background";
+import Key from "../../Components/Key";
 
 import Player from "../../Objects/Player";
 import Aliens from "../../Objects/Aliens";
@@ -25,7 +26,8 @@ export default class Invasion extends Phaser.Scene {
 
 		this.players = [];
 
-		this.pause = false;
+		this.isPaused = false;
+		this.isGameOver = false;
 
 		this.currentLevel = 1;
 		this.totalAliens = 0;
@@ -39,6 +41,8 @@ export default class Invasion extends Phaser.Scene {
 
 		if (GlobalConfigs.debug) this.showFPSs = this.add.text(width - 55, 0, 0, TextStyle.base);
 
+		this.createKeys();
+
 		this.aliensGroup = this.physics.add.group({
 			classType: Aliens,
 			runChildUpdate: true,
@@ -50,13 +54,12 @@ export default class Invasion extends Phaser.Scene {
 
 		this.timerAliens = this.time.addEvent({ delay: 500, callback: this.createAlien, callbackScope: this, loop: true });
 
-		const invasion = this.add.text(middleWidth, 30, this.language.invasion.invasion, TextStyle.invasionTitle).setOrigin(0.5);
-		this.statusLabel = this.add.text(middleWidth, middleHeight, this.language.invasion.level + "1!", TextStyle.statusLabel).setOrigin(0.5).setVisible(false);
+		// Labels
+		this.statusLabel = this.add.text(middleWidth, middleHeight, this.language.invasion.invasion, TextStyle.statusLabel).setOrigin(0.5).setVisible(false);
 
 		this.currentLevelLabel = this.add.text(10, 10, this.language.invasion.currentLevel + this.currentLevel, TextStyle.points);
 		this.totalAliensLabel = this.add.text(width - 250, 10, this.language.invasion.totalEnemies + this.totalAliens, TextStyle.points);
 
-		this.createKeys();
 		this.newLevel();
 	}
 
@@ -107,6 +110,8 @@ export default class Invasion extends Phaser.Scene {
 	}
 
 	createKeys() {
+		const { width, height, middleWidth, middleHeight } = GlobalConfigs.screen;
+
 		// Get Keys
 		const keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
 		const keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
@@ -118,16 +123,23 @@ export default class Invasion extends Phaser.Scene {
 		// Add Listeners
 		keyP.on("down", this.pauseGame, this);
 		keyQ.on("down", () => {
-			if (!this.pause) return;
+			if (!this.isPaused) return;
 			removeKeysListener();
 			this.scene.start("Home");
 			this.scene.stop();
 		});
 		keyR.on("down", () => {
-			if (!this.pause) return;
+			if (!this.isPaused) return;
 			removeKeysListener();
 			this.scene.restart();
 		});
+
+		// Draw Keys
+		const marginX = 75;
+		const marginY = 15;
+		this.createKeyImage({ x: middleWidth, y: marginY, text: "P" });
+		this.createKeyImage({ x: middleWidth - marginX, y: marginY, text: "R" });
+		this.createKeyImage({ x: middleWidth + marginX, y: marginY, text: "Q" });
 
 		function removeKeysListener() {
 			keyQ.removeAllListeners();
@@ -136,10 +148,44 @@ export default class Invasion extends Phaser.Scene {
 		}
 	}
 
-	pauseGame() {
-		this.pause = !this.pause;
+	createKeyImage(configs) {
+		const margin = 20;
+		const key = this.add.existing(new Key(this, configs.x, configs.y));
+		if (key) {
+			key.generate(configs);
 
-		if (this.pause) {
+			const label = this.add.text(configs.x, configs.y + margin, "", TextStyle.base).setOrigin(0.5);
+			if (configs.text === "P") {
+				label.setText(this.language.info.pauseKey);
+				label.setAlpha(0.5);
+				key.setAlpha(0.5);
+
+			} else if (configs.text === "R") {
+				label.setText(this.language.info.restartKey);
+
+				key.setVisible(false);
+				key.label.setVisible(false);
+				label.setVisible(false);
+				this.imageKeyRestart = key;
+				this.labelKeyRestart = label;
+
+			} else if (configs.text === "Q") {
+				label.setText(this.language.info.exitKey);
+
+				key.setVisible(false);
+				key.label.setVisible(false);
+				label.setVisible(false);
+				this.imageKeyExit = key;
+				this.labelKeyExit = label;
+			}
+		}
+	}
+
+	pauseGame() {
+		if (this.isGameOver) return;
+		this.isPaused = !this.isPaused;
+
+		if (this.isPaused) {
 			this.timerAliens.paused = true;
 			this.physics.pause();
 
@@ -153,11 +199,27 @@ export default class Invasion extends Phaser.Scene {
 				alpha: { from: 1, to: 0.25 },
 			});
 
+			this.imageKeyRestart.setVisible(true);
+			this.imageKeyRestart.label.setVisible(true);
+			this.labelKeyRestart.setVisible(true);
+
+			this.imageKeyExit.setVisible(true);
+			this.imageKeyExit.label.setVisible(true);
+			this.labelKeyExit.setVisible(true);
+
 		} else {
 			this.timerAliens.paused = false;
 			this.physics.resume();
 			this.statusLabel.setVisible(false);
 			this.statusLabelPauseTween.stop();
+
+			this.imageKeyRestart.setVisible(false);
+			this.imageKeyRestart.label.setVisible(false);
+			this.labelKeyRestart.setVisible(false);
+
+			this.imageKeyExit.setVisible(false);
+			this.imageKeyExit.label.setVisible(false);
+			this.labelKeyExit.setVisible(false);
 		}
 	}
 
@@ -174,13 +236,14 @@ export default class Invasion extends Phaser.Scene {
 			alpha: { from: 1, to: 0.5 },
 		});
 
-		this.pause = true;
+		this.isGameOver = true;
+		this.isPaused = true;
 		this.physics.pause();
 		this.timerAliens.paused = true;
 	}
 
 	update() {
-		if (this.pause) return;
+		if (this.isPaused) return;
 
 		if (GlobalConfigs.debug) this.showFPSs.setText(Number(this.game.loop.actualFps).toFixed(1));
 

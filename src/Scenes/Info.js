@@ -1,6 +1,8 @@
 import GlobalConfigs from "../Config/GlobalConfigs";
 import GlobalState from "../Config/GlobalState";
 
+import Key from "../Components/Key";
+
 import { TextStyle } from "../Theme";
 import { randomNumber } from "../Utils/Utils";
 
@@ -84,16 +86,16 @@ export default class Info extends Phaser.Scene {
 		const playerMarginY = 150;
 		const marginName = 26;
 		const marginControllersX = 40;
-
+		const marginControllersY = 40;
 
 		{ // P1
 			const controllers = GlobalConfigs.controllers[0];
 			const p1 = this.add.image(middleWidth - playerMarginX, middleHeight + playerMarginY, "BlackPearl");
 			this.add.text(p1.x, p1.y + marginName, "P1", TextStyle.base).setOrigin(0.5);
 
-			this.add.text(p1.x, p1.y - marginName, controllers.fire, TextStyle.info.controllers).setOrigin(0.5);
-			this.add.text(p1.x - marginControllersX, p1.y, controllers.left, TextStyle.info.controllers).setOrigin(0.5);
-			this.add.text(p1.x + marginControllersX, p1.y, controllers.right, TextStyle.info.controllers).setOrigin(0.5);
+			this.createImage({ x: p1.x, y: p1.y - marginControllersY, text: controllers.fire });
+			this.createImage({ x: p1.x - marginControllersX, y: p1.y, text: controllers.left });
+			this.createImage({ x: p1.x + marginControllersX, y: p1.y, text: controllers.right });
 		}
 
 		{ // P2
@@ -101,9 +103,10 @@ export default class Info extends Phaser.Scene {
 			const p2 = this.add.image(middleWidth - playerMarginX, middleHeight - playerMarginY, "Olho");
 			this.add.text(p2.x, p2.y - marginName, "P2", TextStyle.base).setOrigin(0.5);
 
-			this.add.text(p2.x, p2.y + marginName, controllers.fire, TextStyle.info.controllers).setOrigin(0.5);
-			this.add.text(p2.x - marginControllersX, p2.y, controllers.left, TextStyle.info.controllers).setOrigin(0.5);
-			this.add.text(p2.x + marginControllersX, p2.y, controllers.right, TextStyle.info.controllers).setOrigin(0.5);
+
+			this.createImage({ x: p2.x, y: p2.y + marginControllersY, text: controllers.fire });
+			this.createImage({ x: p2.x - marginControllersX, y: p2.y, text: controllers.left });
+			this.createImage({ x: p2.x + marginControllersX, y: p2.y, text: controllers.right });
 		}
 
 		{ // P3
@@ -111,9 +114,9 @@ export default class Info extends Phaser.Scene {
 			const p3 = this.add.image(middleWidth + playerMarginX, middleHeight + playerMarginY, "Ceuta");
 			this.add.text(p3.x, p3.y + marginName, "P3", TextStyle.base).setOrigin(0.5);
 
-			this.add.text(p3.x, p3.y - marginName, controllers.fire, TextStyle.info.controllers).setOrigin(0.5);
-			this.add.text(p3.x - marginControllersX, p3.y, controllers.left, TextStyle.info.controllers).setOrigin(0.5);
-			this.add.text(p3.x + marginControllersX, p3.y, controllers.right, TextStyle.info.controllers).setOrigin(0.5);
+			this.createImage({ x: p3.x, y: p3.y - marginControllersY, text: controllers.fire });
+			this.createImage({ x: p3.x - marginControllersX, y: p3.y, text: controllers.left });
+			this.createImage({ x: p3.x + marginControllersX, y: p3.y, text: controllers.right });
 		}
 
 		{ // P4
@@ -121,9 +124,9 @@ export default class Info extends Phaser.Scene {
 			const p4 = this.add.image(middleWidth + playerMarginX, middleHeight - playerMarginY, "Ravi");
 			this.add.text(p4.x, p4.y - marginName, "P4", TextStyle.base).setOrigin(0.5);
 
-			this.add.text(p4.x, p4.y + marginName, controllers.fire, TextStyle.info.controllers).setOrigin(0.5);
-			this.add.text(p4.x - marginControllersX, p4.y, controllers.left, TextStyle.info.controllers).setOrigin(0.5);
-			this.add.text(p4.x + marginControllersX, p4.y, controllers.right, TextStyle.info.controllers).setOrigin(0.5);
+			this.createImage({ x: p4.x, y: p4.y + marginControllersY, text: controllers.fire });
+			this.createImage({ x: p4.x - marginControllersX, y: p4.y, text: controllers.left });
+			this.createImage({ x: p4.x + marginControllersX, y: p4.y, text: controllers.right });
 		}
 
 		{	// Fire
@@ -140,6 +143,30 @@ export default class Info extends Phaser.Scene {
 			const blockImage = this.add.image(middleWidth - 100, middleHeight + 50, "Block");
 			this.add.text(blockImage.x, blockImage.y + marginName, this.language.info.block, TextStyle.base).setOrigin(0.5);
 		}
+
+		// Keyboard shortcuts
+		{	// Pause
+			const config = { x: middleWidth - 300, y: middleHeight - 100, text: "P" };
+			this.createImage(config);
+			this.add.text(config.x, config.y + marginName, this.language.info.pauseKey, TextStyle.base).setOrigin(0.5);
+		}
+
+		{	// Restart
+			const config = { x: middleWidth - 300, y: middleHeight + 100, text: "R" };
+			this.createImage(config);
+			this.add.text(config.x, config.y + marginName, this.language.info.restartKey, TextStyle.base).setOrigin(0.5);
+		}
+
+		{	// Exit
+			const config = { x: middleWidth + 300, y: middleHeight, text: "Q" };
+			this.createImage(config);
+			this.add.text(config.x, config.y + marginName, this.language.info.exitKey, TextStyle.base).setOrigin(0.5);
+		}
+	}
+
+	createImage(configs) {
+		const key = this.add.existing(new Key(this, configs.x, configs.y));
+		key.generate(configs);
 	}
 
 	animationTipsLabel() {

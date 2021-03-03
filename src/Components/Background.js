@@ -8,6 +8,7 @@ export default class Background extends Phaser.GameObjects.TileSprite {
 		this.bgPosition = 0.1;
 
 		scene.add.existing(this);
+		this.setAlpha(0.75);
 	}
 
 	preUpdate() {

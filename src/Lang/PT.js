@@ -2,8 +2,8 @@ const pt = {
 	home: {
 		home: "Home",
 		invasion: "Invasão",
-		moveText: "Mover nas setas esquerda e direita;",
-		shootText: "Selecionar na seta de cima;",
+		moveText: "Mover",
+		shootText: "Selecionar / Disparar",
 		pause: "Em pausa, pressiona P para continuar!",
 	},
 	settings: {
@@ -15,6 +15,9 @@ const pt = {
 		fire: "Disparo",
 		asteroid: "Asteroides",
 		block: "Parede",
+		pauseKey: "Pausa",
+		restartKey: "Recomeçar",
+		exitKey: "Sair",
 	},
 	invasion: {
 		invasion: "Invasão",
@@ -22,7 +25,7 @@ const pt = {
 		totalEnemies: "Inimigos restantes: ",
 		level: "Nivel ",
 		levelCompleted: "Nivel completo!!",
-		pause: "Em pausa, pressiona Q para sair!",
+		pause: "Jogo em pausa",
 		endGame: "Perdeste, os alienígenas invadiram a Terra!!",
 		exit: "Pressiona Q para sair ou R para recomeçar",
 	},
