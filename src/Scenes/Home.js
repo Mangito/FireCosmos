@@ -38,12 +38,9 @@ export default class Home extends Phaser.Scene {
 		this.createPlayer();
 		this.createButtons();
 
-		const keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
-		keyP.on("down", this.pauseGame, this);
-
 		this.statusLabel = this.add.text(middleWidth, middleHeight + 150, this.language.home.pause, TextStyle.statusLabelLittle).setOrigin(0.5).setVisible(false);
 
-		this.openSceneKeyboard();
+		this.createKeys();
 	}
 
 	createTitle() {
@@ -367,10 +364,26 @@ export default class Home extends Phaser.Scene {
 		this.statusLabel.setText(this.language.home.pause);
 	}
 
-	openSceneKeyboard() {
-		this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ONE).on("down", () => { this.scene.launch("Settings"); });
-		this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TWO).on("down", () => { this.scene.launch("Info"); });
-		this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.THREE).on("down", () => { this.scene.start("Invasion"); });
-		this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FOUR).on("down", () => { this.scene.start("TeamDeathmatch"); });
+	createKeys() {
+		// get Key
+		const key1 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ONE);
+		const key2 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TWO);
+		const key3 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.THREE);
+		const key4 = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FOUR);
+		const keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+
+		// Remove Event
+		key1.removeAllListeners();
+		key2.removeAllListeners();
+		key3.removeAllListeners();
+		key4.removeAllListeners();
+		keyP.removeAllListeners();
+
+		// Add Event
+		key1.on("down", () => { this.scene.launch("Settings"); });
+		key2.on("down", () => { this.scene.launch("Info"); });
+		key3.on("down", () => { this.scene.start("Invasion"); });
+		key4.on("down", () => { this.scene.start("TeamDeathmatch"); });
+		keyP.on("down", this.pauseGame, this);
 	}
 }

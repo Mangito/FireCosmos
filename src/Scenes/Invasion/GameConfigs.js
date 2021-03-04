@@ -12,6 +12,8 @@ class GameConfigs {
 	}
 
 	createPlayers(n) {
+		this.players = [];
+
 		for (let i = 0; i < n; i++) {
 			this.addPlayer(i);
 		}
