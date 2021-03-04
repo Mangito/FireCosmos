@@ -125,6 +125,7 @@ export default class Invasion extends Phaser.Scene {
 		keyQ.on("down", () => {
 			if (!this.isPaused) return;
 			removeKeysListener();
+			this.removePlayerKeys();
 			this.scene.start("Home");
 			this.scene.stop();
 		});
@@ -145,6 +146,12 @@ export default class Invasion extends Phaser.Scene {
 			keyQ.removeAllListeners();
 			keyP.removeAllListeners();
 			keyR.removeAllListeners();
+		}
+	}
+
+	removePlayerKeys() {
+		for (let i = 0; i < this.players.length; i++) {
+			this.players[i].clearKeys();
 		}
 	}
 

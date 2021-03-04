@@ -63,9 +63,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		this.setMaxVelocity(300);
 
 		const keys = this.keys;
-		keys.left.removeAllListeners();
-		keys.right.removeAllListeners();
-		keys.fire.removeAllListeners();
+		this.clearKeys();
 
 		const velocity = 200;
 
@@ -80,6 +78,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		});
 
 		keys.fire.on("down", this.fireShot, this);
+	}
+
+	clearKeys() {
+		const keys = this.keys;
+		keys.left.removeAllListeners();
+		keys.right.removeAllListeners();
+		keys.fire.removeAllListeners();
 	}
 
 	fireShot() {
