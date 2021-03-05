@@ -6,8 +6,8 @@ You can play from 1 to 4 players simultaneously;
 
 Game in Portuguese and English;
 
-
 - [Play Fire Cosmos](https://mangito.github.io/FireCosmos/);
+- [Play In Itch.io](https://mangito.itch.io/fire-cosmos);
 - [Mangito WebSite](https://mangito.github.io/);
 
 

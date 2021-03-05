@@ -8,6 +8,7 @@ Jogo em português e inglês;
 
 
 - [Jogar Fire Cosmos](https://mangito.github.io/FireCosmos/);
+- [Jogar na Itch.io](https://mangito.itch.io/fire-cosmos);
 - [Mangito WebSite](https://mangito.github.io/);
 
 

@@ -29,7 +29,6 @@ import Block from "../Assets/Sprites/Block/Block.png";
 import Background from "../Assets/UI/Background/Background.png";
 import Button from "../Assets/UI/Button/Button.png";
 import FullScreen from "../Assets/UI/FullScreen/FullScreen.png";
-import Friction from "../Assets/UI/Friction/Friction.png";
 import Settings from "../Assets/UI/Settings/Settings.png";
 import Sound from "../Assets/UI/Sound/Sound.png";
 import Flags from "../Assets/UI/Flags/Flags.png";
@@ -104,8 +103,6 @@ export default class Preload extends Phaser.Scene {
 		this.load.spritesheet("Exit", Exit, { frameWidth: 32, frameHeight: 32 });
 		this.load.spritesheet("Key", Key, { frameWidth: 28, frameHeight: 28 });
 		this.load.spritesheet("QuestionMark", QuestionMark, { frameWidth: 32, frameHeight: 32 });
-
-		this.load.image("Friction", Friction);
 	}
 
 	importSounds() {
